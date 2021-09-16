@@ -7,7 +7,6 @@ import johnpier.exeptions.NoSuchModelNameException;
 import java.util.*;
 
 public class Car implements Vehicle {
-
     private String carModel;
     private Model[] models;
 
@@ -16,11 +15,11 @@ public class Car implements Vehicle {
         this.models = new Model[sizeOfModels];
     }
 
-    public String getCarModel() {
+    public String getVehicleModel() {
         return this.carModel;
     }
 
-    public void setCarModel(String carModel) {
+    public void setVehicleModel(String carModel) {
         this.carModel = carModel;
     }
 
@@ -37,7 +36,7 @@ public class Car implements Vehicle {
         throw new NoSuchModelNameException("Model with name '" + name + "' not found!");
     }
 
-    public String[] getNamesModel() {
+    public String[] getModelNames() {
         return Arrays.stream(this.models).filter(Objects::nonNull).map(model -> model.name).toArray(String[]::new);
     }
 
@@ -50,7 +49,7 @@ public class Car implements Vehicle {
                 .price;
     }
 
-    public void setPriceByName(String name, double price) throws NoSuchModelNameException {
+    public void setModelPriceByName(String name, double price) throws NoSuchModelNameException {
         if (price < 0) {
             throw new ModelPriceOutOfBoundsException("Model Price Out Of Bounds!");
         }
@@ -63,7 +62,7 @@ public class Car implements Vehicle {
         throw new NoSuchModelNameException("Model with name '" + name + "' not found!");
     }
 
-    public double[] getPricesModel() {
+    public double[] getModelPrices() {
         return Arrays.stream(this.models).filter(Objects::nonNull).mapToDouble(model -> model.price).toArray();
     }
 
@@ -98,7 +97,7 @@ public class Car implements Vehicle {
         throw new NoSuchModelNameException("Model with name '" + name + "' not found!");
     }
 
-    public int getSize() {
+    public int getModelsSize() {
         return this.models.length;
     }
 
