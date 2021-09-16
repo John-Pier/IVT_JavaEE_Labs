@@ -7,20 +7,20 @@ import johnpier.exeptions.NoSuchModelNameException;
 import java.util.*;
 
 public class Car implements Vehicle {
-    private String carModel;
+    private String carBrand;
     private Model[] models;
 
-    public Car(String carModel, int sizeOfModels) {
-        this.carModel = carModel;
+    public Car(String carBrand, int sizeOfModels) {
+        this.carBrand = carBrand;
         this.models = new Model[sizeOfModels];
     }
 
-    public String getVehicleModel() {
-        return this.carModel;
+    public String getVehicleBrand() {
+        return this.carBrand;
     }
 
-    public void setVehicleModel(String carModel) {
-        this.carModel = carModel;
+    public void setVehicleBrand(String carModel) {
+        this.carBrand = carModel;
     }
 
     public void setNameByName(String name, String newName) throws NoSuchModelNameException, DuplicateModelNameException {

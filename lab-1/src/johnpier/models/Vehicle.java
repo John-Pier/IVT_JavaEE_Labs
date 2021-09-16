@@ -5,23 +5,23 @@ import johnpier.exeptions.NoSuchModelNameException;
 
 public interface Vehicle {
 
-    public String getVehicleModel();
+    String getVehicleBrand();
 
-    public void setVehicleModel(String carModel);
+    void setVehicleBrand(String carModel);
 
-    public void setNameByName(String name, String newName) throws NoSuchModelNameException, DuplicateModelNameException;
+    void setNameByName(String name, String newName) throws NoSuchModelNameException, DuplicateModelNameException;
 
-    public String[] getModelNames();
+    String[] getModelNames();
 
-    public double getModelPriceByName(String name) throws NoSuchModelNameException;
+    double getModelPriceByName(String name) throws NoSuchModelNameException;
 
-    public void setModelPriceByName(String name, double price) throws NoSuchModelNameException;
+    void setModelPriceByName(String name, double price) throws NoSuchModelNameException;
 
-    public double[] getModelPrices();
+    double[] getModelPrices();
 
-    public void addModel(String name, double price) throws DuplicateModelNameException;
+    void addModel(String name, double price) throws DuplicateModelNameException;
 
-    public void deleteModel(String name) throws NoSuchModelNameException;
+    void deleteModel(String name) throws NoSuchModelNameException;
 
-    public int getModelsSize();
+    int getModelsSize();
 }

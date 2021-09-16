@@ -6,19 +6,17 @@ import java.io.PrintStream;
 import java.util.Arrays;
 
 public class VehicleHelper {
-    public static double averagePrice(Vehicle vehicle) {
+    public static double getAveragePrice(Vehicle vehicle) {
         return Arrays.stream(vehicle.getModelPrices()).average().orElse(Double.NaN);
     }
 
-    public static void writeModels(Vehicle vehicle, PrintStream printStream) {
-        String vehicleName = vehicle.getVehicleModel();
-        Arrays.stream(vehicle.getModelNames()).forEachOrdered(modelName -> {
-            printStream.println(vehicleName + ": " + modelName);
-        });
+    public static void printModelsInPrintStream(Vehicle vehicle, PrintStream printStream) {
+        String vehicleName = vehicle.getVehicleBrand();
+        Arrays.stream(vehicle.getModelNames()).forEachOrdered(modelName -> printStream.println(vehicleName + ": " + modelName));
     }
 
-    public static void writeModelWithPrises(Vehicle vehicle, PrintStream printStream) {
-        String vehicleName = vehicle.getVehicleModel();
+    public static void printModelWithPrisesInPrintStream(Vehicle vehicle, PrintStream printStream) {
+        String vehicleName = vehicle.getVehicleBrand();
         String[] names = vehicle.getModelNames();
         double[] prices = vehicle.getModelPrices();
 
