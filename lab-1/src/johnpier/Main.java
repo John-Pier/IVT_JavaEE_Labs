@@ -30,9 +30,6 @@ public class Main {
 
         System.out.println(TERMINATOR_STRING);
 
-        String testDeleteName = "1118";
-        String testNameModel = "1119";
-
         addCarModels(carVehicle);
         addMotoModels(motoVehicle);
 
@@ -55,6 +52,9 @@ public class Main {
         printSizeModels(motoVehicle);
 
         System.out.println(TERMINATOR_STRING);
+
+        String testDeleteName = "1118";
+        String testNameModel = "1119";
 
         System.out.println("Delete by name: " + testDeleteName + " ... \nResults:");
         deleteModelByName(carVehicle, testDeleteName);
