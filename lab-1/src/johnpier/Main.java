@@ -20,8 +20,8 @@ public class Main {
     }
 
     private static void testModels() throws NoSuchModelNameException, DuplicateModelNameException, ModelPriceOutOfBoundsException {
-        Vehicle carVehicle = new Car("Super Auto Brand", 0);
-        Vehicle motoVehicle = new Motorcycle("Super Moto Brand", 0);
+        Vehicle carVehicle = new Car("Super Auto Brand", 2);
+        Vehicle motoVehicle = new Motorcycle("Super Moto Brand", 2);
 
         System.out.println("Vehicle 1 Brand: ");
         System.out.println(carVehicle.getVehicleBrand());

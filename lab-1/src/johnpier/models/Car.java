@@ -74,14 +74,26 @@ public class Car implements Vehicle {
             throw new DuplicateModelNameException("Duplicate model name!");
         }
         Model newModel = new Model(name, price);
-        this.models = Arrays.copyOf(this.models, this.models.length + 1);
-        this.models[this.models.length - 1] = newModel;
+        int index = getIndexOfNullElement();
+        if (index == this.models.length) {
+            this.models = Arrays.copyOf(this.models, this.models.length + 1);
+        }
+        this.models[index] = newModel;
     }
 
     private boolean isModelNameExist(String name) {
         return Arrays
                 .stream(this.models)
                 .anyMatch(model -> model != null && model.name.equals(name));
+    }
+
+    private int getIndexOfNullElement() {
+        for (int i = 0; i < this.models.length; i++) {
+            if(this.models[i] == null) {
+                return i;
+            }
+        }
+        return this.models.length;
     }
 
     public void deleteModel(String name) throws NoSuchModelNameException {

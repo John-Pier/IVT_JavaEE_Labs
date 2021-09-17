@@ -29,7 +29,7 @@ public class Motorcycle implements Vehicle {
     }
 
     public String[] getModelNames() {
-        String[] names = new String[size];
+        String[] names = new String[getNonNullSize()];
         Model currentModel = head;
 
         int count = 0;
@@ -54,7 +54,7 @@ public class Motorcycle implements Vehicle {
     }
 
     public double[] getModelPrices() {
-        double[] prices = new double[size];
+        double[] prices = new double[getNonNullSize()];
         Model currentModel = head;
 
         int count = 0;
@@ -83,7 +83,21 @@ public class Motorcycle implements Vehicle {
         newModel.next = head;
         head.prev = newModel;
         newModel.prev = lastModel;
-        size++;
+        if(getNonNullSize() == size) {
+            size++;
+        }
+    }
+
+    private int getNonNullSize() {
+        int count = 0;
+        Model currentModel = head.next;
+        while (currentModel != head) {
+            if(currentModel.name != null) {
+                count++;
+            }
+            currentModel = currentModel.next;
+        }
+        return count;
     }
 
     public void setNameByName(String name, String newName) throws NoSuchModelNameException, DuplicateModelNameException {
