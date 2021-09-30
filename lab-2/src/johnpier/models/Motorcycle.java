@@ -4,10 +4,8 @@ import johnpier.exeptions.DuplicateModelNameException;
 import johnpier.exeptions.ModelPriceOutOfBoundsException;
 import johnpier.exeptions.NoSuchModelNameException;
 
-public class Motorcycle implements Vehicle {
+public class Motorcycle extends Vehicle {
 
-    private String motoBrand;
-    private int size;
     private final Model head = new Model();
 
     {
@@ -16,16 +14,15 @@ public class Motorcycle implements Vehicle {
     }
 
     public Motorcycle(String motoBrand, int sizeOfModels) {
-        this.motoBrand = motoBrand;
-        this.size = sizeOfModels;
+        super(motoBrand, sizeOfModels);
     }
 
     public String getVehicleBrand() {
-        return motoBrand;
+        return brand;
     }
 
     public void setVehicleBrand(String model) {
-        this.motoBrand = model;
+        this.brand = model;
     }
 
     public String[] getModelNames() {
@@ -83,8 +80,8 @@ public class Motorcycle implements Vehicle {
         newModel.next = head;
         head.prev = newModel;
         newModel.prev = lastModel;
-        if(getNonNullSize() == size) {
-            size++;
+        if(getNonNullSize() == sizeOfModels) {
+            sizeOfModels++;
         }
     }
 
@@ -132,7 +129,7 @@ public class Motorcycle implements Vehicle {
             if (currentModel.next.name.equals(name)) {
                 currentModel.next.prev = currentModel.prev;
                 currentModel.prev.next = currentModel.next;
-                size--;
+                sizeOfModels--;
                 return;
             }
             currentModel = currentModel.next;
@@ -156,7 +153,7 @@ public class Motorcycle implements Vehicle {
     }
 
     public int getModelsSize() {
-        return this.size;
+        return this.sizeOfModels;
     }
 
     private class Model {

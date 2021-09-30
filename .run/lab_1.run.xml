@@ -1,0 +1,11 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="lab-1" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="johnpier.Main" />
+    <module name="lab-1" />
+    <RunnerSettings RunnerId="Run" />
+    <ConfigurationWrapper RunnerId="Run" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -5,25 +5,32 @@ import johnpier.exeptions.NoSuchModelNameException;
 
 import java.io.Serializable;
 
-public interface Vehicle extends Serializable {
+public abstract class Vehicle implements Serializable {
+    protected String brand;
+    protected int sizeOfModels;
 
-    String getVehicleBrand();
+    public Vehicle(String brand, int sizeOfModels){
+        this.brand = brand;
+        this.sizeOfModels = sizeOfModels;
+    }
 
-    void setVehicleBrand(String carModel);
+    public abstract String getVehicleBrand();
 
-    void setNameByName(String name, String newName) throws NoSuchModelNameException, DuplicateModelNameException;
+    public abstract void setVehicleBrand(String carModel);
 
-    String[] getModelNames();
+    public abstract void setNameByName(String name, String newName) throws NoSuchModelNameException, DuplicateModelNameException;
 
-    double getModelPriceByName(String name) throws NoSuchModelNameException;
+    public abstract String[] getModelNames();
 
-    void setModelPriceByName(String name, double price) throws NoSuchModelNameException;
+    public abstract double getModelPriceByName(String name) throws NoSuchModelNameException;
 
-    double[] getModelPrices();
+    public abstract void setModelPriceByName(String name, double price) throws NoSuchModelNameException;
 
-    void addModel(String name, double price) throws DuplicateModelNameException;
+    public abstract double[] getModelPrices();
 
-    void deleteModel(String name) throws NoSuchModelNameException;
+    public abstract void addModel(String name, double price) throws DuplicateModelNameException;
 
-    int getModelsSize();
+    public abstract void deleteModel(String name) throws NoSuchModelNameException;
+
+    public abstract int getModelsSize();
 }
