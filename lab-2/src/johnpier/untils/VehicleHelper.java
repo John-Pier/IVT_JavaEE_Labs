@@ -32,7 +32,7 @@ public class VehicleHelper {
         }
     }
 
-    public void setFabric(VehicleFabric vehicleFabric) {
+    public static void setFabric(VehicleFabric vehicleFabric) {
         VehicleHelper.vehicleFabric = vehicleFabric;
     }
 
@@ -49,7 +49,7 @@ public class VehicleHelper {
         stream.writeInt(modelsNames.length);
         Arrays.stream(modelsNames).forEachOrdered(name -> {
             try {
-                stream.writeInt(name.length());
+                stream.writeInt(name.getBytes().length);
                 stream.write(name.getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -85,7 +85,7 @@ public class VehicleHelper {
         var modelPrices = new double[modelPricesSize];
         i = 0;
         while (i < modelPricesSize && stream.available() > 0) {
-            modelPrices[i] = stream.readInt();
+            modelPrices[i] = stream.readDouble();
             i++;
         }
         var result = VehicleHelper.vehicleFabric.createVehicle(brand, modelsSize);
@@ -99,9 +99,10 @@ public class VehicleHelper {
 
     private static String readString(int bytesCount, DataInputStream stream) throws IOException {
         var bytes = stream.readNBytes(bytesCount);
+        System.out.println(Arrays.toString(bytes));
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < bytes.length; i++) {
-            builder.append(bytes[i]);
+            builder.append((char) bytes[i]);
         }
         return builder.toString();
     }
