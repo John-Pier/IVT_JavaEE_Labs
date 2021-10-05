@@ -118,13 +118,22 @@ public class VehicleHelper {
             builder = builder.concat(v + ",");
             return builder;
         });
-        printWriter.println(modelNames.substring(0, modelNames.length() - 1)); // l == 0
+        printGuardLine(modelNames, printWriter);
 
         StringBuilder stringBuilder = new StringBuilder();
         Arrays.stream(vehicle.getModelPrices()).forEachOrdered(price -> stringBuilder.append(price).append(","));
         var modelPrices = stringBuilder.toString();
-        printWriter.println(modelPrices.substring(0,modelPrices.length() - 1));
+        printGuardLine(modelPrices, printWriter);
+
         writer.flush();
+    }
+
+    private static void printGuardLine(String line, PrintWriter printWriter) {
+        if (line.length() > 1) {
+            printWriter.println(line.substring(0, line.length() - 1));
+        }else {
+            printWriter.println();
+        }
     }
 
     public static Vehicle readVehicle(Reader reader) throws IOException, DuplicateModelNameException {
@@ -139,7 +148,7 @@ public class VehicleHelper {
         for (int j = 0; j < modelsNames.length; j++) {
             result.addModel(modelsNames[j], (Double) modelsPrices[j]);
         }
-        return null;
+        return result;
     }
 
     public static void serializeVehicle(Vehicle vehicle, OutputStream outputStream) throws IOException {

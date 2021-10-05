@@ -4,6 +4,8 @@ import johnpier.exeptions.DuplicateModelNameException;
 import johnpier.exeptions.ModelPriceOutOfBoundsException;
 import johnpier.exeptions.NoSuchModelNameException;
 
+import java.io.Serializable;
+
 public class Motorcycle extends Vehicle {
 
     private final Model head = new Model();
@@ -156,7 +158,7 @@ public class Motorcycle extends Vehicle {
         return this.sizeOfModels;
     }
 
-    private class Model {
+    private class Model implements Serializable {
 
         private String name = null;
         private double price = Double.NaN;

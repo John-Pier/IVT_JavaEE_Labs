@@ -6,12 +6,10 @@ import johnpier.models.Motorcycle;
 import johnpier.models.Vehicle;
 import johnpier.untils.VehicleHelper;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class MainLab2 {
-    public static void main(String[] args) throws DuplicateModelNameException, IOException, ClassNotFoundException {
+    public static void main(String[] args) throws DuplicateModelNameException {
 
         Vehicle vehicle = new Motorcycle("Motorcycle", 2);
         vehicle.addModel("3-T", 123);
@@ -21,22 +19,74 @@ public class MainLab2 {
         vehicle.addModel("ИЖ", 391.92);
 
         VehicleHelper.setFabric(new MotorcycleFabric());
-//        new Thread(() -> {
-//            try {
-//                System.out.println(VehicleHelper.inputVehicle(System.in).getVehicleBrand());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }).start();
 
-        VehicleHelper.outputVehicle(vehicle, new FileOutputStream("./dist/lab-2/test.b", false));
-        var moto = VehicleHelper.inputVehicle(new FileInputStream("./dist/lab-2/test.b"));
-        System.out.println("Auto Names:");
-        printNames(moto);
-        System.out.println("Auto Prices:");
-        printPrices(moto);
-        System.out.println("Models Size:");
-        printSizeModels(moto);
+        System.out.println("\nTest write|read from file");
+        testWR(vehicle);
+        System.out.println("\nTest input|output from file");
+        testIO(vehicle);
+//        System.out.println("\nTest input|output from System");
+//        testIOFromSystem(vehicle);
+        System.out.println("\nTest serialize|deserialize from file");
+        testSerialize(vehicle);
+    }
+
+    private static void testWR(Vehicle vehicle) {
+        try {
+            VehicleHelper.outputVehicle(vehicle, new FileOutputStream("./dist/lab-2/test.b", false));
+            var moto = VehicleHelper.inputVehicle(new FileInputStream("./dist/lab-2/test.b"));
+            printVehicle(moto);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void testIO(Vehicle vehicle) {
+        try {
+            VehicleHelper.writeVehicle(vehicle, new FileWriter("./dist/lab-2/test.b", false));
+            var moto = VehicleHelper.readVehicle(new FileReader("./dist/lab-2/test.b"));
+            printVehicle(moto);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void testSerialize(Vehicle vehicle) {
+        try {
+            VehicleHelper.serializeVehicle(vehicle, new FileOutputStream("./dist/lab-2/testS.b"));
+            var moto = VehicleHelper.deserializeVehicle(new FileInputStream("./dist/lab-2/testS.b"));
+            printVehicle(moto);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void testIOFromSystem(Vehicle vehicle) {
+        try {
+            var in = System.in;
+            var out = System.out;
+            new Thread(() -> {
+                try {
+                    System.setIn(in);
+                    System.setOut(out);
+                    var moto = VehicleHelper.inputVehicle(in);
+                    printVehicle(moto);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }).start();
+            VehicleHelper.outputVehicle(vehicle, out);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private static void printVehicle(Vehicle vehicle) {
+        System.out.println("vehicle Names:");
+        printNames(vehicle);
+        System.out.println("vehicle Prices:");
+        printPrices(vehicle);
+        System.out.println("vehicle Models Size:");
+        printSizeModels(vehicle);
     }
 
     private static void printNames(Vehicle vehicle) {
