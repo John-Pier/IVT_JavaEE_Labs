@@ -5,6 +5,8 @@ import johnpier.fabric.VehicleFabric;
 import johnpier.models.Vehicle;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -43,14 +45,14 @@ public class VehicleHelper {
         var modelPrices = vehicle.getModelPrices();
 
         stream.writeInt(brandSize);
-        stream.write(vehicle.getVehicleBrand().getBytes());
+        stream.write(vehicle.getVehicleBrand().getBytes(StandardCharsets.UTF_8));
         stream.writeInt(vehicle.getModelsSize());
 
         stream.writeInt(modelsNames.length);
         Arrays.stream(modelsNames).forEachOrdered(name -> {
             try {
-                stream.writeInt(name.getBytes().length);
-                stream.write(name.getBytes());
+                stream.writeInt(name.getBytes(StandardCharsets.UTF_8).length);
+                stream.write(name.getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -63,14 +65,14 @@ public class VehicleHelper {
                 e.printStackTrace();
             }
         });
-        //stream.write( "\n".getBytes());
         stream.flush();
     }
 
-    public static Vehicle inputVehicle(InputStream inputStream) throws IOException, ClassNotFoundException, DuplicateModelNameException {
+    public static Vehicle inputVehicle(InputStream inputStream) throws IOException, DuplicateModelNameException {
         var stream = new DataInputStream(inputStream);
         int brandSize = stream.readInt();
         String brand = readString(brandSize, stream);
+
         int modelsSize = stream.readInt();
 
         int modelsNamesSize = stream.readInt();
@@ -81,6 +83,7 @@ public class VehicleHelper {
             modelsNames[i] = readString(nameSize, stream);
             i++;
         }
+
         int modelPricesSize = stream.readInt();
         var modelPrices = new double[modelPricesSize];
         i = 0;
@@ -88,8 +91,8 @@ public class VehicleHelper {
             modelPrices[i] = stream.readDouble();
             i++;
         }
-        var result = VehicleHelper.vehicleFabric.createVehicle(brand, modelsSize);
 
+        var result = VehicleHelper.vehicleFabric.createVehicle(brand, modelsSize);
         for (int j = 0; j < modelsNames.length; j++) {
             result.addModel(modelsNames[j], modelPrices[j]);
         }
@@ -99,35 +102,43 @@ public class VehicleHelper {
 
     private static String readString(int bytesCount, DataInputStream stream) throws IOException {
         var bytes = stream.readNBytes(bytesCount);
-        System.out.println(Arrays.toString(bytes));
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < bytes.length; i++) {
-            builder.append((char) bytes[i]);
+        for (byte aByte : bytes) {
+            builder.append((char) aByte);
         }
         return builder.toString();
     }
 
     public static void writeVehicle(Vehicle vehicle, Writer writer) throws IOException {
-        writer.write(vehicle.toString().toCharArray()); // PrintWriter
-        writer.write("\n");
+        var printWriter = new PrintWriter(writer);
+        printWriter.println(vehicle.getVehicleBrand());
+        printWriter.println(vehicle.getModelsSize());
+
+        var modelNames = Arrays.stream(vehicle.getModelNames()).reduce("", (builder, v) -> {
+            builder = builder.concat(v + ",");
+            return builder;
+        });
+        printWriter.println(modelNames.substring(0, modelNames.length() - 1)); // l == 0
+
+        StringBuilder stringBuilder = new StringBuilder();
+        Arrays.stream(vehicle.getModelPrices()).forEachOrdered(price -> stringBuilder.append(price).append(","));
+        var modelPrices = stringBuilder.toString();
+        printWriter.println(modelPrices.substring(0,modelPrices.length() - 1));
         writer.flush();
     }
 
-    public static Vehicle readVehicle(Reader reader) {
-        StringBuilder builder = new StringBuilder(); // BufferedReader или StreamTokenizer
-        try {
-            char buffer;
-            while (reader.ready() && (buffer = (char) reader.read()) != '\n') {
-                builder.append(buffer);
-            }
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-        String[] args = builder.toString().split(";");
-        return createByFabric(args);
-    }
+    public static Vehicle readVehicle(Reader reader) throws IOException, DuplicateModelNameException {
+        var bufferedReader = new BufferedReader(reader);
 
-    private static Vehicle createByFabric(String[] args) {
+        var brand = bufferedReader.readLine();
+        var modelsSize = Integer.parseInt(bufferedReader.readLine());
+        var modelsNames = bufferedReader.readLine().split(",");
+        var modelsPrices =  Arrays.stream(bufferedReader.readLine().split(",")).map(Double::parseDouble).toArray();
+
+        var result = VehicleHelper.vehicleFabric.createVehicle(brand, modelsSize);
+        for (int j = 0; j < modelsNames.length; j++) {
+            result.addModel(modelsNames[j], (Double) modelsPrices[j]);
+        }
         return null;
     }
 
