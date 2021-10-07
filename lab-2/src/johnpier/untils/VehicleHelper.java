@@ -5,13 +5,14 @@ import johnpier.fabric.VehicleFabric;
 import johnpier.models.Vehicle;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Objects;
 
 public class VehicleHelper {
     private static VehicleFabric vehicleFabric;
+    private static final Charset charset = StandardCharsets.UTF_8;
 
     public static double getAveragePrice(Vehicle vehicle) {
         return Arrays.stream(vehicle.getModelPrices()).average().orElse(Double.NaN);
@@ -45,14 +46,14 @@ public class VehicleHelper {
         var modelPrices = vehicle.getModelPrices();
 
         stream.writeInt(brandSize);
-        stream.write(vehicle.getVehicleBrand().getBytes(StandardCharsets.UTF_8));
+        stream.write(vehicle.getVehicleBrand().getBytes(charset));
         stream.writeInt(vehicle.getModelsSize());
 
         stream.writeInt(modelsNames.length);
         Arrays.stream(modelsNames).forEachOrdered(name -> {
             try {
-                stream.writeInt(name.getBytes(StandardCharsets.UTF_8).length);
-                stream.write(name.getBytes(StandardCharsets.UTF_8));
+                stream.writeInt(name.getBytes(charset).length);
+                stream.write(name.getBytes(charset));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -102,11 +103,7 @@ public class VehicleHelper {
 
     private static String readString(int bytesCount, DataInputStream stream) throws IOException {
         var bytes = stream.readNBytes(bytesCount);
-        StringBuilder builder = new StringBuilder();
-        for (byte aByte : bytes) {
-            builder.append((char) aByte);
-        }
-        return builder.toString();
+        return new String(bytes, charset);
     }
 
     public static void writeVehicle(Vehicle vehicle, Writer writer) throws IOException {

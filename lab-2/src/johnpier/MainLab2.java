@@ -32,8 +32,8 @@ public class MainLab2 {
 
     private static void testWR(Vehicle vehicle) {
         try {
-            VehicleHelper.outputVehicle(vehicle, new FileOutputStream("./dist/lab-2/test.b", false));
-            var moto = VehicleHelper.inputVehicle(new FileInputStream("./dist/lab-2/test.b"));
+            VehicleHelper.writeVehicle(vehicle, new FileWriter("./dist/lab-2/test.b", false));
+            var moto = VehicleHelper.readVehicle(new FileReader("./dist/lab-2/test.b"));
             printVehicle(moto);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -42,8 +42,8 @@ public class MainLab2 {
 
     private static void testIO(Vehicle vehicle) {
         try {
-            VehicleHelper.writeVehicle(vehicle, new FileWriter("./dist/lab-2/test.b", false));
-            var moto = VehicleHelper.readVehicle(new FileReader("./dist/lab-2/test.b"));
+            VehicleHelper.outputVehicle(vehicle, new FileOutputStream("./dist/lab-2/test.b", false));
+            var moto = VehicleHelper.inputVehicle(new FileInputStream("./dist/lab-2/test.b"));
             printVehicle(moto);
         } catch (Exception ex) {
             ex.printStackTrace();
