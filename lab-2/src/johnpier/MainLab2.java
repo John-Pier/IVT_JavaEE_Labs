@@ -7,6 +7,7 @@ import johnpier.models.Vehicle;
 import johnpier.untils.VehicleHelper;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class MainLab2 {
     public static void main(String[] args) throws DuplicateModelNameException {
@@ -16,7 +17,7 @@ public class MainLab2 {
         vehicle.addModel("Yamaha", 9878);
         vehicle.addModel("BMW", 13532);
         vehicle.addModel("AUDI", 111.9);
-        vehicle.addModel("ИЖ", 391.92);
+        vehicle.addModel("ИЖ (Рус)", 391.92);
 
         VehicleHelper.setFabric(new MotorcycleFabric());
 
@@ -24,8 +25,8 @@ public class MainLab2 {
         testWR(vehicle);
         System.out.println("\nTest input|output from file");
         testIO(vehicle);
-//        System.out.println("\nTest input|output from System");
-//        testIOFromSystem(vehicle);
+        System.out.println("\nTest input|output from System");
+        testIOFromSystem();
         System.out.println("\nTest serialize|deserialize from file");
         testSerialize(vehicle);
     }
@@ -60,28 +61,20 @@ public class MainLab2 {
         }
     }
 
-    private static void testIOFromSystem(Vehicle vehicle) {
+    private static void testIOFromSystem() {
         try {
-            var in = System.in;
-            var out = System.out;
-            new Thread(() -> {
-                try {
-                    System.setIn(in);
-                    System.setOut(out);
-                    var moto = VehicleHelper.inputVehicle(in);
-                    printVehicle(moto);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }).start();
-            VehicleHelper.outputVehicle(vehicle, out);
+            var moto = VehicleHelper.readVehicle(
+                    new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8))
+            );
+            printVehicle(moto);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     private static void printVehicle(Vehicle vehicle) {
-        System.out.println("vehicle Names:");
+        System.out.println("Vehicle: " + vehicle.getVehicleBrand());
+        System.out.println("Vehicle Names:");
         printNames(vehicle);
         System.out.println("vehicle Prices:");
         printPrices(vehicle);
