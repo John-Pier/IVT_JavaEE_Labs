@@ -66,7 +66,7 @@ public class MainLab2 {
             var moto = VehicleHelper.readVehicle(
                     new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8))
             );
-            printVehicle(moto);
+            VehicleHelper.writeVehicle(moto, new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
         } catch (Exception ex) {
             ex.printStackTrace();
         }

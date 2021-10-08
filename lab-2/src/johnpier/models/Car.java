@@ -4,6 +4,7 @@ import johnpier.exeptions.DuplicateModelNameException;
 import johnpier.exeptions.ModelPriceOutOfBoundsException;
 import johnpier.exeptions.NoSuchModelNameException;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -113,7 +114,7 @@ public class Car extends Vehicle {
         return this.models.length;
     }
 
-    private class Model {
+    private class Model implements Serializable {
         private String name;
         private double price;
 
