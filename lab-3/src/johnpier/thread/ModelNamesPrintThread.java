@@ -1,9 +1,10 @@
 package johnpier.thread;
 
 import johnpier.models.Vehicle;
+import johnpier.untils.VehicleHelper;
 
 public class ModelNamesPrintThread extends Thread {
-    private Vehicle vehicle;
+    private final Vehicle vehicle;
 
     public ModelNamesPrintThread(Vehicle vehicle) {
         this.vehicle = vehicle;
@@ -11,6 +12,6 @@ public class ModelNamesPrintThread extends Thread {
 
     @Override
     public void run() {
-        //
+        VehicleHelper.printModelsInPrintStream(this.vehicle, System.out);
     }
 }

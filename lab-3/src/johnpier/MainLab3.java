@@ -23,58 +23,19 @@ public class MainLab3 {
 
         System.out.println("Тестирование приоритетов потоков:");
         testThreadsPriority(vehicle);
-
-        System.out.println("\nTest write|read from file");
-        testWR(vehicle);
-        System.out.println("\nTest input|output from file");
-        testIO(vehicle);
-        System.out.println("\nTest input|output from System");
-        testIOFromSystem();
-        System.out.println("\nTest serialize|deserialize from file");
-        testSerialize(vehicle);
     }
 
     private static void testThreadsPriority(Vehicle vehicle) {
-        Thread writer = new PricesPrintThread(vehicle);
-        Thread reader = new ModelNamesPrintThread(vehicle);
+        Thread pricesPrinter = new PricesPrintThread(vehicle);
+        Thread modelNamesPrinter = new ModelNamesPrintThread(vehicle);
 
-        writer.setPriority(Thread.MAX_PRIORITY);
-        reader.setPriority(Thread.MIN_PRIORITY);
+        pricesPrinter.setPriority(Thread.MAX_PRIORITY);
+        modelNamesPrinter.setPriority(Thread.MIN_PRIORITY);
         try {
-            writer.start();
-            reader.start();
-            writer.join();
-            reader.join();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private static void testWR(Vehicle vehicle) {
-        try {
-            VehicleHelper.writeVehicle(vehicle, new FileWriter("./dist/lab-2/test.b", false));
-            var moto = VehicleHelper.readVehicle(new FileReader("./dist/lab-2/test.b"));
-            printVehicle(moto);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private static void testIO(Vehicle vehicle) {
-        try {
-            VehicleHelper.outputVehicle(vehicle, new FileOutputStream("./dist/lab-2/test.b", false));
-            var moto = VehicleHelper.inputVehicle(new FileInputStream("./dist/lab-2/test.b"));
-            printVehicle(moto);
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    private static void testSerialize(Vehicle vehicle) {
-        try {
-            VehicleHelper.serializeVehicle(vehicle, new FileOutputStream("./dist/lab-2/testS.b"));
-            var moto = VehicleHelper.deserializeVehicle(new FileInputStream("./dist/lab-2/testS.b"));
-            printVehicle(moto);
+            pricesPrinter.start();
+            modelNamesPrinter.start();
+            pricesPrinter.join();
+            modelNamesPrinter.join();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
