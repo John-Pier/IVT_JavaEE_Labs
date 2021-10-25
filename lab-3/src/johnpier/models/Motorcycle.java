@@ -153,7 +153,7 @@ public class Motorcycle extends Vehicle {
     }
 
     public int getModelsSize() {
-        return this.sizeOfModels;
+        return this.getNonNullSize();
     }
 
     private class Model implements Serializable {

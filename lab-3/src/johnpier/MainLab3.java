@@ -4,14 +4,13 @@ import johnpier.exeptions.DuplicateModelNameException;
 import johnpier.fabric.MotorcycleFabric;
 import johnpier.models.*;
 import johnpier.thread.*;
-import johnpier.untils.VehicleHelper;
-
-import java.io.*;
-import java.nio.charset.StandardCharsets;
+import johnpier.untils.*;
 
 public class MainLab3 {
+    private static Vehicle vehicle;
+
     public static void main(String[] args) throws DuplicateModelNameException {
-        Vehicle vehicle = new Motorcycle("Motorcycle", 2);
+        vehicle = new Motorcycle("Motorcycle", 2);
         vehicle.addModel("3-T", 123);
         vehicle.addModel("Yamaha", 9878);
         vehicle.addModel("BMW", 13532);
@@ -21,16 +20,18 @@ public class MainLab3 {
 
         System.out.println("Лабораторная работа №3 (Попов Н. 6133)");
 
-        System.out.println("Тестирование приоритетов потоков:");
-        testThreadsPriority(vehicle);
+        System.out.println("\nТестирование приоритетов потоков:\n");
+        testThreadsPriority();
+        System.out.println("\nТестирование последовательной работы потоков:\n");
+        testThreadsSequence();
     }
 
-    private static void testThreadsPriority(Vehicle vehicle) {
+    private static void testThreadsPriority() {
         Thread pricesPrinter = new PricesPrintThread(vehicle);
         Thread modelNamesPrinter = new ModelNamesPrintThread(vehicle);
 
         pricesPrinter.setPriority(Thread.MAX_PRIORITY);
-        modelNamesPrinter.setPriority(Thread.MIN_PRIORITY);
+        modelNamesPrinter.setPriority(Thread.MAX_PRIORITY);
         try {
             pricesPrinter.start();
             modelNamesPrinter.start();
@@ -41,15 +42,24 @@ public class MainLab3 {
         }
     }
 
-    private static void testIOFromSystem() {
+    private static void testThreadsSequence() {
+        var synchronizer = new VehicleSynchronizer(vehicle);
+        var pricesPrinterRunnable = new PricesPrintRunnable(synchronizer);
+        var modelNamesPrinterRunnable = new ModelNamesPrintRunnable(synchronizer);
+
+        Thread pricesPrinter = new Thread(pricesPrinterRunnable);
+        Thread modelNamesPrinter = new Thread(modelNamesPrinterRunnable);
+
         try {
-            var moto = VehicleHelper.readVehicle(
-                    new BufferedReader(new InputStreamReader(System.in, StandardCharsets.UTF_8))
-            );
-            VehicleHelper.writeVehicle(moto, new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
+            modelNamesPrinter.start();
+            pricesPrinter.start();
+            modelNamesPrinter.join();
+            pricesPrinter.join();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        synchronizer.reset();
     }
 
     private static void printVehicle(Vehicle vehicle) {
