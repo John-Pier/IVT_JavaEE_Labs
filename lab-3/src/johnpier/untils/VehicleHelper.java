@@ -23,6 +23,13 @@ public class VehicleHelper {
                 .forEachOrdered(modelName -> printStream.println(vehicleName + ": " + modelName));
     }
 
+    public static void printPricesInPrintStream(Vehicle vehicle, PrintStream printStream) {
+        String vehicleName = vehicle.getVehicleBrand();
+        Arrays.stream(vehicle.getModelPrices())
+                .filter(Objects::nonNull)
+                .forEachOrdered(price -> printStream.println(vehicleName + ": " + price));
+    }
+
     public static void printModelWithPrisesInPrintStream(Vehicle vehicle, PrintStream printStream) {
         String vehicleName = vehicle.getVehicleBrand();
         String[] names = vehicle.getModelNames();

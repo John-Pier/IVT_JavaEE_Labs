@@ -4,7 +4,11 @@ import johnpier.exeptions.DuplicateModelNameException;
 import johnpier.fabric.MotorcycleFabric;
 import johnpier.models.*;
 import johnpier.thread.*;
+import johnpier.thread.runnable.*;
+import johnpier.thread.runnable.secuences.*;
 import johnpier.untils.*;
+
+import java.util.concurrent.locks.ReentrantLock;
 
 public class MainLab3 {
     private static Vehicle vehicle;
@@ -22,6 +26,8 @@ public class MainLab3 {
 
         System.out.println("\nТестирование приоритетов потоков:\n");
         testThreadsPriority();
+        System.out.println("\nТестирование попеременной работы потоков:\n");
+        testThreadsAlternating();
         System.out.println("\nТестирование последовательной работы потоков:\n");
         testThreadsSequence();
     }
@@ -42,7 +48,7 @@ public class MainLab3 {
         }
     }
 
-    private static void testThreadsSequence() {
+    private static void testThreadsAlternating() {
         var synchronizer = new VehicleSynchronizer(vehicle);
         var pricesPrinterRunnable = new PricesPrintRunnable(synchronizer);
         var modelNamesPrinterRunnable = new ModelNamesPrintRunnable(synchronizer);
@@ -60,6 +66,22 @@ public class MainLab3 {
         }
 
         synchronizer.reset();
+    }
+
+    private static void testThreadsSequence() {
+        ReentrantLock reentrantLock = new ReentrantLock();
+
+        var pricesPrinter = new Thread(new SequencePricesPrintRunnable(vehicle, reentrantLock));
+        var modelNamesPrinter = new Thread(new SequenceModelNamesPrintRunnable(vehicle, reentrantLock));
+
+        try {
+            modelNamesPrinter.start();
+            pricesPrinter.start();
+            modelNamesPrinter.join();
+            pricesPrinter.join();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     private static void printVehicle(Vehicle vehicle) {

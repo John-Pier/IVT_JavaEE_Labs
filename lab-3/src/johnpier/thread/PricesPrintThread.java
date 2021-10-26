@@ -1,6 +1,7 @@
 package johnpier.thread;
 
 import johnpier.models.Vehicle;
+import johnpier.untils.VehicleHelper;
 
 public class PricesPrintThread extends Thread {
     private final Vehicle vehicle;
@@ -15,8 +16,6 @@ public class PricesPrintThread extends Thread {
     }
 
     private void printPrices(Vehicle vehicle) {
-        for (double price : vehicle.getModelPrices()) {
-            System.out.println(price);
-        }
+        VehicleHelper.printPricesInPrintStream(vehicle, System.out);
     }
 }
