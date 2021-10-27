@@ -8,6 +8,7 @@ import johnpier.thread.runnable.*;
 import johnpier.thread.runnable.secuences.*;
 import johnpier.untils.*;
 
+import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MainLab3 {
@@ -30,6 +31,8 @@ public class MainLab3 {
         testThreadsAlternating();
         System.out.println("\nТестирование последовательной работы потоков:\n");
         testThreadsSequence();
+        System.out.println("\nТестирование работы Executors:\n");
+        testThreadsPool();
     }
 
     private static void testThreadsPriority() {
@@ -82,6 +85,21 @@ public class MainLab3 {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private static void testThreadsPool() {
+       var motorcycle = new Motorcycle("Motorcycle", 2);
+       var motoBryce = new Motorcycle("BMV", 2);
+       var car = new Car("Car", 1);
+       var auto = new Car("WAC", 1);
+
+        var threadPool = Executors.newFixedThreadPool(2);
+        threadPool.submit(new ModelBrandPrintRunnable(motorcycle));
+        threadPool.submit(new ModelBrandPrintRunnable(motoBryce));
+        threadPool.submit(new ModelBrandPrintRunnable(car));
+        threadPool.submit(new ModelBrandPrintRunnable(auto));
+
+        threadPool.shutdown();
     }
 
     private static void printVehicle(Vehicle vehicle) {
