@@ -44,6 +44,10 @@ public class VehicleHelper {
         VehicleHelper.vehicleFabric = vehicleFabric;
     }
 
+    public static VehicleFabric getFabric() {
+        return VehicleHelper.vehicleFabric;
+    }
+
     public static void outputVehicle(Vehicle vehicle, OutputStream outputStream) throws IOException {
         var stream = new DataOutputStream(outputStream);
         var brandSize = vehicle.getVehicleBrand().length();
