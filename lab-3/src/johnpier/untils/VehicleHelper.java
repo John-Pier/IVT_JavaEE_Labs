@@ -1,7 +1,7 @@
 package johnpier.untils;
 
 import johnpier.exeptions.DuplicateModelNameException;
-import johnpier.fabric.VehicleFabric;
+import johnpier.fabric.*;
 import johnpier.models.Vehicle;
 
 import java.io.*;
@@ -9,7 +9,7 @@ import java.nio.charset.*;
 import java.util.*;
 
 public class VehicleHelper {
-    private static VehicleFabric vehicleFabric;
+    private static VehicleFabric vehicleFabric = new CarFabric();
     private static final Charset charset = StandardCharsets.UTF_8;
 
     public static double getAveragePrice(Vehicle vehicle) {
