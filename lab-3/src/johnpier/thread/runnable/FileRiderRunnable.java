@@ -7,7 +7,6 @@ import java.io.*;
 import java.util.concurrent.BlockingQueue;
 
 public class FileRiderRunnable implements Runnable {
-
     private final String fileName;
     private final BlockingQueue<Vehicle> blockingQueue;
 
@@ -19,11 +18,12 @@ public class FileRiderRunnable implements Runnable {
     @Override
     public void run() {
         try {
-            // считать название марки,
-            var file = new FileReader(fileName);
-            String brandName = "-";
+            var bufferedReader = new BufferedReader(new FileReader(fileName));
+            var brandName = bufferedReader.readLine();
+            bufferedReader.close();
             this.blockingQueue.put(VehicleHelper.getFabric().createVehicle(brandName, 0));
-        } catch (FileNotFoundException | InterruptedException e) {
+//            this.blockingQueue.add(VehicleHelper.getFabric().createVehicle(brandName, 0));
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

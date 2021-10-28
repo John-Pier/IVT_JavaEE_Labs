@@ -8,7 +8,7 @@ import johnpier.thread.runnable.*;
 import johnpier.thread.runnable.secuences.*;
 import johnpier.untils.*;
 
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class MainLab3 {
@@ -28,6 +28,7 @@ public class MainLab3 {
         System.out.println("\nТестирование работы Executors:\n");
         testThreadsPool();
         System.out.println("\nТестирование работы ArrayBlockingQueue:\n");
+        testBlockingQueue();
     }
 
     private static void initVehicle() throws DuplicateModelNameException {
@@ -104,6 +105,22 @@ public class MainLab3 {
         threadPool.submit(new ModelBrandPrintRunnable(auto));
 
         threadPool.shutdown();
+    }
+
+    private static void testBlockingQueue() {
+       var blockingQueue = new ArrayBlockingQueue<Vehicle>(4);
+       var fileNames = new String[] {"brand0.txt", "brand1.txt", "brand2.txt", "brand3.txt", "brand4.txt"};
+       for(var name : fileNames) {
+           new Thread(new FileRiderRunnable("./dist/lab-3/" + name, blockingQueue)).start();
+       }
+
+       for(int i = 0; i < 5; i ++) {
+           try {
+               System.out.println("Read Brand: " + blockingQueue.take().getVehicleBrand());
+           } catch (InterruptedException e) {
+               e.printStackTrace();
+           }
+       }
     }
 
     private static void printVehicle(Vehicle vehicle) {
