@@ -20,6 +20,7 @@ public class VehicleSynchronizer {
 
             double val = prices[current++];
             System.out.println("Price: " + val + "\n");
+
             isPairPrinted = false;
             vehicle.notifyAll();
         }
@@ -33,6 +34,7 @@ public class VehicleSynchronizer {
             this.waitUntilPairPrinted();
 
             System.out.println("Model: " + names[current]);
+
             isPairPrinted = true;
             vehicle.notifyAll();
         }

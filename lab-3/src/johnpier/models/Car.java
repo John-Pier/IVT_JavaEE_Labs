@@ -108,7 +108,7 @@ public class Car extends Vehicle {
     }
 
     public int getModelsSize() {
-        return this.models.length;
+        return (int)Arrays.stream(this.models).filter(Objects::nonNull).count();
     }
 
     private class Model implements Serializable {

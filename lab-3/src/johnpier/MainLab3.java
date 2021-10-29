@@ -1,7 +1,7 @@
 package johnpier;
 
 import johnpier.exeptions.DuplicateModelNameException;
-import johnpier.fabric.MotorcycleFabric;
+import johnpier.fabric.*;
 import johnpier.models.*;
 import johnpier.thread.*;
 import johnpier.thread.runnable.*;
@@ -15,7 +15,9 @@ public class MainLab3 {
     private static Vehicle vehicle;
 
     public static void main(String[] args) throws DuplicateModelNameException {
-        VehicleHelper.setFabric(new MotorcycleFabric());
+        VehicleHelper.setFabric(new CarFabric());
+//      VehicleHelper.setFabric(new MotorcycleFabric());
+
         initVehicle();
 
         System.out.println("Лабораторная работа №3 (Попов Н. 6133)");
@@ -32,7 +34,7 @@ public class MainLab3 {
     }
 
     private static void initVehicle() throws DuplicateModelNameException {
-        vehicle = new Motorcycle("Motorcycle", 2);
+        vehicle = VehicleHelper.getFabric().createVehicle("Motorcycle", 2);
         vehicle.addModel("3-T", 123);
         vehicle.addModel("Yamaha", 9878);
         vehicle.addModel("BMW", 13532);
@@ -121,31 +123,5 @@ public class MainLab3 {
                e.printStackTrace();
            }
        }
-    }
-
-    private static void printVehicle(Vehicle vehicle) {
-        System.out.println("Vehicle: " + vehicle.getVehicleBrand());
-        System.out.println("Vehicle Names:");
-        printNames(vehicle);
-        System.out.println("vehicle Prices:");
-        printPrices(vehicle);
-        System.out.println("vehicle Models Size:");
-        printSizeModels(vehicle);
-    }
-
-    private static void printNames(Vehicle vehicle) {
-        for (String name : vehicle.getModelNames()) {
-            System.out.println(name);
-        }
-    }
-
-    private static void printPrices(Vehicle vehicle) {
-        for (double price : vehicle.getModelPrices()) {
-            System.out.println(price);
-        }
-    }
-
-    public static void printSizeModels(Vehicle vehicle) {
-        System.out.println(vehicle.getModelsSize());
     }
 }

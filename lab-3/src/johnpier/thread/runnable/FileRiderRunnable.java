@@ -19,10 +19,11 @@ public class FileRiderRunnable implements Runnable {
     public void run() {
         try {
             var bufferedReader = new BufferedReader(new FileReader(fileName));
-            var brandName = bufferedReader.readLine();
+            var brandName = bufferedReader.readLine().trim();
             bufferedReader.close();
             this.blockingQueue.put(VehicleHelper.getFabric().createVehicle(brandName, 0));
-//            this.blockingQueue.add(VehicleHelper.getFabric().createVehicle(brandName, 0));
+
+//          this.blockingQueue.add(VehicleHelper.getFabric().createVehicle(brandName, 0));
         } catch (Exception e) {
             e.printStackTrace();
         }
