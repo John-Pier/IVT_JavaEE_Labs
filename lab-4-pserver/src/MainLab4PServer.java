@@ -9,6 +9,7 @@ import java.util.Arrays;
 public class MainLab4PServer {
     public static void main(String[] args) {
         try (ServerSocket serverSocket = new ServerSocket(Config.SERVER_PORT)) {
+            System.out.println("Сервер запущен");
             while (!serverSocket.isClosed()) {
                 Socket socket = serverSocket.accept();
                 runTask(socket);
