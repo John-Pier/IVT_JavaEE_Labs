@@ -69,9 +69,9 @@ public class Main {
 
         System.out.println(TERMINATOR_STRING);
 
-        System.out.println("Average car models price:");
+        System.out.println("Average car johnpier.models price:");
         System.out.println(VehicleHelper.getAveragePrice(carVehicle));
-        System.out.println("Average moto models price:");
+        System.out.println("Average moto johnpier.models price:");
         System.out.println(VehicleHelper.getAveragePrice(motoVehicle));
 
         System.out.println(TERMINATOR_STRING);

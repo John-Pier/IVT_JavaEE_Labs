@@ -19,9 +19,10 @@ public class SequencePricesPrintRunnable implements Runnable {
         try {
             lock.lock();
             VehicleHelper.printPricesInPrintStream(vehicle, System.out);
-            lock.unlock();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            lock.unlock();
         }
     }
 }

@@ -19,9 +19,10 @@ public class SequenceModelNamesPrintRunnable implements Runnable {
         try {
             lock.lock();
             VehicleHelper.printModelsInPrintStream(vehicle, System.out);
-            lock.unlock();
         } catch (Exception e) {
             System.out.println(e.getMessage());
+        } finally {
+            lock.unlock();
         }
     }
 }
