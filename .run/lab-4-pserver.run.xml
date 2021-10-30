@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="lab-4-pserver" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="MainLab4PServer" />
+    <module name="lab-4-pserver" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

@@ -1,0 +1,15 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="lab-4-sserver" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="johnpier.MainLab4SServer" />
+    <module name="lab-4-sserver" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="johnpier.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
