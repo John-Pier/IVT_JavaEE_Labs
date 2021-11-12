@@ -27,7 +27,7 @@ public class MainLab4SServer {
             var outputStream = new DataOutputStream(clientSocket.getOutputStream());
 
             var vehicles = (Vehicle[]) inputStream.readObject();
-            var result = Arrays.stream(vehicles).mapToDouble(VehicleHelper::getAveragePrice).average().orElse(Double.NaN);
+            var result = VehicleHelper.getAveragePriceOfVehicles(vehicles);
             outputStream.writeDouble(result);
             System.out.println("Результат: " + result);
         } catch (Exception exception) {

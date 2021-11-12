@@ -16,6 +16,10 @@ public class VehicleHelper {
         return Arrays.stream(vehicle.getModelPrices()).average().orElse(Double.NaN);
     }
 
+    public static double getAveragePriceOfVehicles(Vehicle[] vehicles) {
+        return Arrays.stream(vehicles).mapToDouble(VehicleHelper::getAveragePrice).average().orElse(Double.NaN);
+    }
+
     public static void printModelsInPrintStream(Vehicle vehicle, PrintStream printStream) {
         String vehicleName = vehicle.getVehicleBrand();
         Arrays.stream(vehicle.getModelNames())
@@ -38,6 +42,7 @@ public class VehicleHelper {
         for (int i = 0; i < names.length; i++) {
             printStream.println(vehicleName + " [" + (i + 1) + ", name: " + names[i] + ", price: " + prices[i] + "]");
         }
+        printStream.println();
     }
 
     public static void setFabric(VehicleFabric vehicleFabric) {

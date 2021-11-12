@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="lab-4-client" type="Application" factoryName="Application">
+  <configuration default="false" name="lab-4-client" type="Application" factoryName="Application" singleton="false">
     <option name="MAIN_CLASS_NAME" value="MainLab4Client" />
     <module name="lab-4-client" />
     <method v="2">
