@@ -2,59 +2,252 @@
 
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
+<AnchorPane id="mainPane" prefHeight="396.0" prefWidth="300.0" stylesheets="@styles/main-page.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.johnpier.lab5.MainController">
+    <children>
+        <SplitPane id="splitPanel" dividerPositions="0.26627218934911245" orientation="VERTICAL" prefHeight="396.0" prefWidth="300.0" stylesheets="@styles/main-page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="84.0" prefWidth="298.0">
+                    <children>
+                        <Pane prefHeight="87.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                            <children>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.johnpier.lab5.MainController">
-   <children>
-      <SplitPane dividerPositions="0.26627218934911245" orientation="VERTICAL" prefHeight="340.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="84.0" prefWidth="298.0">
-               <children>
-                  <Pane prefHeight="87.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <children>
-                     
-                         <Label fx:id="welcomeText" prefHeight="25.0" prefWidth="0.0" />
-                        <TextField layoutX="14.0" layoutY="44.0" prefHeight="30.0" prefWidth="270.0">
-                           <padding>
-                              <Insets left="30.0" right="30.0" />
-                           </padding>
-                        </TextField>
-                     </children>
-                  </Pane>
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="240.0" prefWidth="298.0">
-               <children>
-                  <GridPane prefHeight="240.0" prefWidth="298.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                         <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="1" textAlignment="CENTER">
-                           <font>
-                              <Font name="Calibri" size="14.0" />
-                           </font>
-                           <GridPane.margin>
-                              <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                           </GridPane.margin>
-                        </Button>
-                     </children>
-                  </GridPane>
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
-   </children>
+                                <Label fx:id="welcomeText" prefHeight="25.0" prefWidth="0.0" />
+                                <TextField layoutX="14.0" layoutY="44.0" prefHeight="30.0" prefWidth="270.0">
+                                    <padding>
+                                        <Insets left="30.0" right="30.0" />
+                                    </padding>
+                                </TextField>
+                            </children>
+                        </Pane>
+                    </children>
+                </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="254.0" prefWidth="298.0">
+                    <children>
+                        <GridPane prefHeight="285.0" prefWidth="298.0">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="50.0" />
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            </rowConstraints>
+                            <children>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="..." textAlignment="CENTER" textFill="#00038d">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="CE" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="C" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button id="but-del" alignment="CENTER" cancelButton="true" onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="DEL" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                    <effect>
+                                        <SepiaTone level="0.17" />
+                                    </effect>
+                                </Button>
+
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="..." textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="1">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="qrt" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" styleClass="action-button" text="sqrt" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="/" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="7" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="2">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="8" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="9" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="*" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="4" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="3">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="5" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="6" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="-" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="1" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="4">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="2" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="3" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="+" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="+/-" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="5">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="," textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="5">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button contentDisplay="CENTER" defaultButton="true" onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="=" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="0" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                                    <font>
+                                        <Font name="Calibri" size="14.0" />
+                                    </font>
+                                    <GridPane.margin>
+                                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                                    </GridPane.margin>
+                                </Button>
+                            </children>
+                        </GridPane>
+                    </children>
+                </AnchorPane>
+            </items>
+        </SplitPane>
+    </children>
 </AnchorPane>
