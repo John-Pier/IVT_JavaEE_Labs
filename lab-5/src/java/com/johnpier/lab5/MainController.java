@@ -24,6 +24,7 @@ public class MainController {
     }
 
     @FXML
+    //todo: exceptions, operation trace, *.0 ,
     protected void onHelloButtonClick() {
         welcomeText.setText("Welcome to JavaFX Application!");
     }
@@ -32,11 +33,11 @@ public class MainController {
     protected void onNumberButtonClick(ActionEvent event) {
         var button = (Button)event.getSource();
         if (calculator.isOperationExist() && calculator.isOperationSecondValueNotDefined()) {
-            resultInput.setText("");
+            writeText("0");
             calculator.setOperationSecondValueIsDefined();
         }
-        if(resultInput.getText().length() < MAX_NUMBER_LENGTH) {
-            resultInput.setText(resultInput.getText() + button.getText());
+        if(readText().length() < MAX_NUMBER_LENGTH) {
+            writeText(readText() + button.getText());
         }
         setActive(deleteButton);
     }
@@ -48,13 +49,14 @@ public class MainController {
     }
 
     @FXML
-    protected void onDelButtonClick(ActionEvent event) {
-        var value = resultInput.getText();
+    protected void onDelButtonClick() {
+        var value = readText();
         if(value.length() > 0) {
-            resultInput.setText(value.substring(0, value.length() - 1));
+            // todo: 0 can not first
+            writeText(value.substring(0, value.length() - 1));
         }
 
-        if (resultInput.getText().length() == 0) {
+        if (readText().length() == 0) {
             this.setInactive(deleteButton);
         }
     }
@@ -66,9 +68,28 @@ public class MainController {
     }
 
     @FXML
-    protected void onCEButtonClick(ActionEvent event) {
-        resultInput.setText("");
+    protected void onCEButtonClick() {
+        writeText(0);
         this.setInactive(deleteButton);
+    }
+
+    @FXML
+    protected void onClearButtonClick() {
+        onCEButtonClick();
+        calculator.resetOperation();
+    }
+
+    @FXML
+    protected void onAddPointClick() {
+        var value = readText();
+        if (value.contains(".")) {
+            return;
+        }
+        if(value.length() > 0) {
+            writeText(value + ".");
+        } else {
+            writeText("0.");
+        }
     }
 
     @FXML
@@ -106,7 +127,7 @@ public class MainController {
         try {
             var number = getCurrentNumber();
             if (number != 0) {
-                resultInput.setText(String.valueOf((-number)));
+                writeText((-number));
             }
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -117,14 +138,8 @@ public class MainController {
     protected void onSqrtActionClick() {
         try {
             var number = getCurrentNumber();
-//            calculator.setOperation(new MonoCalcOperation(number) {
-//                @Override
-//                public double getResult() {
-//                    return Math.sqrt((double)value); // TODO: exeption
-//                }
-//            });
             if (number > 0) {
-                resultInput.setText(String.valueOf(Math.sqrt(number)));
+                writeText(Math.sqrt(number));
             } else {
                 // TODO: exeption
             }
@@ -137,13 +152,7 @@ public class MainController {
     protected void onQrtActionClick() {
         try {
             var number = getCurrentNumber();
-//            calculator.setOperation(new MonoCalcOperation(number) {
-//                @Override
-//                public double getResult() {
-//                    return Math.pow((double)value, 2);
-//                }
-//            });
-            resultInput.setText(String.valueOf(Math.pow(number, 2)));
+            writeText(Math.pow(number, 2));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -193,7 +202,7 @@ public class MainController {
     }
 
     private double getCurrentNumber() throws Exception {
-        var textValue = resultInput.getText();
+        var textValue = readText();
         if (textValue.length() == 0) {
            throw new Exception();
         }
@@ -203,18 +212,44 @@ public class MainController {
 
     private void setResultNumber(){
         if (calculator.isOperationExist()) {
-            resultInput.setText(calculator.getOperationResult().toString());
+            writeText(calculator.getOperationResult());
         }
     }
 
-    private double setResultNumber(double value){
+    private double setResultNumber(double value) {
         double result = value;
         if (calculator.isOperationExist()) {
             result = (double) calculator.getOperationResult(value);
-            resultInput.setText(String.valueOf(result));
+            writeText(result);
         }
         return result;
     }
+
+    private void writeText(String newValue) {
+        resultInput.setText(replacePointToComma(newValue));
+    }
+
+    private void writeText(Number newValue) {
+        writeText(String.valueOf(newValue));
+    }
+
+    private String readText() {
+        return replaceCommaToPoint(resultInput.getText());
+    }
+
+    private String replacePointToComma(String value) {
+        return value.replace('.', ',');
+    }
+
+    private String replaceCommaToPoint(String value) {
+        return value.replace(',', '.');
+    }
 }
 
+//            calculator.setOperation(new MonoCalcOperation(number) {
+//                @Override
+//                public double getResult() {
+//                    return Math.pow((double)value, 2);
+//                }
+//            });
 
