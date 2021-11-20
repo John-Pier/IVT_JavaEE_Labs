@@ -62,7 +62,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button id="but-del" alignment="CENTER" cancelButton="true" onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="DEL" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3">
+                <Button id="but-del" fx:id="deleteButton" alignment="CENTER" cancelButton="true" disable="true" onAction="#onDelButtonClick" prefHeight="45.0" prefWidth="74.0" text="DEL" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -82,7 +82,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="qrt" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                <Button onAction="#onQrtActionClick" prefHeight="45.0" prefWidth="74.0" text="x^2" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="1">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -90,7 +90,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" styleClass="action-button" text="sqrt" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                <Button onAction="#onSqrtActionClick" prefHeight="45.0" prefWidth="74.0" styleClass="action-button" text="sqrt" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="1">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -98,40 +98,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="/" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                    <font>
-                        <Font name="Calibri" size="14.0" />
-                    </font>
-                    <GridPane.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </GridPane.margin>
-                </Button>
-
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="7" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="2">
-                    <font>
-                        <Font name="Calibri" size="14.0" />
-                    </font>
-                    <GridPane.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </GridPane.margin>
-                </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="8" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                    <font>
-                        <Font name="Calibri" size="14.0" />
-                    </font>
-                    <GridPane.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </GridPane.margin>
-                </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="9" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                    <font>
-                        <Font name="Calibri" size="14.0" />
-                    </font>
-                    <GridPane.margin>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-                    </GridPane.margin>
-                </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="*" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                <Button onAction="#onDivideActionClick" prefHeight="45.0" prefWidth="74.0" text="/" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="1">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -140,7 +107,7 @@
                     </GridPane.margin>
                 </Button>
 
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="4" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="3">
+                <Button onAction="#onNumberButtonClick" prefHeight="45.0" prefWidth="74.0" text="7" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="2">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -148,7 +115,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="5" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                <Button onAction="#onNumberButtonClick" prefHeight="45.0" prefWidth="74.0" text="8" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="2">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -156,7 +123,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="6" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                <Button onAction="#onNumberButtonClick" prefHeight="45.0" prefWidth="74.0" text="9" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="2">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -164,7 +131,40 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="-" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                <Button onAction="#onMultipleActionClick" prefHeight="45.0" prefWidth="74.0" text="*" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="2">
+                    <font>
+                        <Font name="Calibri" size="14.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </GridPane.margin>
+                </Button>
+
+                <Button onAction="#onNumberButtonClick" prefHeight="45.0" prefWidth="74.0" text="4" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="3">
+                    <font>
+                        <Font name="Calibri" size="14.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button onAction="#onNumberButtonClick" prefHeight="45.0" prefWidth="74.0" text="5" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                    <font>
+                        <Font name="Calibri" size="14.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button onAction="#onNumberButtonClick" prefHeight="45.0" prefWidth="74.0" text="6" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                    <font>
+                        <Font name="Calibri" size="14.0" />
+                    </font>
+                    <GridPane.margin>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </GridPane.margin>
+                </Button>
+                <Button onAction="#onMinusActionClick" prefHeight="45.0" prefWidth="74.0" text="-" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="3">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -189,7 +189,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="3" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="4">
+                <Button onAction="#onNumberButtonClick" prefHeight="45.0" prefWidth="74.0" text="3" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2" GridPane.rowIndex="4">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -197,7 +197,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="+" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="4">
+                <Button onAction="#onPlusActionClick" prefHeight="45.0" prefWidth="74.0" text="+" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="4">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -206,7 +206,7 @@
                     </GridPane.margin>
                 </Button>
 
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="+/-" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="5">
+                <Button onAction="#onChangeSignActionClick" prefHeight="45.0" prefWidth="74.0" text="+/-" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="5">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -230,7 +230,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="0" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                <Button onAction="#onNumberButtonClick" prefHeight="45.0" prefWidth="74.0" text="0" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1" GridPane.rowIndex="5">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>

@@ -1,7 +1,7 @@
 package com.johnpier.lab5.entities;
 
 public abstract class MonoCalcOperation implements CalcOperation {
-    Number value;
+    protected Number value;
 
     public MonoCalcOperation(Number number) {
         value = number;

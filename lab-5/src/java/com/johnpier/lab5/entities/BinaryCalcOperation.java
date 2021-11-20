@@ -1,8 +1,8 @@
 package com.johnpier.lab5.entities;
 
 public abstract class BinaryCalcOperation implements CalcOperation {
-    Number firstValue;
-    Number secondValue;
+    protected Number firstValue;
+    protected Number secondValue;
 
     public BinaryCalcOperation(Number number) {
         firstValue = number;

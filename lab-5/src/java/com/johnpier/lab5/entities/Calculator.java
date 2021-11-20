@@ -19,10 +19,18 @@ public class Calculator {
     }
 
     public Number getOperationResult() {
-        return currentOperation.getResult();
+        var result = currentOperation.getResult();
+        resetOperation();
+        return result;
     }
 
     public Number getOperationResult(double number) {
-        return currentOperation.getResult(number);
+        var result = currentOperation.getResult(number);
+        resetOperation();
+        return result;
+    }
+
+    public void resetOperation() {
+        this.currentOperation = null;
     }
 }
