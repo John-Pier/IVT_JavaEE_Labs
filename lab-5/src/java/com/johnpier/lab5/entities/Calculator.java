@@ -5,6 +5,8 @@ public class Calculator {
 
     public CalcOperation currentOperation;
 
+    public boolean operationSecondValueDefined = false;
+
     private Calculator() {}
 
     public static Calculator getInstance() {
@@ -15,6 +17,7 @@ public class Calculator {
     }
 
     public void setOperation(CalcOperation operation) {
+        operationSecondValueDefined = false;
         this.currentOperation = operation;
     }
 
@@ -32,5 +35,17 @@ public class Calculator {
 
     public void resetOperation() {
         this.currentOperation = null;
+    }
+
+    public boolean isOperationExist() {
+        return currentOperation != null;
+    }
+
+    public boolean isOperationSecondValueNotDefined() {
+        return !operationSecondValueDefined;
+    }
+
+    public boolean setOperationSecondValueIsDefined() {
+        return this.operationSecondValueDefined = true;
     }
 }

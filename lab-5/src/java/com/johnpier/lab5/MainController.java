@@ -31,6 +31,10 @@ public class MainController {
     @FXML
     protected void onNumberButtonClick(ActionEvent event) {
         var button = (Button)event.getSource();
+        if (calculator.isOperationExist() && calculator.isOperationSecondValueNotDefined()) {
+            resultInput.setText("");
+            calculator.setOperationSecondValueIsDefined();
+        }
         if(resultInput.getText().length() < MAX_NUMBER_LENGTH) {
             resultInput.setText(resultInput.getText() + button.getText());
         }
@@ -62,9 +66,15 @@ public class MainController {
     }
 
     @FXML
+    protected void onCEButtonClick(ActionEvent event) {
+        resultInput.setText("");
+        this.setInactive(deleteButton);
+    }
+
+    @FXML
     protected void onPlusActionClick() {
         try {
-            var number = getCurrentNumber();
+            var number = checkPrevOperation();
             calculator.setOperation(new BinaryCalcOperation(number) {
                 @Override
                 public double getResult() {
@@ -79,7 +89,7 @@ public class MainController {
     @FXML
     protected void onMinusActionClick() {
         try {
-            var number = getCurrentNumber();
+            var number = checkPrevOperation();
             calculator.setOperation(new BinaryCalcOperation(number) {
                 @Override
                 public double getResult() {
@@ -91,22 +101,33 @@ public class MainController {
         }
     }
 
-
     @FXML
     protected void onChangeSignActionClick() {
-
+        try {
+            var number = getCurrentNumber();
+            if (number != 0) {
+                resultInput.setText(String.valueOf((-number)));
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     @FXML
     protected void onSqrtActionClick() {
         try {
             var number = getCurrentNumber();
-            calculator.setOperation(new MonoCalcOperation(number) {
-                @Override
-                public double getResult() {
-                    return Math.sqrt((double)value); // TODO: exeption
-                }
-            });
+//            calculator.setOperation(new MonoCalcOperation(number) {
+//                @Override
+//                public double getResult() {
+//                    return Math.sqrt((double)value); // TODO: exeption
+//                }
+//            });
+            if (number > 0) {
+                resultInput.setText(String.valueOf(Math.sqrt(number)));
+            } else {
+                // TODO: exeption
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -116,17 +137,17 @@ public class MainController {
     protected void onQrtActionClick() {
         try {
             var number = getCurrentNumber();
-            calculator.setOperation(new MonoCalcOperation(number) {
-                @Override
-                public double getResult() {
-                    return Math.pow((double)value, 2);
-                }
-            });
+//            calculator.setOperation(new MonoCalcOperation(number) {
+//                @Override
+//                public double getResult() {
+//                    return Math.pow((double)value, 2);
+//                }
+//            });
+            resultInput.setText(String.valueOf(Math.pow(number, 2)));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-
 
     @FXML
     protected void onDivideActionClick() {
@@ -143,7 +164,6 @@ public class MainController {
         }
     }
 
-
     @FXML
     protected void onMultipleActionClick() {
         try {
@@ -159,10 +179,17 @@ public class MainController {
         }
     }
 
-    private void checkPrevOperation(double value) {
-        if (calculator.currentOperation != null) {
-            setResultNumber(value);
+    @FXML
+    protected void onGetResultActionClick() {
+        try {
+            checkPrevOperation(); //TODO: rename
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
+    }
+
+    private double checkPrevOperation() throws Exception { //TODO: rename
+        return setResultNumber(getCurrentNumber());
     }
 
     private double getCurrentNumber() throws Exception {
@@ -175,15 +202,18 @@ public class MainController {
     }
 
     private void setResultNumber(){
-        if (calculator.currentOperation != null) {
+        if (calculator.isOperationExist()) {
             resultInput.setText(calculator.getOperationResult().toString());
         }
     }
 
-    private void setResultNumber(double value){
-        if (calculator.currentOperation != null) {
-            resultInput.setText(calculator.getOperationResult(value).toString());
+    private double setResultNumber(double value){
+        double result = value;
+        if (calculator.isOperationExist()) {
+            result = (double) calculator.getOperationResult(value);
+            resultInput.setText(String.valueOf(result));
         }
+        return result;
     }
 }
 

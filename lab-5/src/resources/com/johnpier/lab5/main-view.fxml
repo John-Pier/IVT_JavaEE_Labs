@@ -10,10 +10,13 @@
     <SplitPane id="splitPanel" dividerPositions="0.26627218934911245" orientation="VERTICAL" prefHeight="396.0" prefWidth="300.0" stylesheets="@styles/main-page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="84.0" prefWidth="298.0">
             <Pane prefHeight="87.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <Label fx:id="welcomeText" text="ntcn">
+                <Label fx:id="welcomeText" alignment="CENTER" prefHeight="33.0" prefWidth="300.0" text="Welcome to Calculator" textAlignment="CENTER" textFill="#0030c2">
                     <padding>
                         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                     </padding>
+               <font>
+                  <Font size="16.0" />
+               </font>
                 </Label>
                 <TextField fx:id="resultInput" layoutX="14.0" layoutY="44.0" prefHeight="30.0" prefWidth="270.0">
                     <padding>
@@ -46,7 +49,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="CE" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1">
+                <Button onAction="#onCEButtonClick" prefHeight="45.0" prefWidth="74.0" text="CE" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
@@ -222,7 +225,7 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button contentDisplay="CENTER" defaultButton="true" onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="=" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="5">
+                <Button contentDisplay="CENTER" defaultButton="true" onAction="#onGetResultActionClick" prefHeight="45.0" prefWidth="74.0" text="=" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3" GridPane.rowIndex="5">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
