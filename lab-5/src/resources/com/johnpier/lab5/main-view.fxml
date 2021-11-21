@@ -4,6 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="mainPane" prefHeight="398.0" prefWidth="300.0" stylesheets="@styles/main-page.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.johnpier.lab5.MainController">
@@ -49,32 +50,49 @@
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
                 </Button>
-                <Button onAction="#onCEButtonClick" prefHeight="45.0" prefWidth="74.0" text="CE" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1">
+                <Button cancelButton="true" onAction="#onCEButtonClick" prefHeight="45.0" prefWidth="74.0" text="CE" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="1">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
                     <GridPane.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
+               <effect>
+                  <Blend mode="MULTIPLY" />
+               </effect>
                 </Button>
-                <Button onAction="#onClearButtonClick" prefHeight="45.0" prefWidth="74.0" text="C" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2">
+                <Button cancelButton="true" onAction="#onClearButtonClick" prefHeight="45.0" prefWidth="74.0" text="C" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="2">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
                     <GridPane.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
+               <effect>
+                  <Blend mode="MULTIPLY" />
+               </effect>
                 </Button>
-                <Button id="but-del" fx:id="deleteButton" alignment="CENTER" cancelButton="true" disable="true" onAction="#onDelButtonClick" prefHeight="45.0" prefWidth="74.0" text="DEL" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3">
+                <Button id="but-del" fx:id="deleteButton" alignment="CENTER" cancelButton="true" onAction="#onDelButtonClick" prefHeight="45.0" prefWidth="74.0" text="DEL" textAlignment="CENTER" textFill="#00038d" GridPane.columnIndex="3">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>
                     <GridPane.margin>
                         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
                     </GridPane.margin>
-                    <effect>
-                        <SepiaTone level="0.17" />
-                    </effect>
+               <effect>
+                  <Lighting diffuseConstant="1.63" specularConstant="0.0" specularExponent="19.53" surfaceScale="0.68">
+                     <bumpInput>
+                        <Shadow height="23.97" width="18.03" />
+                     </bumpInput>
+                     <light>
+                        <Light.Distant>
+                           <color>
+                              <Color red="0.9868420958518982" green="0.6441885828971863" blue="0.30153509974479675" />
+                           </color>
+                        </Light.Distant>
+                     </light>
+                  </Lighting>
+               </effect>
                 </Button>
 
                 <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="..." textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="1">

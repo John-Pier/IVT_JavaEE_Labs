@@ -33,44 +33,34 @@ public class MainController {
     protected void onNumberButtonClick(ActionEvent event) {
         var button = (Button)event.getSource();
         if (calculator.isOperationExist() && calculator.isOperationSecondValueNotDefined()) {
-            writeText("0");
             calculator.setOperationSecondValueIsDefined();
         }
         if(readText().length() < MAX_NUMBER_LENGTH) {
-            writeText(readText() + button.getText());
-        }
-        setActive(deleteButton);
-    }
-
-    private void setActive(Button button) {
-        if (button.isDisabled()) {
-            button.setDisable(false);
+            var value = readText();
+            if(value.equals("0")) {
+                writeText(button.getText());
+            } else {
+                writeText(readText() + button.getText());
+            }
         }
     }
 
     @FXML
     protected void onDelButtonClick() {
         var value = readText();
-        if(value.length() > 0) {
-            // todo: 0 can not first
-            writeText(value.substring(0, value.length() - 1));
+        if(value.length() == 0) {
+            return;
         }
-
-        if (readText().length() == 0) {
-            this.setInactive(deleteButton);
+        if(value.length() == 1) {
+            writeText("0");
+            return;
         }
-    }
-
-    private void setInactive(Button button) {
-        if (!button.isDisabled()) {
-            button.setDisable(true);
-        }
+        writeText(value.substring(0, value.length() - 1));
     }
 
     @FXML
     protected void onCEButtonClick() {
         writeText(0);
-        this.setInactive(deleteButton);
     }
 
     @FXML
