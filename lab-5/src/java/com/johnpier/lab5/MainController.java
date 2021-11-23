@@ -32,16 +32,18 @@ public class MainController {
     @FXML
     protected void onNumberButtonClick(ActionEvent event) {
         var button = (Button)event.getSource();
+        if(readText().length() >= MAX_NUMBER_LENGTH) {
+            return;
+        }
         if (calculator.isOperationExist() && calculator.isOperationSecondValueNotDefined()) {
             calculator.setOperationSecondValueIsDefined();
+            writeText("0");
         }
-        if(readText().length() < MAX_NUMBER_LENGTH) {
-            var value = readText();
-            if(value.equals("0")) {
-                writeText(button.getText());
-            } else {
-                writeText(readText() + button.getText());
-            }
+        var value = readText();
+        if(value.equals("0")) {
+            writeText(button.getText());
+        } else {
+            writeText(readText() + button.getText());
         }
     }
 
@@ -86,12 +88,7 @@ public class MainController {
     protected void onPlusActionClick() {
         try {
             var number = checkPrevOperation();
-            calculator.setOperation(new BinaryCalcOperation(number) {
-                @Override
-                public double getResult() {
-                    return (double)firstValue + (double)secondValue;
-                }
-            });
+            calculator.setOperation(value -> number + value);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -101,12 +98,57 @@ public class MainController {
     protected void onMinusActionClick() {
         try {
             var number = checkPrevOperation();
-            calculator.setOperation(new BinaryCalcOperation(number) {
-                @Override
-                public double getResult() {
-                    return (double)firstValue - (double)secondValue;
+            calculator.setOperation(value -> number - value);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void onDivideActionClick() {
+        try {
+            var number = checkPrevOperation();
+            calculator.setOperation(value -> {
+                if (value == 0) {
+                    new Alert(Alert.AlertType.ERROR, "Error in calculation! Please, check typed value.").showAndWait();
+                    return number;
                 }
+                return number / value;
             });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void onMultipleActionClick() {
+        try {
+            var number = checkPrevOperation();
+            calculator.setOperation(value -> number * value);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void onSqrtActionClick() {
+        try {
+            var number = getCurrentNumber();
+            if (number > 0) {
+                writeText(Math.sqrt(number));
+            } else {
+                new Alert(Alert.AlertType.NONE, "Error in calculation! Please, check typed value.").showAndWait();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    @FXML
+    protected void onQrtActionClick() {
+        try {
+            var number = getCurrentNumber();
+            writeText(Math.pow(number, 2));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -125,63 +167,9 @@ public class MainController {
     }
 
     @FXML
-    protected void onSqrtActionClick() {
-        try {
-            var number = getCurrentNumber();
-            if (number > 0) {
-                writeText(Math.sqrt(number));
-            } else {
-                // TODO: exeption
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    @FXML
-    protected void onQrtActionClick() {
-        try {
-            var number = getCurrentNumber();
-            writeText(Math.pow(number, 2));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    @FXML
-    protected void onDivideActionClick() {
-        try {
-            var number = getCurrentNumber();
-            calculator.setOperation(new BinaryCalcOperation(number) {
-                @Override
-                public double getResult() {
-                    return (double)firstValue / (double)secondValue;  // TODO: exeption
-                }
-            });
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    @FXML
-    protected void onMultipleActionClick() {
-        try {
-            var number = getCurrentNumber();
-            calculator.setOperation(new BinaryCalcOperation(number) {
-                @Override
-                public double getResult() {
-                    return (double)firstValue * (double)secondValue;
-                }
-            });
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-    }
-
-    @FXML
     protected void onGetResultActionClick() {
         try {
-            checkPrevOperation(); //TODO: rename
+            checkPrevOperation();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -198,12 +186,6 @@ public class MainController {
         }
 
         return Double.parseDouble(textValue);
-    }
-
-    private void setResultNumber(){
-        if (calculator.isOperationExist()) {
-            writeText(calculator.getOperationResult());
-        }
     }
 
     private double setResultNumber(double value) {
@@ -235,11 +217,3 @@ public class MainController {
         return value.replace(',', '.');
     }
 }
-
-//            calculator.setOperation(new MonoCalcOperation(number) {
-//                @Override
-//                public double getResult() {
-//                    return Math.pow((double)value, 2);
-//                }
-//            });
-

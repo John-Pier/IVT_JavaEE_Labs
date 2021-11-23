@@ -21,12 +21,6 @@ public class Calculator {
         this.currentOperation = operation;
     }
 
-    public Number getOperationResult() {
-        var result = currentOperation.getResult();
-        resetOperation();
-        return result;
-    }
-
     public Number getOperationResult(double number) {
         var result = currentOperation.getResult(number);
         resetOperation();
