@@ -22,13 +22,13 @@ public class MainLab3 {
 
         System.out.println("Лабораторная работа №3 (Попов Н. 6133)");
         System.out.println("\nТестирование приоритетов потоков:\n");
-//        testThreadsPriority();
+        testThreadsPriority();
         System.out.println("\nТестирование попеременной работы потоков:\n");
-//        testThreadsAlternating();
+        testThreadsAlternating();
         System.out.println("\nТестирование последовательной работы потоков:\n");
-//        testThreadsSequence();
+        testThreadsSequence();
         System.out.println("\nТестирование работы Executors:\n");
-//        testThreadsPool();
+        testThreadsPool();
         System.out.println("\nТестирование работы ArrayBlockingQueue:\n");
         testBlockingQueue();
     }
@@ -51,8 +51,8 @@ public class MainLab3 {
         try {
             pricesPrinter.start();
             modelNamesPrinter.start();
-//            pricesPrinter.join();
-//            modelNamesPrinter.join();
+            pricesPrinter.join();
+            modelNamesPrinter.join();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -87,19 +87,18 @@ public class MainLab3 {
         try {
             modelNamesPrinter.start();
             pricesPrinter.start();
-//            modelNamesPrinter.join();
-//            pricesPrinter.join();
+            modelNamesPrinter.join();
+            pricesPrinter.join();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     private static void testThreadsPool() {
-       var motorcycle = new Motorcycle("Motorcycle", 2);
-       var motoBryce = new Motorcycle("BMV", 2);
-       var car = new Car("Car", 1);
-       var auto = new Car("WAC", 1);
-
+        var motorcycle = new Motorcycle("Motorcycle", 2);
+        var motoBryce = new Motorcycle("BMV", 2);
+        var car = new Car("Car", 1);
+        var auto = new Car("WAC", 1);
         var threadPool = Executors.newFixedThreadPool(2);
         threadPool.submit(new ModelBrandPrintRunnable(motorcycle));
         threadPool.submit(new ModelBrandPrintRunnable(motoBryce));
@@ -110,18 +109,18 @@ public class MainLab3 {
     }
 
     private static void testBlockingQueue() {
-       var blockingQueue = new ArrayBlockingQueue<Vehicle>(2);
-       var fileNames = new String[] {"brand0.txt", "brand1.txt", "brand2.txt", "brand3.txt", "brand4.txt"};
-       for(var name : fileNames) {
-           new Thread(new FileRiderRunnable("./dist/lab-3/" + name, blockingQueue)).start();
-       }
+        var blockingQueue = new ArrayBlockingQueue<Vehicle>(2);
+        var fileNames = new String[]{"brand0.txt", "brand1.txt", "brand2.txt", "brand3.txt", "brand4.txt"};
+        for (var name : fileNames) {
+            new Thread(new FileRiderRunnable("./dist/lab-3/" + name, blockingQueue)).start();
+        }
 
-       for(int i = 0; i < 5; i ++) {
-           try {
-               System.out.println("Read Brand: " + blockingQueue.take().getVehicleBrand());
-           } catch (InterruptedException e) {
-               e.printStackTrace();
-           }
-       }
+        for (int i = 0; i < 5; i++) {
+            try {
+                System.out.println("Read Brand: " + blockingQueue.take().getVehicleBrand());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }
