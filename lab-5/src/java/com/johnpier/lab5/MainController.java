@@ -4,6 +4,7 @@ import com.johnpier.lab5.entities.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.input.*;
 
 public class MainController {
 
@@ -26,12 +27,46 @@ public class MainController {
     @FXML
     //todo: exceptions, operation trace, *.0 ,
     protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+        welcomeText.setText("Welcome to JavaFX Calculator!");
     }
 
     @FXML
     protected void onNumberButtonClick(ActionEvent event) {
         var button = (Button)event.getSource();
+        writeNumberToInput(button.getText());
+    }
+
+    @FXML
+    protected void onKeyClick(KeyEvent event) {
+        try {
+            System.out.println(event.getCharacter());
+            var codeOfCharacter = event.getCharacter().codePointAt(0);
+            var character = event.getCharacter();
+            if (KeyCode.BACK_SPACE.getCode() == codeOfCharacter) {
+                onDelButtonClick();
+            } else if (KeyCode.PLUS.getCode() == codeOfCharacter) {
+                onPlusActionClick();
+            } else if (KeyCode.MINUS.getCode() == codeOfCharacter) {
+                onMinusActionClick();
+            } else if (KeyCode.STAR.getCode() == codeOfCharacter) {
+                onMultipleActionClick();
+            } else if (KeyCode.SLASH.getCode() == codeOfCharacter) {
+                onDivideActionClick();
+            }
+            else if (KeyCode.ENTER.getCode() == codeOfCharacter) {
+                onGetResultActionClick();
+            }
+            else if (Character.isDigit(codeOfCharacter)) {
+                writeNumberToInput(character);
+            } else if (character.equals(",") || character.equals(".")) {
+                onAddPointClick();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    private void writeNumberToInput(String number) {
         if(readText().length() >= MAX_NUMBER_LENGTH) {
             return;
         }
@@ -41,9 +76,9 @@ public class MainController {
         }
         var value = readText();
         if(value.equals("0")) {
-            writeText(button.getText());
+            writeText(number);
         } else {
-            writeText(readText() + button.getText());
+            writeText(readText() + number);
         }
     }
 
@@ -87,7 +122,7 @@ public class MainController {
     @FXML
     protected void onPlusActionClick() {
         try {
-            var number = checkPrevOperation();
+            var number = finishPrevOperation();
             calculator.setOperation(value -> number + value);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -97,7 +132,7 @@ public class MainController {
     @FXML
     protected void onMinusActionClick() {
         try {
-            var number = checkPrevOperation();
+            var number = finishPrevOperation();
             calculator.setOperation(value -> number - value);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -107,7 +142,7 @@ public class MainController {
     @FXML
     protected void onDivideActionClick() {
         try {
-            var number = checkPrevOperation();
+            var number = finishPrevOperation();
             calculator.setOperation(value -> {
                 if (value == 0) {
                     new Alert(Alert.AlertType.ERROR, "Error in calculation! Please, check typed value.").showAndWait();
@@ -123,7 +158,7 @@ public class MainController {
     @FXML
     protected void onMultipleActionClick() {
         try {
-            var number = checkPrevOperation();
+            var number = finishPrevOperation();
             calculator.setOperation(value -> number * value);
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -169,13 +204,13 @@ public class MainController {
     @FXML
     protected void onGetResultActionClick() {
         try {
-            checkPrevOperation();
+            finishPrevOperation();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private double checkPrevOperation() throws Exception { //TODO: rename
+    private double finishPrevOperation() throws Exception {
         return setResultNumber(getCurrentNumber());
     }
 
@@ -190,9 +225,10 @@ public class MainController {
 
     private double setResultNumber(double value) {
         double result = value;
-        if (calculator.isOperationExist()) {
+        if (calculator.isOperationExist() && !calculator.isOperationSecondValueNotDefined()) {
             result = (double) calculator.getOperationResult(value);
             writeText(result);
+            calculator.setOperationSecondValueIsDefined();
         }
         return result;
     }
