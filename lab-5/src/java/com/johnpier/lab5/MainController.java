@@ -8,12 +8,12 @@ import javafx.scene.input.*;
 
 public class MainController {
 
-    private final int MAX_NUMBER_LENGTH = 11;
+    private final int MAX_NUMBER_LENGTH = 110;
 
     private final Calculator calculator = Calculator.getInstance();
 
     @FXML
-    private Label welcomeText;
+    private Label resultInputLabelText;
 
     @FXML
     private TextField resultInput;
@@ -25,9 +25,7 @@ public class MainController {
     }
 
     @FXML
-    //todo: exceptions, operation trace, *.0 ,
     protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Calculator!");
     }
 
     @FXML
@@ -39,22 +37,28 @@ public class MainController {
     @FXML
     protected void onKeyClick(KeyEvent event) {
         try {
-            System.out.println(event.getCharacter());
+            System.out.println("Key pressed: " + event.getCharacter());
             var codeOfCharacter = event.getCharacter().codePointAt(0);
             var character = event.getCharacter();
-            if (KeyCode.BACK_SPACE.getCode() == codeOfCharacter) {
+            if (KeyCode.BACK_SPACE.getChar().equals(character)) {
                 onDelButtonClick();
-            } else if (KeyCode.PLUS.getCode() == codeOfCharacter) {
+            } else if ("+".equals(character)) {
                 onPlusActionClick();
-            } else if (KeyCode.MINUS.getCode() == codeOfCharacter) {
+            } else if ("-".equals(character)) {
                 onMinusActionClick();
-            } else if (KeyCode.STAR.getCode() == codeOfCharacter) {
+            } else if ("*".equals(character)) {
                 onMultipleActionClick();
             } else if (KeyCode.SLASH.getCode() == codeOfCharacter) {
                 onDivideActionClick();
             }
             else if (KeyCode.ENTER.getCode() == codeOfCharacter) {
                 onGetResultActionClick();
+            }
+            else if ("@".equals(character)) {
+                onSqrtActionClick();
+            }
+            else if ("^".equals(character)) {
+                onQrtActionClick();
             }
             else if (Character.isDigit(codeOfCharacter)) {
                 writeNumberToInput(character);
@@ -145,7 +149,7 @@ public class MainController {
             var number = finishPrevOperation();
             calculator.setOperation(value -> {
                 if (value == 0) {
-                    new Alert(Alert.AlertType.ERROR, "Error in calculation! Please, check typed value.").showAndWait();
+                    showError();
                     return number;
                 }
                 return number / value;
@@ -172,11 +176,19 @@ public class MainController {
             if (number > 0) {
                 writeText(Math.sqrt(number));
             } else {
-                new Alert(Alert.AlertType.NONE, "Error in calculation! Please, check typed value.").showAndWait();
+                showError();
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private void showError() {
+        var alert = new Alert(Alert.AlertType.ERROR, "Error in calculation! Please, check typed value.");
+        alert.setOnCloseRequest(dialogEvent -> {
+            alert.close();
+        });
+        alert.showAndWait();
     }
 
     @FXML

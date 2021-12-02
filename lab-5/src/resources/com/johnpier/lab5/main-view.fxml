@@ -7,11 +7,11 @@
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="mainPane" onInputMethodTextChanged="#onKeyClick" onKeyTyped="#onKeyClick" prefHeight="398.0" prefWidth="300.0" stylesheets="@styles/main-page.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.johnpier.lab5.MainController">
-    <SplitPane id="splitPanel" dividerPositions="0.26627218934911245" onInputMethodTextChanged="#onKeyClick" onKeyTyped="#onKeyClick" orientation="VERTICAL" prefHeight="396.0" prefWidth="300.0" stylesheets="@styles/main-page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+<AnchorPane id="mainPane" onKeyTyped="#onKeyClick" prefHeight="398.0" prefWidth="300.0" stylesheets="@styles/main-page.css" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.johnpier.lab5.MainController">
+    <SplitPane id="splitPanel" dividerPositions="0.26627218934911245" onInputMethodTextChanged="#onKeyClick" orientation="VERTICAL" prefHeight="396.0" prefWidth="300.0" stylesheets="@styles/main-page.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="84.0" prefWidth="298.0">
             <Pane prefHeight="87.0" prefWidth="300.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <Label fx:id="welcomeText" alignment="CENTER" prefHeight="33.0" prefWidth="300.0" text="Welcome to Calculator" textAlignment="CENTER" textFill="#0030c2">
+                <Label fx:id="resultInputLabelText" alignment="TOP_CENTER" contentDisplay="CENTER" prefHeight="33.0" prefWidth="300.0" styleClass="action-button" text="Calculator" textAlignment="RIGHT" textFill="#1e1e8f">
                     <padding>
                         <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                     </padding>
