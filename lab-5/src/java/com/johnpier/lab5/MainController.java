@@ -136,7 +136,7 @@ public class MainController {
             var number = finishPrevOperation();
             calculator.setOperation(value -> {
                 try {
-                    if (value <= 1 && number < 0) {
+                    if (value <= 1 && number < 0) { // TODO: FIX
                         showError("Error in calculation '^'! It is not possible to raise a negative number to a power from (0,1)");
                         return number;
                     }
