@@ -95,7 +95,7 @@
                </effect>
                 </Button>
 
-                <Button onAction="#onHelloButtonClick" prefHeight="45.0" prefWidth="74.0" text="..." textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="1">
+                <Button onAction="#onPowActionClick" prefHeight="45.0" prefWidth="74.0" text="^" textAlignment="CENTER" textFill="#00038d" GridPane.rowIndex="1">
                     <font>
                         <Font name="Calibri" size="14.0" />
                     </font>

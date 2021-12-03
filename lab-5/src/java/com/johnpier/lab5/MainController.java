@@ -58,7 +58,13 @@ public class MainController {
                 onSqrtActionClick();
             }
             else if ("^".equals(character)) {
+                onPowActionClick();
+            }
+            else if ("!".equals(character)) {
                 onQrtActionClick();
+            }
+            else if ("~".equals(character)) {
+                onChangeSignActionClick();
             }
             else if (Character.isDigit(codeOfCharacter)) {
                 writeNumberToInput(character);
@@ -123,6 +129,28 @@ public class MainController {
         }
     }
 
+
+    @FXML
+    protected void onPowActionClick() {
+        try {
+            var number = finishPrevOperation();
+            calculator.setOperation(value -> {
+                try {
+                    if (value <= 1 && number < 0) {
+                        showError("Error in calculation '^'! It is not possible to raise a negative number to a power from (0,1)");
+                        return number;
+                    }
+                    return Math.pow(number, value);
+                } catch (Exception e) {
+                    showError("Error in calculation '^'!");
+                    return  number;
+                }
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
     @FXML
     protected void onPlusActionClick() {
         try {
@@ -149,7 +177,7 @@ public class MainController {
             var number = finishPrevOperation();
             calculator.setOperation(value -> {
                 if (value == 0) {
-                    showError();
+                    showError("Error in calculation '/'! Typed value is should not 0.");
                     return number;
                 }
                 return number / value;
@@ -173,18 +201,18 @@ public class MainController {
     protected void onSqrtActionClick() {
         try {
             var number = getCurrentNumber();
-            if (number > 0) {
+            if (number >= 0) {
                 writeText(Math.sqrt(number));
             } else {
-                showError();
+                showError("Error in calculation sqrt! Typed value is less 0.");
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private void showError() {
-        var alert = new Alert(Alert.AlertType.ERROR, "Error in calculation! Please, check typed value.");
+    private void showError(String message) {
+        var alert = new Alert(Alert.AlertType.ERROR, message);
         alert.setOnCloseRequest(dialogEvent -> {
             alert.close();
         });
