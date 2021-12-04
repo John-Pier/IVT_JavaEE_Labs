@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <script type="application/javascript" src="index.js"></script>
+    <link href="styles.css" rel="stylesheet">
 </head>
 <body>
 <header>
@@ -11,7 +12,32 @@
 </header>
     <section>
         <main>
-            content
+            <h2>Calculation form</h2>
+            <form method="get" name="calculationForm">
+                <label>
+                    First operand
+                    <input required type="text" placeholder="Number value">
+                </label>
+                <label>
+                    Second operand
+                    <input required type="text" placeholder="Number value">
+                </label>
+                <fieldset>
+                    <label> +
+                        <input type="radio">
+                    </label>
+                    <label> -
+                        <input type="radio">
+                    </label>
+                    <label> /
+                        <input type="radio">
+                    </label>
+                    <label> *
+                        <input type="radio">
+                    </label>
+                </fieldset>
+                <input type="submit">
+            </form>
         </main>
     </section>
 <footer>
