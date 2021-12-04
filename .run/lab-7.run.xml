@@ -2,7 +2,7 @@
   <configuration default="false" name="lab-7" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="Main" />
     <module name="lab-7" />
-    <option name="PROGRAM_PARAMETERS" value="&quot;./lab-7/resources/student.dtd&quot; &quot;./lab-7/resources/studentOut.dtd&quot;" />
+    <option name="PROGRAM_PARAMETERS" value="&quot;./lab-7/resources/data.xml&quot; &quot;./lab-7/resources/dataOut.xml&quot;" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
