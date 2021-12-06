@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Calculator</title>
     <script type="application/javascript" src="index.js"></script>
     <link href="styles.css" rel="stylesheet">
 </head>
@@ -13,27 +13,28 @@
     <section>
         <main>
             <h2>Calculation form</h2>
-            <form method="get" name="calculationForm">
+            <p>Type 2 numbers, select operation, and then click submit button to calculate result</p>
+            <form method="get" name="calculationForm" action="result.html">
                 <label>
                     First operand
-                    <input required type="text" placeholder="Number value">
+                    <input name="first" required type="text" placeholder="Number value" pattern="[+-]?\d+(\.\d+)?">
                 </label>
                 <label>
                     Second operand
-                    <input required type="text" placeholder="Number value">
+                    <input name="second" required type="text" placeholder="Number value" pattern="[+-]?\d+(\.\d+)?">
                 </label>
                 <fieldset>
                     <label> +
-                        <input type="radio">
+                        <input required type="radio" name="operation" value="+">
                     </label>
                     <label> -
-                        <input type="radio">
+                        <input required type="radio" name="operation" value="-">
                     </label>
                     <label> /
-                        <input type="radio">
+                        <input required type="radio" name="operation" value="/">
                     </label>
                     <label> *
-                        <input type="radio">
+                        <input required type="radio" name="operation" value="*">
                     </label>
                 </fieldset>
                 <input type="submit">
