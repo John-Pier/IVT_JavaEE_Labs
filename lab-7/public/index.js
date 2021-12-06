@@ -19,7 +19,7 @@ function makeSubmitHandler() {
     form.addEventListener("submit", e => {
         const operation = form.elements[calculationFormFieldNames.OPERATION].value;
         const secondOperand =  form.elements[calculationFormFieldNames.SECOND].value;
-        if(operation === "/" && secondOperand === 0) {
+        if(operation === "/" && secondOperand == 0) {
             e.preventDefault();
             alert("The second operand must not be 0 if division is selected.!");
         }

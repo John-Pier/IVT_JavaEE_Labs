@@ -25,6 +25,7 @@ main {
 }
 
 footer {
+    display: flex;
     padding: 10px;
     height: 50px;
     background-color: #bdd6f3;
@@ -90,4 +91,11 @@ table td {
 
 .result__calculation-table {
     margin-bottom: 20px;
+}
+
+.footer__content {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
 }

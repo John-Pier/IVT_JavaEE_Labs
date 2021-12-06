@@ -20,13 +20,11 @@ window.onload = () => setCalculationResult();
 function setCalculationResult() {
     const tableBody = document.getElementById(tableBodyId);
     const queriesParams =  new URL(window.location.href).searchParams;
-    const first = queriesParams.get(queriesParamsNames.FIRST);
-    const second = queriesParams.get(queriesParamsNames.SECOND);
+    const first = Number.parseFloat(queriesParams.get(queriessParamsNames.FIRST));
+    const second = Number.parseFloat(queriesParams.get(queriesParamsNames.SECOND));
     const operation = queriesParams.get(queriesParamsNames.OPERATION);
 
-    console.log([first, second, operation]);
-
-    if(![first, second, operation].filter(Boolean).length) {
+    if(!([first, second, operation].filter(v => Boolean(v.toString())).length && operationsMap[operation])) {
         alert("Calculation failed!");
         return;
     }
