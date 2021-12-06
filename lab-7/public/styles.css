@@ -17,6 +17,8 @@ section {
 }
 
 main {
+    display: flex;
+    flex-direction: column;
     min-width: 450px;
     margin: 20px;
     padding: 10px;
@@ -98,4 +100,8 @@ table td {
     flex: 1;
     justify-content: flex-end;
     align-items: center;
+}
+
+.result__page-image {
+    margin-bottom: 20px;
 }

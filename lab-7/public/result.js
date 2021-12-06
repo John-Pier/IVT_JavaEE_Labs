@@ -20,7 +20,7 @@ window.onload = () => setCalculationResult();
 function setCalculationResult() {
     const tableBody = document.getElementById(tableBodyId);
     const queriesParams =  new URL(window.location.href).searchParams;
-    const first = Number.parseFloat(queriesParams.get(queriessParamsNames.FIRST));
+    const first = Number.parseFloat(queriesParams.get(queriesParamsNames.FIRST));
     const second = Number.parseFloat(queriesParams.get(queriesParamsNames.SECOND));
     const operation = queriesParams.get(queriesParamsNames.OPERATION);
 
