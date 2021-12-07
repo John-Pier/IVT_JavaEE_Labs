@@ -1,7 +1,7 @@
 package entities;
 
 public class Composition {
-    private int compositionId;
+    private int id;
 
     private String name;
 

@@ -1,7 +1,7 @@
 package entities;
 
 public class Album {
-    private int albumId;
+    private int id;
 
     private String name;
 

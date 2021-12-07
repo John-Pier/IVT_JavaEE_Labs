@@ -3,7 +3,7 @@ package entities;
 import java.util.Date;
 
 public class Artist {
-    private int artistId;
+    private int id;
 
     private String name;
 
