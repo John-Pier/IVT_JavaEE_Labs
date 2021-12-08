@@ -34,8 +34,8 @@ INSERT INTO  ALBUM(NAME, GENRE, ARTIST_ID) VALUES ('test a', 'pop', 2);
 INSERT INTO  ALBUM(NAME, GENRE, ARTIST_ID) VALUES ('sample', 'rock', 3);
 INSERT INTO  ALBUM(NAME, GENRE, ARTIST_ID) VALUES ('stars in heaven', 'pop', 4);
 
-select count(COMPOSITION.NAME) as COMPOSITIONS, ALBUM.name
-from COMPOSITION
-         JOIN ALBUM ON composition.album_id = album.id
-GROUP BY ALBUM.id
-HAVING count(COMPOSITION.NAME) >= 5;
+select ALBUM.name, MIN(COMPOSITION.duration)
+    from ALBUM
+    JOIN COMPOSITION ON composition.album_id = album.id
+    GROUP BY ALBUM.id
+    HAVING count(COMPOSITION.NAME) >= 5;

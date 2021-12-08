@@ -2,7 +2,7 @@ import java.sql.*;
 import java.util.*;
 
 public class Main {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         if(args.length == 0) {
             return;
         }
@@ -17,7 +17,7 @@ public class Main {
             var statement = connection.createStatement();
 
             var resultSet = statement.executeQuery(
-                    "select count(COMPOSITION.NAME), ALBUM.NAME from COMPOSITION JOIN ALBUM ON composition.album_id = album.id GROUP BY ALBUM.id HAVING count(COMPOSITION.NAME) >= 5"
+                    "select ALBUM.name, MIN(COMPOSITION.duration) from ALBUM JOIN COMPOSITION ON composition.album_id = album.id GROUP BY ALBUM.id HAVING count(COMPOSITION.NAME) >= 5;"
             );
             printQueryResult(resultSet);
 
@@ -79,18 +79,18 @@ public class Main {
     }
 
     private static void printQueryResult(ResultSet resultSet) {
-        System.out.format("%12s\t%20s\n", "Count of Comp", "Album Name");
+        System.out.format("%12s\t%20s\n", "Album Name", "Duration");
         System.out.format(
-                "%14s\t%20s\n",
-                "______________",
+                "%20s\t%20s\n",
+                "____________________",
                 "____________________"
         );
         try {
             while (resultSet.next()) {
                 System.out.format(
-                        "%14s\t%20s\n",
-                        resultSet.getInt(1),
-                        resultSet.getString(2)
+                        "%20s\t%20s\n",
+                        resultSet.getString(1),
+                        resultSet.getTime(2).toString()
                 );
                 System.out.println();
             }
