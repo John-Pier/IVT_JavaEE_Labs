@@ -2,16 +2,18 @@ import java.sql.*;
 import java.util.*;
 
 public class Main {
-    private static final String CONNECTION_URL = "jdbc:postgresql://abul.db.elephantsql.com/nenzqwco";
-
     public static void main(String[] args) throws SQLException {
+        if(args.length == 0) {
+            return;
+        }
+
         Properties props = new Properties();
         props.setProperty("database","nenzqwco");
         props.setProperty("user","nenzqwco");
         props.setProperty("password","Sup1OjDDcnc4_fSopki8lbZzD84Jr3RL");
         props.setProperty("ssl","false");
 
-        try(var connection = DriverManager.getConnection(CONNECTION_URL, props)) {
+        try(var connection = DriverManager.getConnection(args[0], props)) {
             var statement = connection.createStatement();
 
             var resultSet = statement.executeQuery(
