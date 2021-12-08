@@ -12,8 +12,12 @@ public class Main {
         props.setProperty("ssl","false");
 
         try(var connection = DriverManager.getConnection(CONNECTION_URL, props)) {
-            var statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            // var resultSet = statement.executeQuery("SELECT * FROM ARTIST");
+            var statement = connection.createStatement();
+
+            var resultSet = statement.executeQuery(
+                    "select count(COMPOSITION.NAME), ALBUM.NAME from COMPOSITION JOIN ALBUM ON composition.album_id = album.id GROUP BY ALBUM.id HAVING count(COMPOSITION.NAME) >= 5"
+            );
+            printQueryResult(resultSet);
 
             testOperations(connection);
 
@@ -72,36 +76,21 @@ public class Main {
         }
     }
 
-  private static void printUnionResultTable(ResultSet resultSet) {
+    private static void printQueryResult(ResultSet resultSet) {
+        System.out.format("%12s\t%20s\n", "Count of Comp", "Album Name");
         System.out.format(
-                "%8s\t%8s\t%42s\t%18s\t%18s\t%32s\n",
-                "UpdateId",
-                "CourseId",
-                "Text",
-                "DateTime",
-                "CourseName",
-                "Description"
-        );
-        System.out.format(
-                "%8s\t%8s\t%42s\t%18s\t%18s\t%32s\n",
-                "________",
-                "________",
-                "_________________________________________",
-                "__________________",
-                "__________________",
-                "________________________________"
+                "%14s\t%20s\n",
+                "______________",
+                "____________________"
         );
         try {
             while (resultSet.next()) {
                 System.out.format(
-                        "%8s\t%8s\t%42s\t%18s\t%18s\t%32s\n",
+                        "%14s\t%20s\n",
                         resultSet.getInt(1),
-                        resultSet.getInt(2),
-                        resultSet.getString(3),
-                        resultSet.getDate(4),
-                        resultSet.getString(6),
-                        resultSet.getString(7)
+                        resultSet.getString(2)
                 );
+                System.out.println();
             }
         } catch (SQLException throwable) {
             throwable.printStackTrace();
