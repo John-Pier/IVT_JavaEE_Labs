@@ -98,4 +98,17 @@ public class Main {
             throwable.printStackTrace();
         }
     }
+
+    public void b() {
+        var t = new T() {
+            @Override
+            void a() {
+                super.a();
+            }
+        };
+    }
+
+    class T {
+        void a(){}
+    }
 }
