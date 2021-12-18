@@ -6,7 +6,8 @@ import javax.persistence.*;
 public class Artist {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "artists_id_seq")
+    @SequenceGenerator(name="artists_id_seq", sequenceName = "artists_id_seq", allocationSize = 5)
     private int id;
 
     @Column()

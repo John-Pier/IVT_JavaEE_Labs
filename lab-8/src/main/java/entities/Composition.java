@@ -8,7 +8,8 @@ import java.sql.Time;
 public class Composition {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "compositions_id_seq")
+    @SequenceGenerator(name="compositions_id_seq", sequenceName = "compositions_id_seq", allocationSize = 5)
     private int id;
 
     @Column(nullable = false)

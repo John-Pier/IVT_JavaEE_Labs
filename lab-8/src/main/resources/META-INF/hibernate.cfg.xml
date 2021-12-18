@@ -1,1 +1,25 @@
 <?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">
+            org.postgresql.Driver
+        </property>
+        <property name="connection.url">
+            jdbc:postgresql://abul.db.elephantsql.com/nenzqwco
+        </property>
+        <property name="connection.username">nenzqwco</property>
+        <property name="connection.password">Sup1OjDDcnc4_fSopki8lbZzD84Jr3RL</property>
+        <property name="hbm2ddl.auto">
+            update
+        </property>
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+
+        <mapping class="entities.Album"/>
+        <mapping class="entities.Composition"/>
+        <mapping class="entities.Artist"/>
+    </session-factory>
+</hibernate-configuration>
