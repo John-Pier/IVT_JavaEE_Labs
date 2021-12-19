@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Time;
 
+@Table()
 @Entity(name = "compositions")
 public class Composition {
 
@@ -37,5 +38,13 @@ public class Composition {
 
     public void setDuration(Time duration) {
         this.duration = duration;
+    }
+
+    public Album getAlbum() {
+        return album;
+    }
+
+    public void setAlbum(Album album) {
+        this.album = album;
     }
 }

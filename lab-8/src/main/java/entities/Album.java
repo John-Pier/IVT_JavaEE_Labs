@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Table()
 @Entity(name = "albums")
 public class Album {
 
@@ -21,7 +22,7 @@ public class Album {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "album")
     private List<Composition> compositionList = new java.util.ArrayList<>();
 
-    @ManyToOne(optional = false)
+    @ManyToOne(cascade = CascadeType.ALL, optional = false)
     @JoinColumn(nullable = false)
     private Artist artist;
 
@@ -29,8 +30,20 @@ public class Album {
         return artist;
     }
 
+    public void setArtist(Artist artist) {
+        this.artist = artist;
+    }
+
     public List<Composition> getCompositionList() {
         return compositionList;
+    }
+
+    public void setCompositionList(List<Composition> compositionList) {
+        this.compositionList = compositionList;
+    }
+
+    public void addComposition(Composition composition) {
+        this.compositionList.add(composition);
     }
 
     public String getName() {

@@ -2,6 +2,7 @@ package entities;
 
 import javax.persistence.*;
 
+@Table()
 @Entity(name = "artists")
 public class Artist {
 
@@ -19,5 +20,13 @@ public class Artist {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }
