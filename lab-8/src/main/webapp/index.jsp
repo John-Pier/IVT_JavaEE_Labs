@@ -8,17 +8,19 @@
 </head>
 <body>
 <header class="app-header">
-    <%@:include file="jsf/header.jsf" %>
+    <jsp:include page="static/header.jsp"/>
 </header>
 <main class="app-main">
     <div class="app-main__inner">
-        <h1></h1>
+        <h1>Tables</h1>
         <br/>
-        <a href="${pageContext.request.contextPath}/test">Hibernate assistance</a>
+        <a href="${pageContext.request.contextPath}/modules/artist/view.jsp">Artists</a>
+        <a href="${pageContext.request.contextPath}/modules/album/view.jsp">Albums</a>
+        <a href="${pageContext.request.contextPath}/modules/composition/view.jsp">Compositions</a>
     </div>
 </main>
 <footer class="app-footer">
-    <jsp:include page="jsf/footer.jsp"/>
+    <jsp:include page="static/footer.jsp"/>
 </footer>
 </body>
 </html>

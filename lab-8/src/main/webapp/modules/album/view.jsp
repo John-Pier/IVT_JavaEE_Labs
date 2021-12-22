@@ -1,9 +1,9 @@
-<%@ page import="entities.Artist" %>
+<%@ page import="entities.Album" %>
 <%@ page import="java.util.List" %>
-<%@ page import="dao.ArtistDAO" %>
+<%@ page import="dao.*" %>
 <%
-    ArtistDAO dao = new ArtistDAO();
-    List<Artist> artistList = dao.getAll();
+    AlbumDAO dao = new AlbumDAO();
+    List<Album> albumsList = dao.getAll();
 %>
 <html>
 <head>
@@ -22,18 +22,22 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th>Genre</th>
+                <th>Artist Name</th>
+                <th>Composition count</th>
             </tr>
             </thead>
             <tbody>
             <%= "<tr><td>1</td><td>No name</td></tr>" %>
             <%
-                for (Artist current : artistList) {
+                for (Album current : albumsList) {
             %>
             <tr>
-                <td><%=current.getId()%>
-                </td>
-                <td><%=current.getName()%>
-                </td>
+                <td><%=current.getId()%></td>
+                <td><%=current.getName()%></td>
+                <td><%=current.getGenre()%></td>
+                <td><%=current.getArtist().getName()%></td>
+                <td><%=current.getCompositionList().size()%></td>
             </tr>
             <% } %>
             </tbody>

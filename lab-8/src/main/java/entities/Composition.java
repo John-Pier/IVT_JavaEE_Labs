@@ -47,4 +47,12 @@ public class Composition implements EntityMarker {
     public void setAlbum(Album album) {
         this.album = album;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

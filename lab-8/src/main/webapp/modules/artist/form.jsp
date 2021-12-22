@@ -6,7 +6,7 @@
 </head>
 <body>
 <header class="app-header">
-    <%@:include file="../../jsf/header.jsf" %>
+    <jsp:include page="../../static/header.jsp"/>
 </header>
 <main class="app-main">
     <div class="app-main__inner">
@@ -21,7 +21,7 @@
     </div>
 </main>
 <footer class="app-footer">
-    <jsp:include page="../../jsf/footer.jsp"/>
+    <jsp:include page="../../static/footer.jsp"/>
 </footer>
 </body>
 </html>

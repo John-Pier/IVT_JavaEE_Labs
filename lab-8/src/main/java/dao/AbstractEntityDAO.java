@@ -21,6 +21,7 @@ public abstract class AbstractEntityDAO<E extends EntityMarker> {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
             List<E> entitiesList = getAllEntitiesList(session);
+            System.out.println(entitiesList.size());
             session.getTransaction().commit();
             return entitiesList;
         }
