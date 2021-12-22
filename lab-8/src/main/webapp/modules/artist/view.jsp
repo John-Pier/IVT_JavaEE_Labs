@@ -34,7 +34,7 @@
                 <td><%=current.getId()%></td>
                 <td><%=current.getName()%></td>
                 <td class="_hover-tap-element">
-                    <a href="form.jsp">update</a>
+                    <a href="form.jsp?id=<%=current.getId()%>">update</a>
                 </td>
                 <td class="_hover-tap-element">
                     <button onclick="onDeleteClick(<%=current.getId()%>)">delete</button>

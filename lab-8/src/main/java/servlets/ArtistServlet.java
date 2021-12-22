@@ -1,12 +1,14 @@
 package servlets;
 
 import dao.ArtistDAO;
+import entities.Artist;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
 
-@WebServlet({"/artists"})
+@WebServlet(value = "/artists", name = "ArtistServlet")
 public class ArtistServlet extends HttpServlet {
 
     private ArtistDAO artistDao;
@@ -22,15 +24,33 @@ public class ArtistServlet extends HttpServlet {
         out.print("<html><body>");
         out.print("<h3>Hello Servlet</h3>");
         out.print("</body></html>");
+        out.close();
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/html");
-        PrintWriter out = resp.getWriter();
-        out.print("<html><body>");
-        out.print("<h3>Hello Servlet POST</h3>");
-        out.print("</body></html>");
+        resp.setContentType("text/json");
+        String name = req.getParameter("name");
+        if(name == null) {
+            resp.sendError(500, "Error!");
+            return;
+        }
+
+        if(req.getParameter("id") != null) {
+            // Update section
+            int id = Integer.parseInt(req.getParameter("id"));
+            Artist artist = new Artist();
+            artist.setId(id);
+            artist.setName(name);
+            artistDao.update(artist);
+        } else {
+            // Create section
+            Artist artist = new Artist();
+            artist.setName(name);
+            artistDao.save(artist);
+        }
+        resp.setStatus(200);
+        resp.sendRedirect("/modules/artist/r");
     }
 
     @Override
