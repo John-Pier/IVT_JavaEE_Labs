@@ -6,6 +6,7 @@
     int id = 0;
     boolean isIdExist = false;
     Composition composition = null;
+    int albumId = 0;
     CompositionDAO compositionDAO = new CompositionDAO();
     AlbumDAO albumDAO = new AlbumDAO();
     List<Album> albumList = albumDAO.getAll();
@@ -13,6 +14,7 @@
         id = Integer.parseInt(request.getParameter("id"));
         isIdExist = true;
         composition = compositionDAO.getById(id);
+        albumId = composition.getAlbum().getId();
     }
 %>
 <html>
@@ -42,7 +44,7 @@
                     <%
                         for (Album current : albumList) {
                     %>
-                    <option <%=isIdExist & current.getId() == id ? "selected" : ""%> value="<%=current.getId()%>">ID: <%=current.getId()%>, Name: <%=current.getName()%></option>
+                    <option <%=isIdExist & current.getId() == albumId ? "selected" : ""%> value="<%=current.getId()%>">ID: <%=current.getId()%>, Name: <%=current.getName()%></option>
                     <%  }%>
                 </select>
             </label>
