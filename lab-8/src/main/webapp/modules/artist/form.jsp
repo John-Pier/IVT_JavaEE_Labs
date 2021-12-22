@@ -11,12 +11,6 @@
         isIdExist = true;
         artist = artistDAO.getById(id);
     }
-//    try {
-//      id = Integer.parseInt(request.getParameter("id"));
-//    } catch (Exception e) {
-//        e.printStackTrace();
-//        response.sendRedirect("view.jsp");
-//    }
 %>
 <html>
 <head>

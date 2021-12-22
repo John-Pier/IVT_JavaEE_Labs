@@ -72,3 +72,47 @@ tr, th {
 th {
     text-align: start;
 }
+
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+form > fieldset {
+    display: flex;
+    flex-direction: column;
+}
+
+label input {
+    margin-top: 4px;
+}
+
+label + label {
+    margin-top: 12px;
+}
+
+input[type="submit"] {
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+a:hover {
+    color: #8412e3;
+}
+
+table {
+    border-collapse: collapse;
+    border: 1px solid #a4a4a4;
+    width: 100%;
+}
+
+table th, table td {
+    border-right: 1px solid #a4a4a4;
+    border-bottom: 1px solid #a4a4a4;
+    padding-right: 20px;
+}
+
+table th {
+    background-color: #d5d5d5;
+}

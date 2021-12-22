@@ -1,8 +1,9 @@
-<%@ page import="entities.Album" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dao.*" %>
+<%@ page import="entities.*" %>
 <%
     AlbumDAO dao = new AlbumDAO();
+    CompositionDAO compositionDAO = new CompositionDAO();
     List<Album> albumsList = dao.getAll();
 %>
 <html>
@@ -16,7 +17,7 @@
 </header>
 <main class="app-main">
     <div class="app-main__inner">
-        <h1>Artists Table</h1>
+        <h1>Albums Table</h1>
         <table>
             <thead>
                 <tr>
@@ -32,13 +33,14 @@
             <tbody>
             <%
                 for (Album current : albumsList) {
+                    List<Composition> compositionList = compositionDAO.getByAlbumId(current.getId());
             %>
             <tr class="_hover-tap">
                 <td><%=current.getId()%></td>
                 <td><%=current.getName()%></td>
                 <td><%=current.getGenre()%></td>
                 <td><%=current.getArtist().getName()%></td>
-                <td><%=current.getCompositionList().size()%></td>
+                <td><%=compositionList != null ? compositionList.size() : 0%></td>
                 <td class="_hover-tap-element">
                     <a href="form.jsp">update</a>
                 </td>
