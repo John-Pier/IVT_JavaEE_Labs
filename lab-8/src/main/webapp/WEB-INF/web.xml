@@ -11,4 +11,7 @@
         <exception-type>java.lang.RuntimeException</exception-type>
         <location>/not-found.jsp</location>
     </error-page>
+    <welcome-file-list>
+        <welcome-file>/index.jsp</welcome-file>
+    </welcome-file-list>
 </web-app>

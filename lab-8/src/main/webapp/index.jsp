@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ page errorPage="not-found.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,7 +8,7 @@
 </head>
 <body>
 <header class="app-header">
-    <jsp:include page="header.jsp"/>
+    <%@:include file="jsf/header.jsf" %>
 </header>
 <main class="app-main">
     <div class="app-main__inner">
@@ -17,7 +18,7 @@
     </div>
 </main>
 <footer class="app-footer">
-    <jsp:include page="footer.jsp"/>
+    <jsp:include page="jsf/footer.jsp"/>
 </footer>
 </body>
 </html>
