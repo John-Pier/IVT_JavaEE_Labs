@@ -1,6 +1,29 @@
 html, body {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
 }
+
+.app-header {
+    display: flex;
+    flex: 1;
+    max-height: 100px;
+    background-color: #d794ff;
+}
+
+.app-main {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+}
+
+.app-footer {
+    display: flex;
+    flex: 1;
+    max-height: 150px;
+    background-color: #825c9d;
+}
+

@@ -8,11 +8,9 @@ import java.util.List;
 
 public class HibernateTest {
     public static void main(String[] args) {
-        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-            testTableDataCreation();
-            testCrudForArtist();
-            printTablesData();
-        }
+        testTableDataCreation();
+        printTablesData();
+        testCrudForArtist();
     }
 
     private static void testTableDataCreation() {
@@ -46,28 +44,30 @@ public class HibernateTest {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
 
             Transaction transaction = session.beginTransaction();
-
             String name = "Artist " + getRandomNumber();
             String newName = "New Artist " + getRandomNumber();
             Artist artist = new Artist();
-            artist.setName(newName);
+            artist.setName(name);
             session.save(artist);
+            transaction.commit();
             printArtistData();
 
+            transaction = session.beginTransaction();
             Query query = session.createQuery("from artists where name=:name");
             query.setParameter("name", name);
 
             Artist result = (Artist) query.uniqueResult();
             result.setName(newName);
             session.update(artist);
+            transaction.commit();
             printArtistData();
 
+            transaction = session.beginTransaction();
             query = session.createQuery("from artists where name=:name");
             query.setParameter("name", newName);
             session.delete(query.uniqueResult());
-            printArtistData();
-
             transaction.commit();
+            printArtistData();
         }
     }
 
