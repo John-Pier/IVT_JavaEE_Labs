@@ -7,11 +7,30 @@ html, body {
     padding: 0;
 }
 
+._font-ui24 {
+    font-size: 24px;
+    color: #000000;
+}
+
 .app-header {
     display: flex;
     flex: 1;
     max-height: 100px;
-    background-color: #d794ff;
+    background-color: #e7c0ff;
+}
+
+.app-header__inner  {
+    display: flex;
+    flex: 1;
+    align-items: center;
+}
+
+.app-header__links {
+    display: flex;
+}
+
+.app-header__links a {
+    padding: 4px 20px;
 }
 
 .app-main {
@@ -36,3 +55,20 @@ html, body {
     background-color: #825c9d;
 }
 
+._hover-tap-element {
+    opacity: var(--hover-tap-element-opasity, 0);
+    transition: opacity 0.2s ease-in;
+}
+
+._hover-tap:hover {
+    --hover-tap-element-opasity: 1;
+}
+
+tr, th {
+    border-bottom: 1px solid gray;
+    margin-bottom: 2px;
+}
+
+th {
+    text-align: start;
+}

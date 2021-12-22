@@ -22,22 +22,39 @@
             <tr>
                 <th>ID</th>
                 <th>Name</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <%= "<tr><td>1</td><td>No name</td></tr>" %>
             <%
                 for (Artist current : artistList) {
             %>
-            <tr>
-                <td><%=current.getId()%>
+            <tr class="_hover-tap" id="<%=current.getId()%>">
+                <td><%=current.getId()%></td>
+                <td><%=current.getName()%></td>
+                <td class="_hover-tap-element">
+                    <a href="form.jsp">update</a>
                 </td>
-                <td><%=current.getName()%>
+                <td class="_hover-tap-element">
+                    <button onclick="onDeleteClick(<%=current.getId()%>)">delete</button>
                 </td>
             </tr>
             <% } %>
             </tbody>
         </table>
+        <a href="${pageContext.request.contextPath}/">Back</a>
+        <script>
+            function onDeleteClick(id) {
+                fetch("${pageContext.request.contextPath}/artists?id=" + id, {
+                    method: "delete",
+                }).then(it => {
+                    if (it.ok) {
+                        document.getElementById(id)?.remove();
+                    }
+                });
+            }
+        </script>
     </div>
 </main>
 <footer class="app-footer">

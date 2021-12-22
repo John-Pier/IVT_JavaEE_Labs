@@ -1,14 +1,48 @@
 package servlets;
 
+import dao.ArtistDAO;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import java.io.IOException;
+import java.io.*;
 
-@WebServlet("/artists")
+@WebServlet({"/artists"})
 public class ArtistServlet extends HttpServlet {
+
+    private ArtistDAO artistDao;
+
+    @Override
+    public void init() throws ServletException {
+        artistDao = new ArtistDAO();
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html");
+        PrintWriter out = response.getWriter();
+        out.print("<html><body>");
+        out.print("<h3>Hello Servlet</h3>");
+        out.print("</body></html>");
+    }
+
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        resp.setContentType("text/html");
+        PrintWriter out = resp.getWriter();
+        out.print("<html><body>");
+        out.print("<h3>Hello Servlet POST</h3>");
+        out.print("</body></html>");
+    }
+
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("doDelete!");
+        try {
+            resp.setContentType("text/html");
+            int id = Integer.parseInt(req.getParameter("id"));
+            artistDao.deleteById(id);
+            resp.setStatus(200);
+        } catch (Exception ex) {
+            resp.sendError(500, "Error!");
+        }
     }
 }

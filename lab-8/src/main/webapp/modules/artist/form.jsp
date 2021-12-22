@@ -11,13 +11,13 @@
 <main class="app-main">
     <div class="app-main__inner">
         <h1>Artist Create/Edit form</h1>
-        <form name="artistForm" action="${pageContext.request.contextPath}/index.jsp">
+        <form name="artistForm" action="view.jsp">
             <label>Name
                 <input name="artistName" type="text">
             </label>
             <button type="submit">Отправить</button>
-            <button type="reset">Сбросить</button>
         </form>
+        <a href="view.jsp">Back to table view</a>
     </div>
 </main>
 <footer class="app-footer">

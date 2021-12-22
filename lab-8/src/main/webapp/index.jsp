@@ -12,11 +12,14 @@
 </header>
 <main class="app-main">
     <div class="app-main__inner">
-        <h1>Tables</h1>
+        <h1>JSP - Hibernate assistance</h1>
+        <h2>Queries</h2>
         <br/>
-        <a href="${pageContext.request.contextPath}/modules/artist/view.jsp">Artists</a>
-        <a href="${pageContext.request.contextPath}/modules/album/view.jsp">Albums</a>
-        <a href="${pageContext.request.contextPath}/modules/composition/view.jsp">Compositions</a>
+        <div>
+        </div>
+        <div>
+
+        </div>
     </div>
 </main>
 <footer class="app-footer">

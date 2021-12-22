@@ -7,7 +7,7 @@
 %>
 <html>
 <head>
-    <title>Artists Table</title>
+    <title>Compositions Table</title>
     <link href="${pageContext.request.contextPath}/src/assets/styles.css" rel="stylesheet">
 </head>
 <body>
@@ -24,22 +24,30 @@
                 <th>Name</th>
                 <th>Duration</th>
                 <th>Album Name</th>
+                <th></th>
+                <th></th>
             </tr>
             </thead>
             <tbody>
-            <%= "<tr><td>1</td><td>No name</td></tr>" %>
             <%
                 for (Composition current : compositionList) {
             %>
-            <tr>
+            <tr class="_hover-tap">
                 <td><%=current.getId()%></td>
                 <td><%=current.getName()%></td>
                 <td><%=current.getDuration()%></td>
                 <td><%=current.getAlbum().getName()%></td>
+                <td class="_hover-tap-element">
+                    <a href="form.jsp">update</a>
+                </td>
+                <td class="_hover-tap-element">
+                    <button>delete</button>
+                </td>
             </tr>
             <% } %>
             </tbody>
         </table>
+        <a href="${pageContext.request.contextPath}/">Back</a>
     </div>
 </main>
 <footer class="app-footer">

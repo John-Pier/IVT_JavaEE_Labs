@@ -1,8 +1,6 @@
 package servlets;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 
 @Path("/app-world")
 public class AppResource {
@@ -10,5 +8,10 @@ public class AppResource {
     @Produces("text/plain")
     public String hello() {
         return "Hello, World!";
+    }
+
+    @DELETE
+    public void deleteAlbum() {
+        System.out.println("deleteAlbum");
     }
 }
