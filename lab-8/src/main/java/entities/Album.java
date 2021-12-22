@@ -6,7 +6,7 @@ import java.util.List;
 
 @Table()
 @Entity(name = "albums")
-public class Album {
+public class Album implements EntityMarker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "albums_id_seq")

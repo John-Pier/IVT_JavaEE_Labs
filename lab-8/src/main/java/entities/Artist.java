@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Table()
 @Entity(name = "artists")
-public class Artist {
+public class Artist implements EntityMarker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "artists_id_seq")

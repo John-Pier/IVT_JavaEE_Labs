@@ -6,7 +6,7 @@ import java.sql.Time;
 
 @Table()
 @Entity(name = "compositions")
-public class Composition {
+public class Composition implements EntityMarker {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "compositions_id_seq")
