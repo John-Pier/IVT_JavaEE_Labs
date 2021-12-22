@@ -24,16 +24,14 @@
 <main class="app-main">
     <div class="app-main__inner">
         <h1>Artist Create/Edit form</h1>
-        <form name="artistForm" action="">
-            <%
-                if(isIdExist) {
-                  out.print("<input name=\"id\" value=\"" + id + "\" hidden>");
-                }
-            %>
+        <form name="artistForm">
+            <label> ID
+                <input readonly name="id" value="<%=isIdExist ? id : ""%>" <%=!isIdExist ? "hidden" : ""%> >
+            </label>
             <label>Name
                 <input name="name" type="text" required value="<%=isIdExist ? artist.getName() : ""%>">
             </label>
-            <button id="artistFormSubmit" type="submit" onclick="onSubmit(event)"><%=isIdExist ? "Update" : "Create"%></button>
+            <button id="artistFormSubmit" type="submit"><%=isIdExist ? "Update" : "Create"%></button>
         </form>
         <a href="view.jsp">Back to table view</a>
         <script>

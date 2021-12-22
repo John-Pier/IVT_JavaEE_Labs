@@ -65,4 +65,11 @@ public class ArtistServlet extends HttpServlet {
             resp.sendError(500, "Error!");
         }
     }
+
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.setCharacterEncoding("utf8");
+        resp.setCharacterEncoding("utf8");
+        resp.setHeader("XChecked", "true");
+    }
 }

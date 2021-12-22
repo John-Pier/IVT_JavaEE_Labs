@@ -42,7 +42,7 @@
                 <td><%=current.getArtist().getName()%></td>
                 <td><%=compositionList != null ? compositionList.size() : 0%></td>
                 <td class="_hover-tap-element">
-                    <a href="form.jsp">update</a>
+                    <a href="form.jsp?id=<%=current.getId()%>">update</a>
                 </td>
                 <td class="_hover-tap-element">
                     <button>delete</button>

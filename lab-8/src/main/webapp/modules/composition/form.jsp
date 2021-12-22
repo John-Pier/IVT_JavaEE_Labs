@@ -1,4 +1,20 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="dao.*" %>
+<%@ page import="java.util.List" %>
+<%@ page import="entities.*" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
+<%
+    int id = 0;
+    boolean isIdExist = false;
+    Composition composition = null;
+    CompositionDAO compositionDAO = new CompositionDAO();
+    AlbumDAO albumDAO = new AlbumDAO();
+    List<Album> albumList = albumDAO.getAll();
+    if (request.getParameter("id") != null) {
+        id = Integer.parseInt(request.getParameter("id"));
+        isIdExist = true;
+        composition = compositionDAO.getById(id);
+    }
+%>
 <html>
 <head>
     <title>Composition Form</title>
@@ -11,13 +27,48 @@
 <main class="app-main">
     <div class="app-main__inner">
         <h1>Composition Create/Edit form</h1>
-        <form name="artistForm" action="view.jsp">
-            <label>Name
-                <input name="artistName" type="text">
+        <form name="compositionForm">
+            <label> ID
+                <input readonly name="id" value="<%=isIdExist ? id : ""%>" <%=!isIdExist ? "hidden" : ""%> >
             </label>
-            <button type="submit">Отправить</button>
+            <label> Name
+                <input name="name" type="text" required value="<%=isIdExist ? composition.getName() : ""%>">
+            </label>
+            <label> Duration
+                <input type="time" name="duration" required value="<%=isIdExist ? composition.getDuration() : ""%>">
+            </label>
+            <label> Album
+                <select name="albumId" required>
+                    <%
+                        for (Album current : albumList) {
+                    %>
+                    <option <%=isIdExist & current.getId() == id ? "selected" : ""%> value="<%=current.getId()%>">ID: <%=current.getId()%>, Name: <%=current.getName()%></option>
+                    <%  }%>
+                </select>
+            </label>
+            <button type="submit"><%=isIdExist ? "Update" : "Create"%></button>
         </form>
         <a href="view.jsp">Back to table view</a>
+        <script>
+            const form = document.forms.namedItem("compositionForm");
+            form.addEventListener("submit", ev => {
+                ev.preventDefault();
+                const nameValue = form.elements.namedItem("name").value;
+                const durationValue = form.elements.namedItem("duration").value;
+                const albumIdValue = form.elements.namedItem("albumId").value;
+                const urlParams = "?<%= isIdExist ? "id=" + id + "&" : ""%>name=" + nameValue +
+                    "&duration=" + durationValue +
+                    "&albumId=" + albumIdValue;
+                fetch("${pageContext.request.contextPath}/compositions" + urlParams, {
+                    method: "POST",
+                })
+                    .then(response => {
+                        if(response.ok) {
+                            location.href = "view.jsp"
+                        }
+                    });
+            });
+        </script>
     </div>
 </main>
 <footer class="app-footer">

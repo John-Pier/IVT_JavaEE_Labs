@@ -92,7 +92,7 @@ label + label {
     margin-top: 12px;
 }
 
-input[type="submit"] {
+input[type="submit"], button[type="submit"] {
     cursor: pointer;
     margin-top: 12px;
 }

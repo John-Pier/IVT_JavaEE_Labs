@@ -16,7 +16,7 @@
 </header>
 <main class="app-main">
     <div class="app-main__inner">
-        <h1>Artists Table</h1>
+        <h1>Compositions Table</h1>
         <table>
             <thead>
             <tr>
@@ -38,7 +38,7 @@
                 <td><%=current.getDuration()%></td>
                 <td><%=current.getAlbum().getName()%></td>
                 <td class="_hover-tap-element">
-                    <a href="form.jsp">update</a>
+                    <a href="form.jsp?id=<%=current.getId()%>">update</a>
                 </td>
                 <td class="_hover-tap-element">
                     <button>delete</button>
