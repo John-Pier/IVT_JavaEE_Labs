@@ -1,6 +1,6 @@
-package com.johnpier.jp;
+package servlets;
 
-import entities.Artist;
+import entities.*;
 import org.hibernate.*;
 import untils.HibernateSessionFactoryUtil;
 
@@ -9,7 +9,7 @@ import java.util.List;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(name = "helloServlet", urlPatterns = "test")
+@WebServlet("/test")
 public class HelloServlet extends HttpServlet {
     private String message;
 
@@ -30,7 +30,7 @@ public class HelloServlet extends HttpServlet {
 
             List<Artist> singers = session.createQuery("from artists").getResultList();
             for (Artist singer : singers) {
-                out.println(singer.getName() + ": Artist");
+                out.println("<div>" + singer.getName() + ": Artist</div>");
             }
 
             session.persist(test);
