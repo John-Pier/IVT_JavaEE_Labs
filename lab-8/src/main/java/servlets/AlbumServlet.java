@@ -20,6 +20,7 @@ public class AlbumServlet extends HttpServlet {
     private final String NAME = "name";
     private final String GENRE = "genre";
     private final String ARTIST_ID = "artistId";
+    private final String MIN_DURATIONS = "minDurations";
 
     @Override
     public void init() throws ServletException {
@@ -31,12 +32,18 @@ public class AlbumServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("application/json");
         PrintWriter printWriter = resp.getWriter();
-        List<ShortEntity> objects = albumDAO.getAll().stream()
-                .map(album -> new ShortEntity(album.getId(), album.getName()))
-                .collect(Collectors.toList());
-        String json = new Gson().toJson(objects);
-        System.out.println(json);
-        printWriter.print(json);
+        if(req.getParameterMap().containsKey(MIN_DURATIONS)) {
+//            List<ShortEntity> objects = albumDAO.getAlbumsWithMinDurations().stream()
+//                    .map(album -> new ShortEntity(album.getId(), album.getName()))
+//                    .collect(Collectors.toList());
+            printWriter.print(new Gson().toJson(albumDAO.getAlbumsWithMinDurations()));
+        } else  {
+
+            List<ShortEntity> objects = albumDAO.getAll().stream()
+                    .map(album -> new ShortEntity(album.getId(), album.getName()))
+                    .collect(Collectors.toList());
+            printWriter.print(new Gson().toJson(objects));
+        }
         printWriter.close();
     }
 
