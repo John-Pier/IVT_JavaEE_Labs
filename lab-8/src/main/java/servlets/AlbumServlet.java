@@ -1,12 +1,15 @@
 package servlets;
 
+import com.google.gson.Gson;
 import dao.*;
 import entities.*;
 
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @WebServlet("/albums")
 public class AlbumServlet extends HttpServlet {
@@ -22,6 +25,19 @@ public class AlbumServlet extends HttpServlet {
     public void init() throws ServletException {
         artistDAO = new ArtistDAO();
         albumDAO = new AlbumDAO();
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        resp.setContentType("application/json");
+        PrintWriter printWriter = resp.getWriter();
+        List<ShortEntity> objects = albumDAO.getAll().stream()
+                .map(album -> new ShortEntity(album.getId(), album.getName()))
+                .collect(Collectors.toList());
+        String json = new Gson().toJson(objects);
+        System.out.println(json);
+        printWriter.print(json);
+        printWriter.close();
     }
 
     @Override
@@ -82,5 +98,15 @@ public class AlbumServlet extends HttpServlet {
         }
         resp.setContentType("text/html");
         resp.setStatus(200);
+    }
+
+    private class ShortEntity {
+        private int id;
+        private String name;
+
+        ShortEntity(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
     }
 }

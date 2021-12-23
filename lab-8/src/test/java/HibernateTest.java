@@ -1,3 +1,4 @@
+import com.google.gson.Gson;
 import entities.*;
 import org.hibernate.*;
 import org.hibernate.query.Query;
@@ -8,8 +9,8 @@ import java.util.*;
 
 public class HibernateTest {
     public static void main(String[] args) {
-        //testTableDataCreation();
-       // printTablesData();
+        testTableDataCreation();
+        printTablesData();
         testCrudForArtist();
     }
 

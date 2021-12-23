@@ -23,7 +23,7 @@ public class CompositionDAO extends AbstractEntityDAO<Composition> {
     public int deleteByIdNative(int id) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();
-            Query query = session.createQuery("from compositions where compositions.id =:id");
+            Query query = session.createQuery("delete from compositions as c where c.id =:id");
             query.setParameter("id", id);
             int i = query.executeUpdate();
             session.getTransaction().commit();

@@ -7,7 +7,7 @@
     String idParam = request.getParameter("id");
     int albumId = 0;
     boolean isAlbumIdSelected = idParam != null;
-    List<Composition> compositionList;
+    List<Composition> compositionList = new ArrayList<>();
     CompositionDAO dao = new CompositionDAO();
     AlbumDAO albumDAO = new AlbumDAO();
     Album album = null;
@@ -15,12 +15,10 @@
         try {
             albumId = Integer.parseInt(idParam);
             album = albumDAO.getById(albumId);
+            compositionList = dao.getByAlbumName(album.getName());
         } catch (Exception e) {
             response.sendRedirect("/");
         }
-        compositionList = dao.getByAlbumName(album.getName());
-    } else {
-        compositionList = new ArrayList<>();
     }
 %>
 <!DOCTYPE html>
@@ -40,7 +38,29 @@
             <h2>Album Compositions</h2>
             <form name="albumCompositionsForm" action="index.jsp" method="get">
                 <label> Album
-                    <input value="<%=isAlbumIdSelected ? idParam : ""%>" name="id" type="search" placeholder="Type album id">
+                    <select id="albumId" name="id" required></select>
+                    <input type="submit">
+                    <script>
+                        const form = document.forms.namedItem("albumCompositionsForm");
+                        const selectContainer = document.getElementById("albumId");
+                        const selectedId = <%=isAlbumIdSelected ? idParam : ""%>
+
+                        fetch("${pageContext.request.contextPath}/albums", {
+                            method: "GET",
+                        })
+                            .then(response => response.json())
+                            .then(albums => {
+                                selectContainer.append(...albums.map(album => {
+                                    const option = document.createElement("option");
+                                    option.setAttribute("value", album["id"]);
+                                    if (selectedId) {
+                                        option.setAttribute("selected", "");
+                                    }
+                                    option.textContent = "Name: " + album["name"] + ", Id: " + album["id"];
+                                    return option;
+                                }))
+                            });
+                    </script>
                 </label>
             </form>
             <p>

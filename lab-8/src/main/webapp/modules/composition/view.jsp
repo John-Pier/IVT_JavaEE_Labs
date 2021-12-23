@@ -34,7 +34,7 @@
             <%
                 for (Composition current : compositionList) {
             %>
-            <tr class="_hover-tap" id="<%=current.getId()%>>
+            <tr class="_hover-tap" id="<%=current.getId()%>">
                 <td><%=current.getId()%></td>
                 <td><%=current.getName()%></td>
                 <td><%=current.getDuration()%></td>
