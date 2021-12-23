@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="lab-6" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="Main" />
+    <module name="lab-6" />
+    <option name="PROGRAM_PARAMETERS" value="&quot;jdbc:postgresql://abul.db.elephantsql.com/nenzqwco&quot; -Djdbc.drivers = org.postgresql.Driver" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
