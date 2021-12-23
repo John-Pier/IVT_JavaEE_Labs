@@ -23,7 +23,9 @@
                 <th>ID</th>
                 <th>Name</th>
                 <th></th>
-                <th></th>
+                <th>
+                    <a href="form.jsp">Add New</a>
+                </th>
             </tr>
             </thead>
             <tbody>

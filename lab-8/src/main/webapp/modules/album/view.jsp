@@ -20,14 +20,16 @@
         <h1>Albums Table</h1>
         <table>
             <thead>
-                <tr>
+            <tr>
                 <th>ID</th>
                 <th>Name</th>
                 <th>Genre</th>
                 <th>Artist Name</th>
                 <th>Composition count</th>
                 <th></th>
-                <th></th>
+                <th>
+                    <a href="form.jsp">Add New</a>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -36,11 +38,16 @@
                     List<Composition> compositionList = compositionDAO.getByAlbumId(current.getId());
             %>
             <tr class="_hover-tap">
-                <td><%=current.getId()%></td>
-                <td><%=current.getName()%></td>
-                <td><%=current.getGenre()%></td>
-                <td><%=current.getArtist().getName()%></td>
-                <td><%=compositionList != null ? compositionList.size() : 0%></td>
+                <td><%=current.getId()%>
+                </td>
+                <td><%=current.getName()%>
+                </td>
+                <td><%=current.getGenre()%>
+                </td>
+                <td><%=current.getArtist().getName()%>
+                </td>
+                <td><%=compositionList != null ? compositionList.size() : 0%>
+                </td>
                 <td class="_hover-tap-element">
                     <a href="form.jsp?id=<%=current.getId()%>">update</a>
                 </td>

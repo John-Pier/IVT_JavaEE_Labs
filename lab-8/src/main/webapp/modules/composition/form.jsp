@@ -56,10 +56,10 @@
             form.addEventListener("submit", ev => {
                 ev.preventDefault();
                 const nameValue = form.elements.namedItem("name").value;
-                const durationValue = form.elements.namedItem("duration").value;
+                const durationValue = new Date(form.elements.namedItem("duration").value);
                 const albumIdValue = form.elements.namedItem("albumId").value;
                 const urlParams = "?<%= isIdExist ? "id=" + id + "&" : ""%>name=" + nameValue +
-                    "&duration=" + durationValue +
+                    "&duration=" + durationValue.getTime() +
                     "&albumId=" + albumIdValue;
                 fetch("${pageContext.request.contextPath}/compositions" + urlParams, {
                     method: "POST",

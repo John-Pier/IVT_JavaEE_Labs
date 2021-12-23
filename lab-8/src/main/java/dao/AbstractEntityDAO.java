@@ -52,6 +52,8 @@ public abstract class AbstractEntityDAO<E extends EntityMarker> {
             E entity = getUniqueQueryById(id, session).uniqueResult();
             session.delete(entity);
             session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

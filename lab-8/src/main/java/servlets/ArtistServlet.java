@@ -2,13 +2,10 @@ package servlets;
 
 import dao.ArtistDAO;
 import entities.Artist;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.*;
 
-@WebServlet(value = "/artists", name = "ArtistServlet")
 public class ArtistServlet extends HttpServlet {
 
     private ArtistDAO artistDao;
@@ -16,15 +13,6 @@ public class ArtistServlet extends HttpServlet {
     @Override
     public void init() throws ServletException {
         artistDao = new ArtistDAO();
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.print("<html><body>");
-        out.print("<h3>Hello Servlet</h3>");
-        out.print("</body></html>");
-        out.close();
     }
 
     @Override
@@ -36,6 +24,7 @@ public class ArtistServlet extends HttpServlet {
             return;
         }
 
+        PrintWriter printWriter = resp.getWriter();
         if(req.getParameter("id") != null) {
             // Update section
             int id = Integer.parseInt(req.getParameter("id"));
@@ -43,33 +32,31 @@ public class ArtistServlet extends HttpServlet {
             artist.setId(id);
             artist.setName(name);
             artistDao.update(artist);
+            printWriter.print("Entity with id" + id + "successfully edited");
         } else {
             // Create section
             Artist artist = new Artist();
             artist.setName(name);
             artistDao.save(artist);
+            printWriter.print("Entity successfully created");
         }
+        printWriter.close();
         resp.setStatus(200);
         resp.sendRedirect("/modules/artist/r");
     }
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        System.out.println("doDelete!");
         try {
             resp.setContentType("text/html");
             int id = Integer.parseInt(req.getParameter("id"));
             artistDao.deleteById(id);
+            PrintWriter printWriter = resp.getWriter();
+            printWriter.print("Entity with id" + id + "successfully deleted");
+            printWriter.close();
             resp.setStatus(200);
         } catch (Exception ex) {
             resp.sendError(500, "Error!");
         }
-    }
-
-    @Override
-    protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.setCharacterEncoding("utf8");
-        resp.setCharacterEncoding("utf8");
-        resp.setHeader("XChecked", "true");
     }
 }

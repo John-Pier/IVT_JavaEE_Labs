@@ -29,6 +29,7 @@ public class AlbumDAO extends AbstractEntityDAO<Album> {
     protected Query<Album> getUniqueQueryById(int id, Session session) {
         Query query = session.createQuery("from albums where id=:id");
         query.setParameter("id", id);
+        System.err.println(id + "-delete");
         return query;
     }
 

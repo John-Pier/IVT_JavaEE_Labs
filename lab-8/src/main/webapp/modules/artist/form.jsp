@@ -25,7 +25,7 @@
     <div class="app-main__inner">
         <h1>Artist Create/Edit form</h1>
         <form name="artistForm">
-            <label> ID
+            <label <%=!isIdExist ? "hidden" : ""%> > ID
                 <input readonly name="id" value="<%=isIdExist ? id : ""%>" <%=!isIdExist ? "hidden" : ""%> >
             </label>
             <label>Name
@@ -39,7 +39,7 @@
             form.addEventListener("submit", ev => {
                 ev.preventDefault();
                 const urlParams = "?<%= isIdExist ? "id=" + id + "&" : ""%>name=" + form.elements.namedItem("name").value;
-                fetch("${pageContext.request.contextPath}/albums" + urlParams, {
+                fetch("${pageContext.request.contextPath}/artists" + urlParams, {
                     method: "POST",
                 })
                 .then(response => {
