@@ -40,16 +40,27 @@
                 <td><%=current.getDuration()%></td>
                 <td><%=current.getAlbum().getName()%></td>
                 <td class="_hover-tap-element">
-                    <a href="form.jsp?id=<%=current.getId()%>">update</a>
+                    <a href="form.jsp?id=<%=current.getId()%>">Update</a>
                 </td>
                 <td class="_hover-tap-element">
-                    <button>delete</button>
+                    <button onclick="onDeleteClick(<%=current.getId()%>)">Delete</button>
                 </td>
             </tr>
             <% } %>
             </tbody>
         </table>
         <a href="${pageContext.request.contextPath}/">Back</a>
+        <script>
+            function onDeleteClick(id) {
+                fetch("${pageContext.request.contextPath}/compositions?id=" + id, {
+                    method: "delete",
+                }).then(it => {
+                    if (it.ok) {
+                        document.getElementById(id)?.remove();
+                    }
+                });
+            }
+        </script>
     </div>
 </main>
 <footer class="app-footer">

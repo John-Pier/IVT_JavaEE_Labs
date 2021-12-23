@@ -16,7 +16,7 @@ public class CompositionServlet extends HttpServlet {
 
     private final String ID = "id";
     private final String NAME = "name";
-    private final String DURATION = "id";
+    private final String DURATION = "duration";
     private final String ALBUM_ID = "albumId";
 
     @Override

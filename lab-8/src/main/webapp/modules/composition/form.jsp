@@ -30,14 +30,14 @@
     <div class="app-main__inner">
         <h1>Composition Create/Edit form</h1>
         <form name="compositionForm">
-            <label> ID
+            <label <%=!isIdExist ? "hidden" : ""%> > ID
                 <input readonly name="id" value="<%=isIdExist ? id : ""%>" <%=!isIdExist ? "hidden" : ""%> >
             </label>
             <label> Name
                 <input name="name" type="text" required value="<%=isIdExist ? composition.getName() : ""%>">
             </label>
             <label> Duration
-                <input type="time" name="duration" required value="<%=isIdExist ? composition.getDuration() : ""%>">
+                <input type="time" step="2" name="duration" required value="<%=isIdExist ? composition.getDuration() : ""%>">
             </label>
             <label> Album
                 <select name="albumId" required>
@@ -56,10 +56,10 @@
             form.addEventListener("submit", ev => {
                 ev.preventDefault();
                 const nameValue = form.elements.namedItem("name").value;
-                const durationValue = new Date(form.elements.namedItem("duration").value);
+                const durationValue = form.elements.namedItem("duration").valueAsNumber;
                 const albumIdValue = form.elements.namedItem("albumId").value;
                 const urlParams = "?<%= isIdExist ? "id=" + id + "&" : ""%>name=" + nameValue +
-                    "&duration=" + durationValue.getTime() +
+                    "&duration=" + durationValue +
                     "&albumId=" + albumIdValue;
                 fetch("${pageContext.request.contextPath}/compositions" + urlParams, {
                     method: "POST",
