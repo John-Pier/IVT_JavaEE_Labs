@@ -12,8 +12,12 @@
     AlbumDAO albumDAO = new AlbumDAO();
     Album album = null;
     if(isAlbumIdSelected) {
-        albumId = Integer.parseInt(idParam);
-        album = albumDAO.getById(albumId);
+        try {
+            albumId = Integer.parseInt(idParam);
+            album = albumDAO.getById(albumId);
+        } catch (Exception e) {
+            response.sendRedirect("/");
+        }
         compositionList = dao.getByAlbumName(album.getName());
     } else {
         compositionList = new ArrayList<>();

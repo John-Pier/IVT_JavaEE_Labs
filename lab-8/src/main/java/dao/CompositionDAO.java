@@ -20,6 +20,17 @@ public class CompositionDAO extends AbstractEntityDAO<Composition> {
         return query;
     }
 
+    public int deleteByIdNative(int id) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from compositions where compositions.id =:id");
+            query.setParameter("id", id);
+            int i = query.executeUpdate();
+            session.getTransaction().commit();
+            return i;
+        }
+    }
+
     public List<Composition> getByAlbumId(int albumId) {
         try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
             session.beginTransaction();

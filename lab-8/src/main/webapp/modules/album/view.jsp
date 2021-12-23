@@ -37,16 +37,21 @@
                 for (Album current : albumsList) {
                     List<Composition> compositionList = compositionDAO.getByAlbumId(current.getId());
             %>
-            <tr class="_hover-tap">
-                <td><%=current.getId()%>
+            <tr class="_hover-tap" id="<%=current.getId()%>">
+                <td>
+                    <%=current.getId()%>
                 </td>
-                <td><%=current.getName()%>
+                <td>
+                    <%=current.getName()%>
                 </td>
-                <td><%=current.getGenre()%>
+                <td>
+                    <%=current.getGenre()%>
                 </td>
-                <td><%=current.getArtist().getName()%>
+                <td>
+                    <%=current.getArtist().getName()%>
                 </td>
-                <td><%=compositionList != null ? compositionList.size() : 0%>
+                <td>
+                    <%=compositionList != null ? compositionList.size() : 0%>
                 </td>
                 <td class="_hover-tap-element">
                     <a href="form.jsp?id=<%=current.getId()%>">Update</a>

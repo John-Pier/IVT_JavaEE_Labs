@@ -73,15 +73,20 @@ public class CompositionServlet extends HttpServlet {
         }
         try {
             int id = Integer.parseInt(idParam);
-            compositionDAO.deleteById(id);
+            int count = compositionDAO.deleteByIdNative(id);
 
             PrintWriter printWriter = resp.getWriter();
-            printWriter.print("Entity with id" + id + "successfully deleted");
+            if (count > 0) {
+                printWriter.print("Entity with id" + id + "successfully deleted");
+                resp.setStatus(200);
+            } else {
+                printWriter.print("Entity not deleted");
+                resp.setStatus(500);
+            }
             printWriter.close();
         } catch (Exception ex) {
             resp.sendError(500, "Error! No correct id!");
         }
         resp.setContentType("text/html");
-        resp.setStatus(200);
     }
 }
