@@ -30,4 +30,15 @@ public class CompositionDAO extends AbstractEntityDAO<Composition> {
             return list;
         }
     }
+
+    public List<Composition> getByAlbumName(String albumName) {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("from compositions where album.name =:name");
+            query.setParameter("name", albumName);
+            List<Composition> list = query.getResultList();
+            session.getTransaction().commit();
+            return list;
+        }
+    }
 }

@@ -20,7 +20,7 @@ public class Composition implements EntityMarker {
     @Column(nullable = false)
     private Time duration;
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(nullable = false)
     private Album album;
 

@@ -4,12 +4,12 @@ import org.hibernate.query.Query;
 import untils.HibernateSessionFactoryUtil;
 
 import java.sql.*;
-import java.util.List;
+import java.util.*;
 
 public class HibernateTest {
     public static void main(String[] args) {
-        testTableDataCreation();
-        printTablesData();
+        //testTableDataCreation();
+       // printTablesData();
         testCrudForArtist();
     }
 
@@ -106,6 +106,6 @@ public class HibernateTest {
 
 
     private static double getRandomNumber() {
-        return Math.floor(Math.random() * 100);
+        return Math.random() * 100;
     }
 }

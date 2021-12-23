@@ -32,25 +32,17 @@ public class AlbumDAO extends AbstractEntityDAO<Album> {
         return query;
     }
 
-//    public List<Album> query1(String name){
-//        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-//            session.beginTransaction();
-//            Query query = session.createQuery("from albums where artist.name = :name");
-//            query.setParameter("name", name);
-//            List<Album> list = query.list();
-//            session.getTransaction().commit();
-//            return list;
-//        }
-//    }
-//
-//    public List<Album> query2(String name){
-//        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
-//            session.beginTransaction();
-//            Query query = session.createQuery("from compositions where * =:name ");
-//            query.setParameter("name", name);
-//            List<Album> list = query.list();
-//            session.getTransaction().commit();
-//            return list;
-//        }
-//    }
+
+    public List<Object[]> getAlbumsWithMinDurations() {
+        try (Session session = HibernateSessionFactoryUtil.getSessionFactory().openSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("select a.name, MIN(c.duration) " +
+                    "from albums as a join a.compositionList as c " +
+                    "group by a.id "
+            );
+            List<Object[]> list = query.getResultList();
+            session.getTransaction().commit();
+            return list;
+        }
+    }
 }

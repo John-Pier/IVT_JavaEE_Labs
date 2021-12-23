@@ -37,7 +37,7 @@
                 <input name="name" type="text" required value="<%=isIdExist ? composition.getName() : ""%>">
             </label>
             <label> Duration
-                <input type="time" step="2" name="duration" required value="<%=isIdExist ? composition.getDuration() : ""%>">
+                <input type="time" step="1" name="duration" required value="<%=isIdExist ? composition.getDuration() : ""%>">
             </label>
             <label> Album
                 <select name="albumId" required>

@@ -44,8 +44,16 @@ html, body {
     flex-direction: column;
     min-width: 400px;
     padding: 20px;
-    border: 1px solid rgba(100, 100, 100, 0);
+    border: 1px solid rgb(70, 70, 70);
     border-radius: 4px;
+    margin: 10px;
+}
+
+.app-main__block {
+    border: 1px solid rgb(70, 70, 70);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
 .app-footer {
@@ -53,6 +61,10 @@ html, body {
     flex: 1;
     max-height: 150px;
     background-color: #825c9d;
+}
+
+.app-footer__inner {
+    padding: 20px;
 }
 
 ._hover-tap-element {

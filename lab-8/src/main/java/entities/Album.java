@@ -17,12 +17,13 @@ public class Album implements EntityMarker {
     @NotNull
     private String name;
 
+    @Column(nullable = true)
     private String genre;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "album")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true, mappedBy = "album")
     private List<Composition> compositionList = new java.util.ArrayList<>();
 
-    @ManyToOne(cascade = CascadeType.ALL, optional = false)
+    @ManyToOne(cascade = CascadeType.PERSIST, fetch=FetchType.EAGER ,optional = false)
     @JoinColumn(nullable = false)
     private Artist artist;
 
