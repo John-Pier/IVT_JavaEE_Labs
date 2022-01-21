@@ -1,7 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="dao.*" %>
 <%@ page import="entities.*" %>
-<%@ page import="java.sql.Time" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%
     String idParam = request.getParameter("id");

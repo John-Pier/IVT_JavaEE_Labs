@@ -61,7 +61,6 @@ public class CompositionServlet extends HttpServlet {
         }
         printWriter.close();
         resp.setStatus(200);
-        resp.sendRedirect("/modules/artist/r");
     }
 
     @Override

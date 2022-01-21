@@ -33,9 +33,6 @@ public class AlbumServlet extends HttpServlet {
         resp.setContentType("application/json");
         PrintWriter printWriter = resp.getWriter();
         if(req.getParameterMap().containsKey(MIN_DURATIONS)) {
-//            List<ShortEntity> objects = albumDAO.getAlbumsWithMinDurations().stream()
-//                    .map(album -> new ShortEntity(album.getId(), album.getName()))
-//                    .collect(Collectors.toList());
             printWriter.print(new Gson().toJson(albumDAO.getAlbumsWithMinDurations()));
         } else  {
 
