@@ -1,5 +1,5 @@
 import java.sql.*;
-import java.util.*;
+import java.util.Properties;
 
 public class Main {
     public static void main(String[] args) {
@@ -8,20 +8,21 @@ public class Main {
         }
 
         Properties props = new Properties();
-        props.setProperty("database","nenzqwco");
-        props.setProperty("user","nenzqwco");
-        props.setProperty("password","Sup1OjDDcnc4_fSopki8lbZzD84Jr3RL");
+        props.setProperty("database","projects_systems:public");
+        props.setProperty("user","postgres");
+        props.setProperty("password","299792458");
         props.setProperty("ssl","false");
 
         try(var connection = DriverManager.getConnection(args[0], props)) {
             var statement = connection.createStatement();
 
             var resultSet = statement.executeQuery(
-                    "select ALBUM.name, MIN(COMPOSITION.duration) from ALBUM JOIN COMPOSITION ON composition.album_id = album.id GROUP BY ALBUM.id HAVING count(COMPOSITION.NAME) >= 5;"
+                    """
+                            select P.id, P.description, T.name, T.description from "Team_Projects"
+                                JOIN "Team" T on T.id = "Team_Projects".team_id
+                                JOIN "Projects" P on P.id = "Team_Projects".project_id
+                                order by P.description"""
             );
-            printQueryResult(resultSet);
-
-            testOperations(connection);
 
             System.out.println("\nОсуществляется выход...");
             statement.close();
@@ -30,7 +31,7 @@ public class Main {
         }
     }
 
-    private static void testOperations(Connection connection) throws SQLException {
+    private static void insertOperations(Connection connection) throws SQLException {
         var artistName = "updateMe";
         var artistNextName = "deleteMe";
 
