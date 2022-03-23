@@ -1,3 +1,5 @@
+import helpers.DBHelper;
+
 import java.sql.*;
 import java.util.Properties;
 
@@ -8,7 +10,6 @@ public class Main {
         }
 
         Properties props = new Properties();
-        props.setProperty("database","projects_systems:public");
         props.setProperty("user","postgres");
         props.setProperty("password","299792458");
         props.setProperty("ssl","false");
@@ -18,12 +19,14 @@ public class Main {
 
             var resultSet = statement.executeQuery(
                     """
-                            select P.id, P.description, T.name, T.description from "Team_Projects"
-                                JOIN "Team" T on T.id = "Team_Projects".team_id
-                                JOIN "Projects" P on P.id = "Team_Projects".project_id
+                            select P.id,  T.name, P.description, T.description from projects_systems.public."Team_Projects" TP
+                                JOIN projects_systems.public."Team" T on T.id = TP.team_id
+                                JOIN projects_systems.public."Projects" P on P.id = TP.project_id
                                 order by P.description"""
             );
+            printFirstQueryResult(resultSet);
 
+            insertOperations(connection);
             System.out.println("\nОсуществляется выход...");
             statement.close();
         } catch (Exception ex) {
@@ -32,45 +35,72 @@ public class Main {
     }
 
     private static void insertOperations(Connection connection) throws SQLException {
-        var artistName = "updateMe";
-        var artistNextName = "deleteMe";
+        var projectName = "Generated Pr " + Math.exp(Math.random());
+        var description = "Generated Description " + Math.exp(Math.random());
 
         var statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
-        var preparedInsertStatement = connection.prepareStatement("INSERT INTO  ARTIST(NAME) VALUES (?)");
-        var preparedUpdateStatement = connection.prepareStatement("UPDATE ARTIST SET  NAME = ? WHERE NAME = ?");
-        var preparedDeleteStatement = connection.prepareStatement("DELETE  FROM  ARTIST WHERE NAME = ?");
+        var projectsInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Projects\" (description) VALUES (?)");
+        var teamInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Team\" (name, description) VALUES (?, ?)");
+        var teamProjectsInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Team_Projects\" (project_id, team_id) VALUES (?, ?)");
+        var employeeProjectsInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Employee\" (name, start_date, position_id, data) VALUES (?, '2001.12.11', ?, 'No data')");
+        var categoriesInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"P_Categories\" (name, description) VALUES (?, ?)");
+        var userInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"User\" (name, employee_id, credentials, data) VALUES (?, ?, ?, ?)");
+        var employeeTeamInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Employee_Team\" (employee_id, team_id, role_id, start_date) VALUES (?, ?, ?, ?)");
+        var categoriesProjectsInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"P_Categories_Projects\" (project_id, p_category_id) VALUES (?, ?)");
+        var employeeSkillInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Employee_Skill\" (employee_id, skill_id, level) VALUES (?, ?, ?)");
+        var skillInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Skill\" (name, description) VALUES (?, ?)");
+        var historyInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"E_History\" (employee_id, description, change_date) VALUES (?, ?, ?)");
+        var positionInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Position\" (name, description) VALUES (?, ?)");
+        var roleInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Role\" (name, description) VALUES (?, ?)");
+        var ruleInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Rule\" (name, description) VALUES (?, ?)");
+        var repositoryInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Repository\" (link, description) VALUES (?, ?)");
+        var repositoryProjectsInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Repository_Projects\" (project_id, repository_id) VALUES (?, ?)");
+        var ruleProjectsInsert = connection.prepareStatement("INSERT INTO  projects_systems.public.\"Rule_Projects\" (rule_id, project_id) VALUES (?, ?)");
 
-        System.out.println("\nДобавление " + artistName);
-        preparedInsertStatement.setString(1, artistName);
-        preparedInsertStatement.executeUpdate();
-        printArtistTable(statement.executeQuery("SELECT * FROM ARTIST"));
 
-        System.out.println("\nОбновление " + artistName + "->" + artistNextName);
-        preparedUpdateStatement.setString(1, artistNextName);
-        preparedUpdateStatement.setString(2, artistName);
-        preparedUpdateStatement.executeUpdate();
-        printArtistTable(statement.executeQuery("SELECT * FROM ARTIST"));
+        projectsInsert.setString(1, projectName);
+        projectsInsert.executeQuery();
 
-        System.out.println("\nУдаление " + artistNextName);
-        preparedDeleteStatement.setString(1, artistNextName);
-        preparedDeleteStatement.executeUpdate();
-        printArtistTable(statement.executeQuery("SELECT * FROM ARTIST"));
+        teamInsert.setString(1, DBHelper.generateName());
+        teamInsert.setString(2, DBHelper.generateDescription());
+        teamInsert.executeQuery();
+
+
+//        System.out.println("\nДобавление " + artistName);
+//        projectsInsert.setString(1, artistName);
+//        projectsInsert.executeUpdate();
+//        printArtistTable(statement.executeQuery("SELECT * FROM ARTIST"));
+
+//        System.out.println("\nОбновление " + artistName + "->" + artistNextName);
+//        preparedUpdateStatement.setString(1, artistNextName);
+//        preparedUpdateStatement.setString(2, artistName);
+//        preparedUpdateStatement.executeUpdate();
+//        printArtistTable(statement.executeQuery("SELECT * FROM ARTIST"));
+//
+//        System.out.println("\nУдаление " + artistNextName);
+//        preparedDeleteStatement.setString(1, artistNextName);
+//        preparedDeleteStatement.executeUpdate();
+//        printArtistTable(statement.executeQuery("SELECT * FROM ARTIST"));
     }
 
-    private static void printArtistTable(ResultSet resultSet) {
-        System.out.format("%8s\t%18s\n", "ID", "Name");
+    private static void printFirstQueryResult(ResultSet resultSet) {
+        System.out.format("%8s\t%18s\t%18s\t%18s\n", "ID", "Team Name", "Project Name", "T. Description");
         System.out.format(
-                "%8s\t%18s\n",
+                "%8s\t%18s\t%18s\t%18s\n",
                 "________",
+                "__________________",
+                "__________________",
                 "__________________"
         );
         try {
             while (resultSet.next()) {
                 System.out.format(
-                        "%8s\t%18s\n",
+                        "%8s\t%18s\t%18s\t%18s\n",
                         resultSet.getInt(1),
-                        resultSet.getString(2)
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getString(4)
                 );
                 System.out.println();
             }

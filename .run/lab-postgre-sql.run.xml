@@ -2,7 +2,7 @@
   <configuration default="false" name="lab-postgre-sql" type="Application" factoryName="Application">
     <option name="MAIN_CLASS_NAME" value="Main" />
     <module name="lab-postgre-sql" />
-    <option name="PROGRAM_PARAMETERS" value="&quot;jdbc:postgresql://localhost:9432/postgres&quot; -Djdbc.drivers = org.postgresql.Driver" />
+    <option name="PROGRAM_PARAMETERS" value="&quot;jdbc:postgresql://localhost:9432/projects_systems&quot; -Djdbc.drivers = org.postgresql.Driver" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>
