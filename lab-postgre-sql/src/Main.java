@@ -16,23 +16,22 @@ public class Main {
         props.setProperty("user","postgres");
         props.setProperty("password","299792458");
         props.setProperty("ssl","false");
-//        var statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
 
         try(var connection = DriverManager.getConnection(args[0], props)) {
             var statement = connection.createStatement();
-
             dbHelper = new DBHelper(connection);
+            insertOperations(connection);
 
             var resultSet = statement.executeQuery(
                     """
-                            select P.id,  T.name, P.description, T.description from projects_systems.public."Team_Projects" TP
+                            select T.name, P.description, T.description from projects_systems.public."Team_Projects" TP
                                 JOIN projects_systems.public."Team" T on T.id = TP.team_id
                                 JOIN projects_systems.public."Projects" P on P.id = TP.project_id
                                 order by P.description"""
             );
             printFirstQueryResult(resultSet);
 
-            insertOperations(connection);
+
             System.out.println("\nОсуществляется выход...");
             statement.close();
         } catch (Exception ex) {
@@ -41,13 +40,17 @@ public class Main {
     }
 
     private static void insertOperations(Connection connection) throws SQLException {
-        var projectName = "Generated Pr " + Math.exp(Math.random());
+        var projectName = "Product " + Math.exp(Math.random());
         var projectsInsert = connection.prepareStatement(
                 "INSERT INTO  projects_systems.public.\"Projects\" (description) VALUES (?)"
         );
         projectsInsert.setString(1, projectName);
-        projectsInsert.executeQuery();
-        var projectId = dbHelper.selectProjectId(projectName);
+        projectsInsert.executeUpdate();
+        var projectId = dbHelper.selectFirstProjectId();
+
+        if(projectId == -1) {
+            return;
+        }
 
         var teamInsert = connection.prepareStatement(
                 "INSERT INTO  projects_systems.public.\"Team\" (name, description) VALUES (?, ?)"
@@ -55,7 +58,7 @@ public class Main {
         var name = DBHelper.generateName();
         teamInsert.setString(1, name);
         teamInsert.setString(2, DBHelper.generateDescription());
-        teamInsert.executeQuery();
+        teamInsert.executeUpdate();
         var teamId = dbHelper.selectTeamId(name);
 
         var teamProjectsInsert = connection.prepareStatement(
@@ -63,7 +66,7 @@ public class Main {
         );
         teamProjectsInsert.setInt(1, projectId);
         teamProjectsInsert.setInt(2, teamId);
-        teamProjectsInsert.executeQuery();
+        teamProjectsInsert.executeUpdate();
 
         var positionName =  DBHelper.generateName();
         var positionInsert = connection.prepareStatement(
@@ -71,7 +74,12 @@ public class Main {
         );
         positionInsert.setString(1, positionName);
         positionInsert.setString(2, DBHelper.generateDescription());
+        positionInsert.executeUpdate();
         var positionId =  dbHelper.selectPositionId(positionName);
+
+        if(positionId == -1) {
+            return;
+        }
 
         var employeeName =  DBHelper.generateName();
         var employeeInsert = connection.prepareStatement(
@@ -79,7 +87,7 @@ public class Main {
         );
         employeeInsert.setString(1, employeeName);
         employeeInsert.setInt(2, positionId);
-        employeeInsert.executeQuery();
+        employeeInsert.executeUpdate();
         var employeeId = dbHelper.selectEmployeeId(employeeName);
 
         var userInsert = connection.prepareStatement(
@@ -87,7 +95,7 @@ public class Main {
         );
         userInsert.setString(1, DBHelper.generateName());
         userInsert.setInt(2, employeeId);
-        userInsert.executeQuery();
+        userInsert.executeUpdate();
 
         var categoriesName = DBHelper.generateName();
         var categoriesInsert = connection.prepareStatement(
@@ -95,7 +103,7 @@ public class Main {
         );
         categoriesInsert.setString(1, categoriesName);
         categoriesInsert.setString(2, DBHelper.generateDescription());
-        categoriesInsert.executeQuery();
+        categoriesInsert.executeUpdate();
         var categoriesId = dbHelper.selectCategoriesId(categoriesName);
 
         var categoriesProjectsInsert = connection.prepareStatement(
@@ -103,29 +111,32 @@ public class Main {
         );
         categoriesProjectsInsert.setInt(1, projectId);
         categoriesProjectsInsert.setInt(2, categoriesId);
-        categoriesProjectsInsert.executeQuery();
+        categoriesProjectsInsert.executeUpdate();
 
-        var repositoryDescription = DBHelper.generateDescription();
         var repositoryInsert = connection.prepareStatement(
                 "INSERT INTO  projects_systems.public.\"Repository\" (link, description) VALUES ('-NO LINK-', ?)"
         );
-        repositoryInsert.setString(1, repositoryDescription);
-        var repositoryId = dbHelper.selectRepositoryIdByDescription(repositoryDescription);
+        repositoryInsert.setString(1, DBHelper.generateDescription());
+        var repositoryId = dbHelper.selectFirstRepositoryId();
+
+        if(repositoryId == -1) {
+            return;
+        }
 
         var repositoryProjectsInsert = connection.prepareStatement(
                 "INSERT INTO  projects_systems.public.\"Repository_Projects\" (project_id, repository_id) VALUES (?, ?)"
         );
         repositoryProjectsInsert.setInt(1, projectId);
         repositoryProjectsInsert.setInt(2, repositoryId);
-        repositoryProjectsInsert.executeQuery();
+        repositoryProjectsInsert.executeUpdate();
 
         var ruleName = DBHelper.generateName();
         var ruleInsert = connection.prepareStatement(
                 "INSERT INTO  projects_systems.public.\"Rule\" (name, description) VALUES (?, ?)"
         );
         ruleInsert.setString(1, ruleName);
-        ruleInsert.setString(1, DBHelper.generateDescription());
-        ruleInsert.executeQuery();
+        ruleInsert.setString(2, DBHelper.generateDescription());
+        ruleInsert.executeUpdate();
         var ruleId = dbHelper.selectRuleId(ruleName);
 
         var ruleProjectsInsert = connection.prepareStatement(
@@ -133,7 +144,7 @@ public class Main {
         );
         ruleProjectsInsert.setInt(1, ruleId);
         ruleProjectsInsert.setInt(2, projectId);
-        ruleProjectsInsert.executeQuery();
+        ruleProjectsInsert.executeUpdate();
 
 
         var roleName = DBHelper.generateName();
@@ -142,7 +153,7 @@ public class Main {
         );
         roleInsert.setString(1, roleName);
         roleInsert.setString(2, DBHelper.generateDescription());
-        roleInsert.executeQuery();
+        roleInsert.executeUpdate();
         var roleId = dbHelper.selectRoleId(roleName);
 
         var employeeTeamInsert = connection.prepareStatement(
@@ -151,7 +162,7 @@ public class Main {
         employeeTeamInsert.setInt(1, employeeId);
         employeeTeamInsert.setInt(2, teamId);
         employeeTeamInsert.setInt(3, roleId);
-        employeeTeamInsert.executeQuery();
+        employeeTeamInsert.executeUpdate();
 
         var skillName = DBHelper.generateName();
         var skillInsert = connection.prepareStatement(
@@ -159,7 +170,7 @@ public class Main {
         );
         skillInsert.setString(1, skillName);
         skillInsert.setString(2, DBHelper.generateDescription());
-        skillInsert.executeQuery();
+        skillInsert.executeUpdate();
         var skillId =  dbHelper.selectSkillId(skillName);
 
         var employeeSkillInsert = connection.prepareStatement(
@@ -167,21 +178,21 @@ public class Main {
         );
         employeeSkillInsert.setInt(1, employeeId);
         employeeSkillInsert.setInt(2, skillId);
-        employeeSkillInsert.executeQuery();
+        employeeSkillInsert.setString(3, DBHelper.generateDescription());
+        employeeSkillInsert.executeUpdate();
 
         var historyInsert = connection.prepareStatement(
                 "INSERT INTO  projects_systems.public.\"E_History\" (employee_id, description, change_date) VALUES (?, ?, '2022.1.2')"
         );
         historyInsert.setInt(1, employeeId);
         historyInsert.setString(2, DBHelper.generateDescription());
-        historyInsert.executeQuery();
+        historyInsert.executeUpdate();
     }
 
     private static void printFirstQueryResult(ResultSet resultSet) {
-        System.out.format("%8s\t%18s\t%18s\t%18s\n", "ID", "Team Name", "Project Name", "T. Description");
+        System.out.format("%18s\t%18s\t%18s\n", "Team Name", "Project Name", "T. Description");
         System.out.format(
-                "%8s\t%18s\t%18s\t%18s\n",
-                "________",
+                "%18s\t%18s\t%18s\n",
                 "__________________",
                 "__________________",
                 "__________________"
@@ -189,8 +200,7 @@ public class Main {
         try {
             while (resultSet.next()) {
                 System.out.format(
-                        "%8s\t%18s\t%18s\t%18s\n",
-                        resultSet.getInt(1),
+                        "%18s\t%18s\t%18s\n",
                         resultSet.getString(2),
                         resultSet.getString(3),
                         resultSet.getString(4)
