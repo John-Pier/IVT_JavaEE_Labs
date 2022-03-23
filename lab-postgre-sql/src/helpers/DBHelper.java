@@ -11,11 +11,11 @@ public class DBHelper {
     }
 
     public static String generateDescription(){
-        return "Generated Description " + Math.exp(Math.random());
+        return "Generated Description " + Math.random();
     }
 
     public static String generateName(){
-        return "Generated Name " + Math.exp(Math.random());
+        return "Generated Name " + Math.random();
     }
 
     public int selectTeamId(String name) {
@@ -62,11 +62,11 @@ public class DBHelper {
     }
 
     public int selectFirstRepositoryId() {
-        return selectFirstId("SELECT * FROM projects_systems.public.\"Repository\" ORDER BY description");
+        return selectFirstId("SELECT * FROM projects_systems.public.\"Repository\" ORDER BY id DESC");
     }
 
     public int selectFirstProjectId() {
-        return selectFirstId("SELECT * FROM projects_systems.public.\"Projects\" ORDER BY description");
+        return selectFirstId("SELECT * FROM projects_systems.public.\"Projects\" ORDER BY id DESC");
     }
 
     private int selectFirstId(String query) {

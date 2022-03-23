@@ -20,7 +20,7 @@ public class Main {
         try(var connection = DriverManager.getConnection(args[0], props)) {
             var statement = connection.createStatement();
             dbHelper = new DBHelper(connection);
-            insertOperations(connection);
+            // insertOperations(connection);
 
             var resultSet = statement.executeQuery(
                     """
@@ -31,6 +31,17 @@ public class Main {
             );
             printFirstQueryResult(resultSet);
 
+
+            // Число человек в командах
+            resultSet = statement.executeQuery(
+                    """
+                           select T.name, count(E.employee_id) eC from projects_systems.public."Team" T
+                                LEFT OUTER JOIN projects_systems.public."Employee_Team" E on E.team_id = T.id
+                                group by T.id
+                                having count(E.employee_id) > 0
+                                ORDER BY eC DESC"""
+            );
+            printSecondQueryResult(resultSet);
 
             System.out.println("\nОсуществляется выход...");
             statement.close();
@@ -190,20 +201,20 @@ public class Main {
     }
 
     private static void printFirstQueryResult(ResultSet resultSet) {
-        System.out.format("%18s\t%18s\t%18s\n", "Team Name", "Project Name", "T. Description");
+        System.out.format("%38s\t%38s\t%38s\n", "Team Name", "Project Name", "T. Description");
         System.out.format(
-                "%18s\t%18s\t%18s\n",
-                "__________________",
-                "__________________",
-                "__________________"
+                "%38s\t%38s\t%38s\n",
+                "______________________________________",
+                "______________________________________",
+                "______________________________________"
         );
         try {
             while (resultSet.next()) {
                 System.out.format(
-                        "%18s\t%18s\t%18s\n",
+                        "%38s\t%38s\t%38s\n",
+                        resultSet.getString(1),
                         resultSet.getString(2),
-                        resultSet.getString(3),
-                        resultSet.getString(4)
+                        resultSet.getString(3)
                 );
                 System.out.println();
             }
@@ -212,19 +223,40 @@ public class Main {
         }
     }
 
-    private static void printQueryResult(ResultSet resultSet) {
-        System.out.format("%12s\t%20s\n", "Album Name", "Duration");
+    private static void printSecondQueryResult(ResultSet resultSet) {
+        System.out.format("%40s\t%10s\n", "Team Name", "Count of employees");
         System.out.format(
-                "%20s\t%20s\n",
-                "____________________",
-                "____________________"
+                "%40s\t%10s\n",
+                "____________________________________________",
+                "__________"
         );
         try {
             while (resultSet.next()) {
                 System.out.format(
-                        "%20s\t%20s\n",
+                        "%40s\t%10s\n",
                         resultSet.getString(1),
-                        resultSet.getTime(2).toString()
+                        resultSet.getString(2)
+                );
+                System.out.println();
+            }
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    private static void printThirdQueryResult(ResultSet resultSet) {
+        System.out.format("%40s\t%10s\n", "Team Name", "Count of employees");
+        System.out.format(
+                "%40s\t%10s\n",
+                "____________________________________________",
+                "__________"
+        );
+        try {
+            while (resultSet.next()) {
+                System.out.format(
+                        "%40s\t%10s\n",
+                        resultSet.getString(1),
+                        resultSet.getString(2)
                 );
                 System.out.println();
             }
