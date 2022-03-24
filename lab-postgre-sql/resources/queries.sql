@@ -10,14 +10,9 @@ having count(E.employee_id) > 0
 ORDER BY eC;
 
 WITH RECURSIVE r AS (
-    SELECT
-        1 AS i,
-        1 AS factorial
-
+    SELECT 1 AS i, 1 AS factorial
     UNION
-    SELECT
-            i+1 AS i,
-            factorial * (i+1) as factorial
+    SELECT i+1 AS i,factorial * (i+1) as factorial
     FROM r
     WHERE i < 10
 )
@@ -28,18 +23,32 @@ SELECT * FROM r;
 WITH RECURSIVE r AS (
     SELECT P.id, P.description, T2.name
     from "Projects" P
-    join "Team_Projects" TP on P.id = TP.project_id
-    JOIN "Team" T2 on T2.id = TP.team_id
+             join "Team_Projects" TP on P.id = TP.project_id
+             JOIN "Team" T2 on T2.id = TP.team_id
     UNION
     SELECT P.id, P.description, T2.name
     from  "Projects" P
-    JOIN "Team_Projects" T on P.id = T.project_id
-    JOIN "Team" T2 on T2.id = T.team_id
-    JOIN r on r.id = p.id
+              JOIN "Team_Projects" T on P.id = T.project_id
+              JOIN "Team" T2 on T2.id = T.team_id
+              JOIN r on r.id = p.id
+)
+SELECT * FROM r;
+
+WITH RECURSIVE r AS (
+    SELECT U.id,U.name, U.parent_id
+    from "User" U
+    where U.parent_id IS NULL
+    UNION
+    SELECT U.id,U.name, U.parent_id
+    from "User" U
+    JOIN r on r.id = U.parent_id
 )
 SELECT * FROM r;
 
 SELECT P.description, T2.name
 from "Projects" P
          join "Team_Projects" TP on P.id = TP.project_id
-         JOIN "Team" T2 on T2.id = TP.team_id
+         JOIN "Team" T2 on T2.id = TP.team_id;
+
+ALTER TABLE IF EXISTS "User"
+    ADD COLUMN parent_id integer REFERENCES "User"(id)

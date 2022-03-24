@@ -22,6 +22,7 @@ public class Main {
             dbHelper = new DBHelper(connection);
             // insertOperations(connection);
 
+            // Команды и проекты над которыми они работают
             var resultSet = statement.executeQuery(
                     """
                             select T.name, P.description, T.description from projects_systems.public."Team_Projects" TP
@@ -30,7 +31,6 @@ public class Main {
                                 order by P.description"""
             );
             printFirstQueryResult(resultSet);
-
 
             // Число человек в командах
             resultSet = statement.executeQuery(
@@ -45,20 +45,16 @@ public class Main {
 
             resultSet = statement.executeQuery(
                     """
-                           WITH RECURSIVE r AS (
-                               SELECT P.id, P.description, T2.name
-                               from projects_systems.public."Projects" P
-                               join projects_systems.public."Team_Projects" TP on P.id = TP.project_id
-                               JOIN projects_systems.public."Team" T2 on T2.id = TP.team_id
+                          WITH RECURSIVE r AS (
+                               SELECT U.id, U.name, U.parent_id
+                               from projects_systems.public."User" U
+                               where U.id = 1
                                UNION
-                               SELECT P.id, P.description, T2.name
-                               from projects_systems.public."Projects" P
-                               JOIN projects_systems.public."Team_Projects" T on P.id = T.project_id
-                               JOIN projects_systems.public."Team" T2 on T2.id = T.team_id
-                               JOIN r on r.id = p.id
-                           )
-                           SELECT * FROM r;
-                           """
+                               SELECT U.id, U.name, U.parent_id
+                               from projects_systems.public."User" U
+                               JOIN r on r.id = U.parent_id
+                          )
+                          SELECT * FROM r;"""
             );
             printThirdQueryResult(resultSet);
 
@@ -264,7 +260,7 @@ public class Main {
     }
 
     private static void printThirdQueryResult(ResultSet resultSet) {
-        System.out.format("%10s\t%40s\t%40s\n", "ID", "Project", "Team Name");
+        System.out.format("%10s\t%40s\t%40s\n", "ID", "User", "Parent Id");
         System.out.format(
                 "%10s\t%40s\t%40s\n",
                 "__________",
@@ -277,7 +273,7 @@ public class Main {
                         "%10s\t%40s\t%40s\n",
                         resultSet.getInt(1),
                         resultSet.getString(2),
-                        resultSet.getString(3)
+                        resultSet.getInt(3)
                 );
                 System.out.println();
             }
