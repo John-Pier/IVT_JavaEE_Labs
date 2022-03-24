@@ -43,6 +43,25 @@ public class Main {
             );
             printSecondQueryResult(resultSet);
 
+            resultSet = statement.executeQuery(
+                    """
+                           WITH RECURSIVE r AS (
+                               SELECT P.id, P.description, T2.name
+                               from projects_systems.public."Projects" P
+                               join projects_systems.public."Team_Projects" TP on P.id = TP.project_id
+                               JOIN projects_systems.public."Team" T2 on T2.id = TP.team_id
+                               UNION
+                               SELECT P.id, P.description, T2.name
+                               from projects_systems.public."Projects" P
+                               JOIN projects_systems.public."Team_Projects" T on P.id = T.project_id
+                               JOIN projects_systems.public."Team" T2 on T2.id = T.team_id
+                               JOIN r on r.id = p.id
+                           )
+                           SELECT * FROM r;
+                           """
+            );
+            printThirdQueryResult(resultSet);
+
             System.out.println("\nОсуществляется выход...");
             statement.close();
         } catch (Exception ex) {
@@ -245,18 +264,20 @@ public class Main {
     }
 
     private static void printThirdQueryResult(ResultSet resultSet) {
-        System.out.format("%40s\t%10s\n", "Team Name", "Count of employees");
+        System.out.format("%10s\t%40s\t%40s\n", "ID", "Project", "Team Name");
         System.out.format(
-                "%40s\t%10s\n",
+                "%10s\t%40s\t%40s\n",
+                "__________",
                 "____________________________________________",
-                "__________"
+                "____________________________________________"
         );
         try {
             while (resultSet.next()) {
                 System.out.format(
-                        "%40s\t%10s\n",
-                        resultSet.getString(1),
-                        resultSet.getString(2)
+                        "%10s\t%40s\t%40s\n",
+                        resultSet.getInt(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3)
                 );
                 System.out.println();
             }
