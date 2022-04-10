@@ -18,7 +18,7 @@ public class Main {
         props.setProperty("ssl", "false");
 
         ClickHouseDataSource dataSource = new ClickHouseDataSource(url, props);
-
+        ///john_pier@localhost
         try (var connection = dataSource.getConnection("default", "")) {
             var statement = connection.createStatement();
             dbHelper = new DBHelper(connection);

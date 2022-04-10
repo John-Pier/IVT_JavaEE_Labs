@@ -19,31 +19,31 @@ public class DBHelper {
     }
 
     public int selectTeamId(String name) {
-        return selectIdByParam(name, "SELECT * FROM projects_systems.public.\"Team\" WHERE name = ?");
+        return selectIdByParam(name, "SELECT * FROM projects_systems.team WHERE name = ?");
     }
 
     public int selectPositionId(String name) {
-        return selectIdByParam(name, "SELECT * FROM projects_systems.public.\"Position\" WHERE name = ?");
+        return selectIdByParam(name, "SELECT * FROM projects_systems.position WHERE name = ?");
     }
 
     public int selectEmployeeId(String name) {
-        return selectIdByParam(name, "SELECT * FROM projects_systems.public.\"Employee\" WHERE name = ?");
+        return selectIdByParam(name, "SELECT * FROM projects_systems.employee WHERE name = ?");
     }
 
     public int selectCategoriesId(String name) {
-        return selectIdByParam(name, "SELECT * FROM projects_systems.public.\"P_Categories\" WHERE name = ?");
+        return selectIdByParam(name, "SELECT * FROM projects_systems.p_categories WHERE name = ?");
     }
 
     public int selectRuleId(String name) {
-        return selectIdByParam(name, "SELECT * FROM projects_systems.public.\"Rule\" WHERE name = ?");
+        return selectIdByParam(name, "SELECT * FROM projects_systems.rule WHERE name = ?");
     }
 
     public int selectRoleId(String name) {
-        return selectIdByParam(name, "SELECT * FROM projects_systems.public.\"Role\" WHERE name = ?");
+        return selectIdByParam(name, "SELECT * FROM projects_systems.role WHERE name = ?");
     }
 
     public int selectSkillId(String name) {
-        return selectIdByParam(name, "SELECT * FROM projects_systems.public.\"Skill\" WHERE name = ?");
+        return selectIdByParam(name, "SELECT * FROM projects_systems.skill WHERE name = ?");
     }
 
     private int selectIdByParam(String param, String query) {
