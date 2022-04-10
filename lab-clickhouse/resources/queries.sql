@@ -1,5 +1,9 @@
 CREATE DATABASE projects_systems;
 
+CREATE USER IF NOT EXISTS user_db IDENTIFIED WITH PLAINTEXT_PASSWORD BY '1234';
+
+GRANT ALL PRIVILEGES ON projects_systems.* TO user_db;
+
 CREATE TABLE IF NOT EXISTS projects_systems.projects
 (
     id UUID DEFAULT generateUUIDv4(),
@@ -89,3 +93,55 @@ CREATE TABLE IF NOT EXISTS projects_systems.repository
     PRIMARY KEY(id)
 ) ENGINE = MergeTree;
 
+CREATE TABLE IF NOT EXISTS projects_systems.repository_projects
+(
+    project_id UUID NOT NULL,
+    repository_id UUID NOT NULL,
+    PRIMARY KEY(project_id, repository_id)
+) ENGINE = MergeTree;
+
+CREATE TABLE IF NOT EXISTS projects_systems.role
+(
+    id UUID DEFAULT generateUUIDv4(),
+    name String NOT NULL,
+    description String,
+    PRIMARY KEY (id)
+) ENGINE = MergeTree;
+
+CREATE TABLE IF NOT EXISTS projects_systems.skill
+(
+    id UUID DEFAULT generateUUIDv4(),
+    name String NOT NULL,
+    description String,
+    PRIMARY KEY (id)
+) ENGINE = MergeTree;
+
+CREATE TABLE IF NOT EXISTS projects_systems.team
+(
+    id UUID DEFAULT generateUUIDv4(),
+    name String NOT NULL,
+    description String,
+    PRIMARY KEY (id)
+) ENGINE = MergeTree;
+
+CREATE TABLE IF NOT EXISTS projects_systems.team_projects
+(
+    project_id UUID NOT NULL,
+    team_id UUID NOT NULL,
+    PRIMARY KEY (project_id, team_id)
+) ENGINE = MergeTree;
+
+CREATE TABLE IF NOT EXISTS projects_systems.user
+(
+    id UUID DEFAULT generateUUIDv4(),
+    name String NOT NULL,
+    employee_id UUID NOT NULL,
+    credentials String NOT NULL,
+    data String,
+    parent_id UUID NULL,
+    PRIMARY KEY (id)
+) ENGINE = MergeTree;
+
+INSERT INTO projects_systems.projects(description) values  ('Core Project'), ('Structure'), ('NRM System'), ('HR Platform')
+
+USE projects_systems;
