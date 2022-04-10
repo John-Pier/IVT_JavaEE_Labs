@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+    <configuration default="false" name="lab-clickhouse" type="Application" factoryName="Application">
+        <option name="MAIN_CLASS_NAME" value="Main" />
+        <module name="lab-clickhouse" />
+        <option name="PROGRAM_PARAMETERS" value="&quot;jdbc:ch://localhost/projects_systems&quot; -Djdbc.drivers = com.clickhouse.jdbc.ClickHouseDriver" />
+        <method v="2">
+            <option name="Make" enabled="true" />
+        </method>
+    </configuration>
+</component>
