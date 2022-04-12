@@ -62,11 +62,11 @@ public class DBHelper {
     }
 
     public String selectFirstRepositoryId() {
-        return selectFirstId("SELECT * FROM projects_systems.repository ORDER BY id DESC");
+        return selectFirstId("SELECT * FROM projects_systems.repository ORDER BY description DESC");
     }
 
     public String selectFirstProjectId() {
-        return selectFirstId("SELECT * FROM projects_systems.projects ORDER BY id DESC");
+        return selectFirstId("SELECT * FROM projects_systems.projects");
     }
 
     private String selectFirstId(String query) {

@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS projects_systems.employee
     PRIMARY KEY (id)
 ) ENGINE = MergeTree;
 
-CREATE TABLE IF NOT EXISTS projects_systems.e_History
+CREATE TABLE IF NOT EXISTS projects_systems.e_history
 (
     id UUID DEFAULT generateUUIDv4(),
     employee_id UUID NOT NULL,
@@ -145,3 +145,22 @@ CREATE TABLE IF NOT EXISTS projects_systems.user
 INSERT INTO projects_systems.projects(description) values  ('Core Project'), ('Structure'), ('NRM System'), ('HR Platform')
 
 USE projects_systems;
+
+INSERT INTO projects_systems.team(name, description) values  ('Core Project', '-'), ('Structure', '-'), ('NRM System', '-'), ('HR Platform', '-');
+
+INSERT INTO projects_systems.team (* EXCEPT(id)) VALUES ('Core Project', '-');
+
+select T.name as team_name, count(E.employee_id) eC from projects_systems.team T
+LEFT OUTER JOIN projects_systems.employee_team E on E.team_id = T.id
+group by (T.id, team_name)
+having count(E.employee_id) > 0
+ORDER BY eC DESC
+
+
+WITH sum(bytes) as s
+SELECT
+    formatReadableSize(s),
+    table
+FROM system.parts
+GROUP BY table
+ORDER BY s;

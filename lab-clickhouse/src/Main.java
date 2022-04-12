@@ -18,51 +18,64 @@ public class Main {
         props.setProperty("ssl", "false");
 
         ClickHouseDataSource dataSource = new ClickHouseDataSource(url, props);
-        try (var connection = dataSource.getConnection("user_db", "1234")) {
+        try (var connection = dataSource.getConnection("default", "")) {
             dbHelper = new DBHelper(connection);
             var statement = connection.createStatement();
-            insertOperations(connection);
+            // insertOperations(connection);
 
-            // Команды и проекты над которыми они работают
-            var resultSet = statement.executeQuery(
-                    """
-                            select T.name, P.description, T.description from projects_systems.team_projects TP
-                                JOIN projects_systems.team T on T.id = TP.team_id
-                                JOIN projects_systems.projects P on P.id = TP.project_id
-                                order by P.description"""
-            );
-            printFirstQueryResult(resultSet);
+            //Команды и проекты над которыми они работают
+            //firstQuery(statement);
 
-            // Число человек в командах
-            resultSet = statement.executeQuery(
-                    """
-                           select T.name, count(E.employee_id) eC from projects_systems.team T
-                                LEFT OUTER JOIN projects_systems.employee_team E on E.team_id = T.id
-                                group by T.id
-                                having count(E.employee_id) > 0
-                                ORDER BY eC DESC"""
-            );
-            printSecondQueryResult(resultSet);
+            //Число человек в командах
+            //secondQuery(statement);
 
-            resultSet = statement.executeQuery(
-                    """
-                          WITH RECURSIVE r AS (
-                               SELECT U.id, U.name, U.parent_id
-                               from projects_systems.user U
-                               where U.id = 1
-                               UNION
-                               SELECT U.id, U.name, U.parent_id
-                               from projects_systems.user U
-                               JOIN r on r.id = U.parent_id
-                          )
-                          SELECT * FROM r;"""
-            );
-            printThirdQueryResult(resultSet);
+
+            //thirdQuery(statement);
 
             System.out.println(connection.isClosed());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    private static void firstQuery(Statement statement) throws SQLException {
+        var resultSet = statement.executeQuery(
+                """
+                        select T.name, P.description, T.description from projects_systems.team_projects TP
+                            JOIN projects_systems.team T on T.id = TP.team_id
+                            JOIN projects_systems.projects P on P.id = TP.project_id
+                            order by P.description"""
+        );
+        printFirstQueryResult(resultSet);
+    }
+
+    private static void secondQuery(Statement statement) throws SQLException {
+        var resultSet = statement.executeQuery(
+                """
+                        select T.name as name, count(E.employee_id) eC from projects_systems.team T
+                        LEFT OUTER JOIN projects_systems.employee_team E on E.team_id = T.id
+                        group by (T.id, name)
+                        having count(E.employee_id) > 0
+                        ORDER BY eC DESC"""
+        );
+        printSecondQueryResult(resultSet);
+    }
+
+    private static void thirdQuery(Statement statement) throws SQLException {
+        var resultSet = statement.executeQuery(
+                """
+                       WITH R AS (
+                            SELECT U.id, U.name, U.parent_id
+                            from projects_systems.user U
+                            where U.id = 'e7be94ce-fef0-4f1a-8074-af984cf5e910'
+                            UNION all
+                            SELECT U.id, U.name, U.parent_id
+                            from projects_systems.user U
+                            JOIN projects_systems.user U1 on U1.id = U.parent_id
+                       )
+                       SELECT * FROM R;"""
+        );
+        printThirdQueryResult(resultSet);
     }
 
     private static void printFirstQueryResult(ResultSet resultSet) {
@@ -141,7 +154,7 @@ public class Main {
         projectsInsert.executeUpdate();
         var projectId = dbHelper.selectFirstProjectId();
 
-        if(projectId == null) {
+        if (projectId == null) {
             System.out.println("Error: projectId == null");
             return;
         }
@@ -162,21 +175,21 @@ public class Main {
         teamProjectsInsert.setString(2, teamId);
         teamProjectsInsert.executeUpdate();
 
-        var positionName =  DBHelper.generateName();
+        var positionName = DBHelper.generateName();
         var positionInsert = connection.prepareStatement(
                 "INSERT INTO  projects_systems.position (name, description) VALUES (?, ?)"
         );
         positionInsert.setString(1, positionName);
         positionInsert.setString(2, DBHelper.generateDescription());
         positionInsert.executeUpdate();
-        var positionId =  dbHelper.selectPositionId(positionName);
+        var positionId = dbHelper.selectPositionId(positionName);
 
-        if(positionId == null) {
+        if (positionId == null) {
             System.out.println("Error: positionId == null");
             return;
         }
 
-        var employeeName =  DBHelper.generateName();
+        var employeeName = DBHelper.generateName();
         var employeeInsert = connection.prepareStatement(
                 "INSERT INTO  projects_systems.employee (name, start_date, position_id, data) VALUES (?, '2001.12.11', ?, 'No data')"
         );
@@ -212,9 +225,10 @@ public class Main {
                 "INSERT INTO  projects_systems.repository (link, description) VALUES ('-NO LINK-', ?)"
         );
         repositoryInsert.setString(1, DBHelper.generateDescription());
+        repositoryInsert.executeUpdate();
         var repositoryId = dbHelper.selectFirstRepositoryId();
 
-        if(repositoryId == null) {
+        if (repositoryId == null) {
             System.out.println("Error: repositoryId == null");
             return;
         }
@@ -267,10 +281,10 @@ public class Main {
         skillInsert.setString(1, skillName);
         skillInsert.setString(2, DBHelper.generateDescription());
         skillInsert.executeUpdate();
-        var skillId =  dbHelper.selectSkillId(skillName);
+        var skillId = dbHelper.selectSkillId(skillName);
 
         var employeeSkillInsert = connection.prepareStatement(
-                "INSERT INTO  projects_systems.employee_Skill (employee_id, skill_id, level) VALUES (?, ?, ?)"
+                "INSERT INTO  projects_systems.employee_skill (employee_id, skill_id, level) VALUES (?, ?, ?)"
         );
         employeeSkillInsert.setString(1, employeeId);
         employeeSkillInsert.setString(2, skillId);
