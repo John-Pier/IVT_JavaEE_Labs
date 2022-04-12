@@ -24,13 +24,12 @@ public class Main {
             // insertOperations(connection);
 
             //Команды и проекты над которыми они работают
-            //firstQuery(statement);
+            firstQuery(statement);
 
             //Число человек в командах
-            //secondQuery(statement);
+            secondQuery(statement);
 
-
-            //thirdQuery(statement);
+            thirdQuery(statement);
 
             System.out.println(connection.isClosed());
         } catch (Exception ex) {
@@ -123,20 +122,20 @@ public class Main {
     }
 
     private static void printThirdQueryResult(ResultSet resultSet) {
-        System.out.format("%10s\t%40s\t%40s\n", "ID", "User", "Parent Id");
+        System.out.format("%34s\t%40s\t%34s\n", "ID", "User", "Parent Id");
         System.out.format(
-                "%10s\t%40s\t%40s\n",
-                "__________",
+                "%34s\t%40s\t%34s\n",
+                "_____________________________________",
                 "____________________________________________",
-                "____________________________________________"
+                "_____________________________________"
         );
         try {
             while (resultSet.next()) {
                 System.out.format(
-                        "%10s\t%40s\t%40s\n",
-                        resultSet.getInt(1),
+                        "%34s\t%40s\t%34s\n",
+                        resultSet.getString(1),
                         resultSet.getString(2),
-                        resultSet.getInt(3)
+                        resultSet.getString(3)
                 );
                 System.out.println();
             }

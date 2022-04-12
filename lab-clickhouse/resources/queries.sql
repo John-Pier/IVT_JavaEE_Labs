@@ -164,3 +164,14 @@ SELECT
 FROM system.parts
 GROUP BY table
 ORDER BY s;
+
+WITH R AS (
+    SELECT U.id, U.name, U.parent_id
+    from projects_systems.user U
+    where U.id = 'e7be94ce-fef0-4f1a-8074-af984cf5e910'
+    UNION all
+    SELECT U.id, U.name, U.parent_id
+    from projects_systems.user U
+             JOIN projects_systems.user U1 on U1.id = U.parent_id
+)
+SELECT * FROM R;
