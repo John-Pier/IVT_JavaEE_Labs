@@ -104,9 +104,10 @@ CREATE TABLE IF NOT EXISTS projects_systems.role
 (
     id UUID DEFAULT generateUUIDv4(),
     name String NOT NULL,
-    description String,
-    PRIMARY KEY (id)
-) ENGINE = MergeTree;
+    description String
+) ENGINE = ReplacingMergeTree()
+    ORDER BY name
+    PRIMARY KEY (id);
 
 CREATE TABLE IF NOT EXISTS projects_systems.skill
 (
@@ -154,7 +155,7 @@ select T.name as team_name, count(E.employee_id) eC from projects_systems.team T
 LEFT OUTER JOIN projects_systems.employee_team E on E.team_id = T.id
 group by (T.id, team_name)
 having count(E.employee_id) > 0
-ORDER BY eC DESC
+ORDER BY eC DESC;
 
 
 WITH sum(bytes) as s

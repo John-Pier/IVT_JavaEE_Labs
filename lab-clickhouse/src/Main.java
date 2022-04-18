@@ -12,7 +12,7 @@ public class Main {
             return;
         }
 
-        String url = "jdbc:ch://localhost/projects_systems";//args[0];
+        String url = args[0]; // "jdbc:ch://localhost/projects_systems"
         Properties props = new Properties();
         props.setProperty("client_name", "Agent #1");
         props.setProperty("ssl", "false");
@@ -29,7 +29,8 @@ public class Main {
             //Число человек в командах
             secondQuery(statement);
 
-            thirdQuery(statement);
+            testReplacingMergeTree(connection);
+            testCollapsingMergeTree(connection);
 
             System.out.println(connection.isClosed());
         } catch (Exception ex) {
@@ -60,21 +61,26 @@ public class Main {
         printSecondQueryResult(resultSet);
     }
 
-    private static void thirdQuery(Statement statement) throws SQLException {
-        var resultSet = statement.executeQuery(
-                """
-                       WITH R AS (
-                            SELECT U.id, U.name, U.parent_id
-                            from projects_systems.user U
-                            where U.id = 'e7be94ce-fef0-4f1a-8074-af984cf5e910'
-                            UNION all
-                            SELECT U.id, U.name, U.parent_id
-                            from projects_systems.user U
-                            JOIN projects_systems.user U1 on U1.id = U.parent_id
-                       )
-                       SELECT * FROM R;"""
+    private static void testReplacingMergeTree(Connection connection) throws SQLException {
+        var name = "Role Name";
+        var roleInsert = connection.prepareStatement(
+                "INSERT INTO  projects_systems.role (name, description) VALUES (?, ?)"
         );
-        printThirdQueryResult(resultSet);
+        roleInsert.setString(1, name);
+        roleInsert.setString(2, "Desc1");
+        roleInsert.executeUpdate();
+
+        roleInsert.setString(1, name);
+        roleInsert.setString(2, "Desc2");
+        roleInsert.executeUpdate();
+
+        var resultSet = connection
+                .createStatement()
+                .executeQuery("select * from projects_systems.role");
+        printRoleQuery(resultSet);
+    }
+
+    private static void testCollapsingMergeTree(Connection connection) throws SQLException {
     }
 
     private static void printFirstQueryResult(ResultSet resultSet) {
@@ -121,8 +127,8 @@ public class Main {
         }
     }
 
-    private static void printThirdQueryResult(ResultSet resultSet) {
-        System.out.format("%34s\t%40s\t%34s\n", "ID", "User", "Parent Id");
+    private static void printRoleQuery(ResultSet resultSet) {
+        System.out.format("%34s\t%40s\t%34s\n", "ID", "Name", "Description");
         System.out.format(
                 "%34s\t%40s\t%34s\n",
                 "_____________________________________",
