@@ -78,21 +78,19 @@ public class Main {
         printRoleQuery(resultSet);
     }
 
-    private static void testCollapsingMergeTree(Connection connection) throws SQLException {
+    private static void testCollapsingMergeTree(Connection connection ) throws SQLException {
         var name = "Skill "  + (int)(Math.random() * 100) % 100;
 
-        var skillInsert = connection.prepareStatement(
-                "INSERT INTO  projects_systems.skill (name, description, sign) VALUES (?, 'Desc no 1', 1)"
+        var insertRow =  String.format(
+                "INSERT INTO projects_systems.skill (name, description, sign) VALUES ('%10s', 'Desc no 1', 1)", name
         );
-        skillInsert.setString(1, name);
-        skillInsert.executeUpdate();
+        connection.createStatement().executeUpdate(insertRow);
 
-        skillInsert = connection.prepareStatement(
-                "INSERT INTO projects_systems.skill(name, description, sign) VALUES (?, 'Desc no 1', -1), (?, 'Desc no 2 - upd', 1)"
+        insertRow =  String.format(
+                "INSERT INTO projects_systems.skill (name, description, sign) VALUES ('%10s', 'Desc no 1', 1), ('%10s', 'Desc Updated', 1)", name, name
         );
-        skillInsert.setString(1, name);
-        skillInsert.setString(2, name);
-        skillInsert.executeUpdate();
+
+        connection.createStatement().executeUpdate(insertRow);
 
         var resultSet = connection
                 .createStatement()
