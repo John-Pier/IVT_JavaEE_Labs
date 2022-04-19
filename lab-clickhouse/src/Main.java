@@ -31,8 +31,6 @@ public class Main {
 
             testReplacingMergeTree(connection);
             testCollapsingMergeTree(connection);
-
-            System.out.println(connection.isClosed());
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -81,6 +79,25 @@ public class Main {
     }
 
     private static void testCollapsingMergeTree(Connection connection) throws SQLException {
+        var name = "Skill "  + (int)(Math.random() * 100) % 100;
+
+        var skillInsert = connection.prepareStatement(
+                "INSERT INTO  projects_systems.skill (name, description, sign) VALUES (?, 'Desc no 1', 1)"
+        );
+        skillInsert.setString(1, name);
+        skillInsert.executeUpdate();
+
+        skillInsert = connection.prepareStatement(
+                "INSERT INTO projects_systems.skill(name, description, sign) VALUES (?, 'Desc no 1', -1), (?, 'Desc no 2 - upd', 1)"
+        );
+        skillInsert.setString(1, name);
+        skillInsert.setString(2, name);
+        skillInsert.executeUpdate();
+
+        var resultSet = connection
+                .createStatement()
+                .executeQuery("select * from projects_systems.skill FINAL");
+        printSkillQuery(resultSet);
     }
 
     private static void printFirstQueryResult(ResultSet resultSet) {
@@ -142,6 +159,31 @@ public class Main {
                         resultSet.getString(1),
                         resultSet.getString(2),
                         resultSet.getString(3)
+                );
+                System.out.println();
+            }
+        } catch (SQLException throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    private static void printSkillQuery(ResultSet resultSet) {
+        System.out.format("%34s\t%20s\t%20s\t%4s\n", "ID", "Name", "Description", "Sign");
+        System.out.format(
+                "%34s\t%20s\t%20s\t%4s\n",
+                "_____________________________________",
+                "________________",
+                "________________",
+                "____"
+        );
+        try {
+            while (resultSet.next()) {
+                System.out.format(
+                        "%34s\t%20s\t%20s\t%4s\n",
+                        resultSet.getString(1),
+                        resultSet.getString(2),
+                        resultSet.getString(3),
+                        resultSet.getInt(4)
                 );
                 System.out.println();
             }

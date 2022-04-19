@@ -114,8 +114,10 @@ CREATE TABLE IF NOT EXISTS projects_systems.skill
     id UUID DEFAULT generateUUIDv4(),
     name String NOT NULL,
     description String,
-    PRIMARY KEY (id)
-) ENGINE = MergeTree;
+    sign Int8
+
+) ENGINE = CollapsingMergeTree(sign)
+      ORDER BY name;
 
 CREATE TABLE IF NOT EXISTS projects_systems.team
 (
@@ -176,3 +178,7 @@ WITH R AS (
              JOIN projects_systems.user U1 on U1.id = U.parent_id
 )
 SELECT * FROM R;
+
+SELECT name FROM projects_systems.skill
+GROUP BY name
+HAVING sum(sign) > 0;
