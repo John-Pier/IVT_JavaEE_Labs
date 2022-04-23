@@ -87,7 +87,7 @@ public class Main {
         connection.createStatement().executeUpdate(insertRow);
 
         insertRow =  String.format(
-                "INSERT INTO projects_systems.skill (name, description, sign) VALUES ('%10s', 'Desc no 1', 1), ('%10s', 'Desc Updated', 1)", name, name
+                "INSERT INTO projects_systems.skill (name, description, sign) VALUES ('%10s', 'Desc no 1', -1), ('%10s', 'Desc Updated', 1)", name, name
         );
 
         connection.createStatement().executeUpdate(insertRow);
