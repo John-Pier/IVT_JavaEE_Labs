@@ -1,0 +1,10 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="lab-neo4j" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="Neo4jMain" />
+    <module name="lab-neo4j" />
+    <option name="PROGRAM_PARAMETERS" value="neo4j+s://68bbef59.databases.neo4j.io B8mhkiPUyr30gEYeQszDyn529EzaIiySM3A6g7FCT8U" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
