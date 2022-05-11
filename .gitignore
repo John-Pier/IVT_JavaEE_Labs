@@ -1,6 +1,5 @@
 /.idea/
-*.iml
-/**/*.iml
 /out/
 /dist/
-/lab-5/target/
+**/target/
+
