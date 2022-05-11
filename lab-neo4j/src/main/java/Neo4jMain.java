@@ -15,21 +15,52 @@ public class Neo4jMain {
         if(args.length < 2) {
             throw new Exception("Нет обязательных аргументов!");
         }
+        LOGGER.info("\nlink: "+ args[0] + ",\nusername: neo4j,\npass: " + args[1]+ "\n");
+
         driver = GraphDatabase.driver(args[0], AuthTokens.basic("neo4j", args[1]));
 
         try (Session session = driver.session())
         {
-            //извлечь, показать
-            insertOperations(session);
+            //insertOperations(session);
+            selectProjectsWithTeamsAndPrint(session);
         }
     }
 
-    private static void selectProjectsWithTeams(Result result) {
-
+    private static void selectProjectsWithTeamsAndPrint(Session session) {
+        session.writeTransaction(transaction -> {
+            var result = transaction.run("match (r:Project)-[]-(t:Team) return r, t");
+            printResult(result);
+            return null;
+        });
     }
 
-    private static void printProjects(Result result) {
+    private static void printResult(Result result) {
+        System.out.println("Pairs of related nodes: ");
+        System.out.println();
+        System.out.println("--------------------");
+        System.out.println();
+        try {
+            while (result.hasNext()) {
+                var record = result.next();
+                var project = record.get(0);
+                var team = record.get(1);
 
+                System.out.println("Project node: " + project.asNode().asMap());
+                System.out.println("projectId: " + project.asNode().get("projectId"));
+                System.out.println("description: " + project.asNode().get("description"));
+                System.out.println();
+
+                System.out.println("Team node: " + team.asNode().asMap());
+                System.out.println("id: " + team.asNode().get("id"));
+                System.out.println("name: " + team.asNode().get("name"));
+                System.out.println("description: " + team.asNode().get("description"));
+                System.out.println();
+                System.out.println("--------------------");
+                System.out.println();
+            }
+        } catch (Exception throwable) {
+            throwable.printStackTrace();
+        }
     }
 
     private static void insertOperations(Session session) throws SQLException {
