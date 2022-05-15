@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="lab-redis" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="RedisMain" />
+    <module name="lab-redis" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
