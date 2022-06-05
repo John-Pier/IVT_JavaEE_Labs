@@ -40,7 +40,7 @@ public class CasandraMain {
             System.out.println("Update values");
             updateEntities();
             System.out.println("Print values");
-            printEntities();
+//            printEntities();
         }
     }
 
@@ -141,8 +141,31 @@ public class CasandraMain {
         return rulesMap;
     }
 
-    public static String updateEntities() {
-        return null;
+    public static void updateEntities() {
+        var position = session.execute("select * from projects");
+        var row = position.one();
+        if (row != null) {
+            System.out.println("Selected: " + row.getFormattedContents());
+            var rules = row.getMap("riles_map", String.class, String.class);
+
+            System.out.println("Old rules: " + rules);
+            session.execute(
+                    QueryBuilder.update(DBEntityName.Project)
+                            .setColumn("description", QueryBuilder.literal("Updated descr " + DBHelper.generateId()))
+                            .toString()
+
+            );
+
+            var newRules = new HashMap<String, String>();
+            newRules.put(DBHelper.generateName(), "New record descr " + DBHelper.generateId());
+            session.execute(
+                    QueryBuilder.update(DBEntityName.Project)
+                            .append("riles_map", QueryBuilder.literal(newRules))
+                            .toString()
+
+            );
+
+        }
     }
 
     public static void printEntities() {
