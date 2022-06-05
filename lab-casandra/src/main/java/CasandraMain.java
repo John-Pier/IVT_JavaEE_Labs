@@ -36,11 +36,11 @@ public class CasandraMain {
             System.out.println("isClosed: " + session.isClosed());
 
             System.out.println("Insert values");
-//            insertValues();
+            insertValues();
             System.out.println("Update values");
             updateEntities();
             System.out.println("Print values");
-//            printEntities();
+            printEntities();
         }
     }
 
@@ -142,30 +142,37 @@ public class CasandraMain {
     }
 
     public static void updateEntities() {
-        var position = session.execute("select * from projects");
-        var row = position.one();
-        if (row != null) {
-            System.out.println("Selected: " + row.getFormattedContents());
-            var rules = row.getMap("riles_map", String.class, String.class);
-
-            System.out.println("Old rules: " + rules);
-            session.execute(
-                    QueryBuilder.update(DBEntityName.Project)
-                            .setColumn("description", QueryBuilder.literal("Updated descr " + DBHelper.generateId()))
-                            .toString()
-
-            );
-
-            var newRules = new HashMap<String, String>();
-            newRules.put(DBHelper.generateName(), "New record descr " + DBHelper.generateId());
-            session.execute(
-                    QueryBuilder.update(DBEntityName.Project)
-                            .append("riles_map", QueryBuilder.literal(newRules))
-                            .toString()
-
-            );
-
+        var resultSet = session.execute("select * from projects");
+        var row = resultSet.one();
+        if (row == null) {
+            return;
         }
+
+        System.out.println("Selected: " + row.getFormattedContents());
+
+        UUID selectedUuid = row.getUuid("id");
+        var rules = row.getMap("riles_map", String.class, String.class);
+        var newRules = new HashMap<String, String>();
+        newRules.put(DBHelper.generateName(), "New record descr " + DBHelper.generateId());
+
+        System.out.println("Old rules: " + rules);
+
+        session.execute(
+                QueryBuilder.update(DBEntityName.Project)
+                        .setColumn("description", QueryBuilder.literal("Updated descr " + DBHelper.generateId()))
+                        .append("riles_map", QueryBuilder.literal(newRules))
+                        .whereColumn("id").isEqualTo(QueryBuilder.literal(selectedUuid))
+                        .build()
+
+        );
+
+        var updatedResultSet = session.execute("select * from projects where id = ?", selectedUuid);
+        var updatedRow = updatedResultSet.one();
+        if (updatedRow != null) {
+            System.out.println("Updated: " + row.getFormattedContents());
+            System.out.println("New rules: " +  row.getMap("riles_map", String.class, String.class));
+        }
+
     }
 
     public static void printEntities() {
