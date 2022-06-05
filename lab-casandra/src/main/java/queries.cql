@@ -64,3 +64,5 @@ VALUES (uuid(), 'name r32d', toDate(now()), {name: 'naewme', description: 'descr
 
 
 SELECT * FROM projects_systems.projects;
+
+select position from employee where id = 'e96d13c5-e513-4b3d-94da-9c22dc2bcade'

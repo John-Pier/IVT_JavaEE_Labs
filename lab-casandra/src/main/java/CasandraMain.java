@@ -4,6 +4,7 @@ import com.datastax.oss.driver.api.core.data.UdtValue;
 import com.datastax.oss.driver.api.core.type.UserDefinedType;
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 import com.datastax.oss.driver.api.querybuilder.insert.InsertInto;
+import com.datastax.oss.driver.shaded.guava.common.collect.Maps;
 import helpers.*;
 
 import java.net.InetSocketAddress;
@@ -35,7 +36,7 @@ public class CasandraMain {
             System.out.println("isClosed: " + session.isClosed());
 
             System.out.println("Insert values");
-            insertValues();
+//            insertValues();
             System.out.println("Update values");
             updateEntities();
             System.out.println("Print values");
@@ -44,18 +45,30 @@ public class CasandraMain {
     }
 
     public static void insertValues() {
-        var projectName = "Product " + DBHelper.generateId();
         var projectUuid = UUID.randomUUID();
 
         var projectsIds = new ArrayList<UUID>();
         projectsIds.add(projectUuid);
 
-        var rulesMap = generateRulesMap();
+        insertProject(projectUuid);
+        insertRepository(projectsIds);
+        insertTeam(projectsIds);
 
+        var employeeUuid = UUID.randomUUID();
+        insertEmployee(employeeUuid);
+        insertUser(employeeUuid);
+    }
+
+    private static void insertProject(UUID projectUuid) {
+        var projectName = "Product " + DBHelper.generateId();
+        var rulesMap = generateRulesMap();
         var projectQuery = session.execute("""
                 INSERT INTO projects (id, description, last_update_timestamp, riles_map)
                 VALUES ((?), (?), toTimeStamp(now()), (?));""", projectUuid, projectName, rulesMap);
 
+    }
+
+    private static void insertRepository(List<UUID> projectsIds) {
         var repositoryUuid = UUID.randomUUID();
         var repositoryQuery = session.prepare("""
                 INSERT INTO repository (id, description, link, projects_ids)
@@ -68,7 +81,9 @@ public class CasandraMain {
                         .setList("projects", projectsIds, UUID.class)
                         .build()
         );
+    }
 
+    private static void insertTeam(List<UUID> projectsIds) {
         var teamUuid = UUID.randomUUID();
         var teamQuery = session.prepare("""
                 INSERT INTO team (id, name, description, projects_ids)
@@ -81,14 +96,13 @@ public class CasandraMain {
                         .setList("projects", projectsIds, UUID.class)
                         .build()
         );
+    }
 
-        var employeeUuid = UUID.randomUUID();
+    private static void insertEmployee(UUID employeeUuid) {
         var employeeQuery = session.prepare("""
                 INSERT INTO employee (id, name, start_date, position, data)
                 VALUES (:id, :name, toDate(now()), :position, :data);""");
-
         UserDefinedType positionType = (UserDefinedType) employeeQuery.getVariableDefinitions().get("position").getType();
-
         session.execute(
                 employeeQuery.boundStatementBuilder()
                         .setUuid("id", employeeUuid)
@@ -97,11 +111,18 @@ public class CasandraMain {
                         .setUdtValue("position", generatePosition(positionType))
                         .build()
         );
+    }
 
+    private static void insertUser(UUID employeeUuid) {
         var userUuid = UUID.randomUUID();
         var userQuery = session.execute("""
-                INSERT INTO user (id, name, employee_id, credentials, data)
-                VALUES ((?), (?), (?), (?), (?));""", userUuid, DBHelper.generateName(), employeeUuid, "null ? or not", "some data" + DBHelper.generateId());
+                        INSERT INTO user (id, name, employee_id, credentials, data)
+                        VALUES ((?), (?), (?), (?), (?));""",
+                userUuid,
+                DBHelper.generateName(),
+                employeeUuid,
+                "null ? or not", "some data" + DBHelper.generateId()
+        );
     }
 
     private static UdtValue generatePosition(UserDefinedType positionType) {
@@ -125,6 +146,78 @@ public class CasandraMain {
     }
 
     public static void printEntities() {
+        printProject();
+        printRepository();
+        printTeam();
+        printUser();
+        printEmployee();
+    }
 
+    public static void printProject() {
+        System.out.println("Project values");
+        ResultSet resultSet = session.execute("select * from projects");
+        for (var row : resultSet) {
+            System.out.println("-------------------------------------");
+            System.out.println("Project: " + row.getUuid("id"));
+            System.out.println("description: " + row.getString("description"));
+            System.out.println("riles_map: " + row.getMap("riles_map", String.class, String.class));
+        }
+        System.out.println("-------------------------------------");
+    }
+
+    public static void printRepository() {
+        System.out.println("Repository values");
+        ResultSet resultSet = session.execute("select * from repository");
+        for (var row : resultSet) {
+            System.out.println("-------------------------------------");
+            System.out.println("Repository: " + row.getUuid("id"));
+            System.out.println("description: " + row.getString("description"));
+            System.out.println("link: " + row.getString("link"));
+            System.out.println("projects_ids: " + row.getList("projects_ids", UUID.class));
+        }
+        System.out.println("-------------------------------------");
+    }
+
+    public static void printTeam() {
+        System.out.println("Team values");
+        ResultSet resultSet = session.execute("select * from team");
+        for (var row : resultSet) {
+            System.out.println("-------------------------------------");
+            System.out.println("Team: " + row.getUuid("id"));
+            System.out.println("name: " + row.getString("name"));
+            System.out.println("description: " + row.getString("description"));
+            System.out.println("projects_ids: " + row.getList("projects_ids", UUID.class));
+        }
+        System.out.println("-------------------------------------");
+    }
+
+    public static void printUser() {
+        System.out.println("User values");
+        ResultSet resultSet = session.execute("select * from user");
+        for (var row : resultSet) {
+            System.out.println("-------------------------------------");
+            System.out.println("Team: " + row.getUuid("id"));
+            System.out.println("name: " + row.getString("name"));
+            System.out.println("employee_id: " + row.getUuid("employee_id"));
+            System.out.println("credentials: " + row.getString("credentials"));
+            System.out.println("data: " + row.getString("data"));
+        }
+        System.out.println("-------------------------------------");
+    }
+
+    public static void printEmployee() {
+        System.out.println("Employee values");
+        ResultSet resultSet = session.execute("select * from employee");
+        for (var row : resultSet) {
+            System.out.println("-------------------------------------");
+            System.out.println("Team: " + row.getUuid("id"));
+            System.out.println("name: " + row.getString("name"));
+            System.out.println("start_date: " + row.getLocalDate("start_date"));
+            System.out.println("data: " + row.getString("data"));
+
+            var position = session.execute("select position from employee where id = ?", row.getUuid("id"));
+            System.out.println("position: " + position.one().getFormattedContents());
+        }
+        System.out.println("-------------------------------------");
     }
 }
