@@ -1,5 +1,7 @@
 import com.datastax.oss.driver.api.core.*;
 import com.datastax.oss.driver.api.core.cql.*;
+import com.datastax.oss.driver.api.core.data.UdtValue;
+import com.datastax.oss.driver.api.core.type.UserDefinedType;
 import com.datastax.oss.driver.api.querybuilder.QueryBuilder;
 import com.datastax.oss.driver.api.querybuilder.insert.InsertInto;
 import helpers.*;
@@ -44,52 +46,68 @@ public class CasandraMain {
     public static void insertValues() {
         var projectName = "Product " + DBHelper.generateId();
         var projectUuid = UUID.randomUUID();
-        var projectsIds = new String[]{String.valueOf(projectUuid)};
+
+        var projectsIds = new ArrayList<UUID>();
+        projectsIds.add(projectUuid);
+
         var rulesMap = generateRulesMap();
 
         var projectQuery = session.execute("""
-                INSERT INTO projects
-                (id, description, last_update_timestamp, riles_map)
+                INSERT INTO projects (id, description, last_update_timestamp, riles_map)
                 VALUES ((?), (?), toTimeStamp(now()), (?));""", projectUuid, projectName, rulesMap);
 
-//        var repositoryUuid = UUID.randomUUID();
-//        var repositoryInsert = QueryBuilder.insertInto("repository");
-//        var statement = repositoryInsert
-//                .value("id", QueryBuilder.bindMarker())
-//                .value("description", QueryBuilder.bindMarker())
-//                .value("link", QueryBuilder.bindMarker())
-//                .value("projects_ids", QueryBuilder.bindMarker())
-//                .build(repositoryUuid, DBHelper.generateDescription(), "http:/some-addr.ru/" + DBHelper.generateId(), "[" + projectUuid + "]");
-//        session.execute(statement);
+        var repositoryUuid = UUID.randomUUID();
+        var repositoryQuery = session.prepare("""
+                INSERT INTO repository (id, description, link, projects_ids)
+                VALUES (:id, :description, :link, :projects);""");
+        session.execute(
+                repositoryQuery.boundStatementBuilder()
+                        .setUuid("id", repositoryUuid)
+                        .setString("description", DBHelper.generateDescription())
+                        .setString("link", "http:/some-addr.ru/prj/" + DBHelper.generateId())
+                        .setList("projects", projectsIds, UUID.class)
+                        .build()
+        );
 
-//        var repositoryQuery = session.execute("""
-//                INSERT INTO repository
-//                (id, description, link, projects_ids)
-//                VALUES ((?), (?), (?), (?));""", UUID.randomUUID(), DBHelper.generateDescription(), "http:/some-addr.ru/" + DBHelper.generateId(), "["+ projectUuid + "]");
-
-//        var teamUuid = UUID.randomUUID();
-//        var teamQuery = session.execute("""
-//                INSERT INTO team
-//                (id, name, description, projects_ids)
-//                VALUES ((?), (?), (?), (?));""", teamUuid, DBHelper.generateName(), DBHelper.generateDescription(), "["+ projectUuid + "]");
-
-//        System.out.println(generatePosition());
+        var teamUuid = UUID.randomUUID();
+        var teamQuery = session.prepare("""
+                INSERT INTO team (id, name, description, projects_ids)
+                VALUES (:id, :name, :description, :projects)""");
+        session.execute(
+                teamQuery.boundStatementBuilder()
+                        .setUuid("id", teamUuid)
+                        .setString("description", DBHelper.generateDescription())
+                        .setString("name", DBHelper.generateName())
+                        .setList("projects", projectsIds, UUID.class)
+                        .build()
+        );
 
         var employeeUuid = UUID.randomUUID();
-        var employeeQuery = session.execute("""
-                INSERT INTO employee
-                (id, name, start_date, position, data)
-                VALUES ((?), (?), toDate(now()), (?), (?));""", employeeUuid, DBHelper.generateName(), generatePosition(), "some data" + DBHelper.generateId());
+        var employeeQuery = session.prepare("""
+                INSERT INTO employee (id, name, start_date, position, data)
+                VALUES (:id, :name, toDate(now()), :position, :data);""");
+
+        UserDefinedType positionType = (UserDefinedType) employeeQuery.getVariableDefinitions().get("position").getType();
+
+        session.execute(
+                employeeQuery.boundStatementBuilder()
+                        .setUuid("id", employeeUuid)
+                        .setString("name", DBHelper.generateName())
+                        .setString("data", "some data" + DBHelper.generateId())
+                        .setUdtValue("position", generatePosition(positionType))
+                        .build()
+        );
 
         var userUuid = UUID.randomUUID();
         var userQuery = session.execute("""
-                INSERT INTO user
-                (id, name, employee_id, credentials, data)
+                INSERT INTO user (id, name, employee_id, credentials, data)
                 VALUES ((?), (?), (?), (?), (?));""", userUuid, DBHelper.generateName(), employeeUuid, "null ? or not", "some data" + DBHelper.generateId());
     }
 
-    private static String generatePosition() {
-        return String.format("{name: '%1$s', description: '%2$s' }", DBHelper.generateName(), DBHelper.generateDescription());
+    private static UdtValue generatePosition(UserDefinedType positionType) {
+        return positionType.newValue()
+                .setString(0, DBHelper.generateName())
+                .setString(1, DBHelper.generateDescription());
     }
 
     private static Map<String, String> generateRulesMap() {

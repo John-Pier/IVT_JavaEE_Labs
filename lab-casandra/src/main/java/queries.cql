@@ -1,6 +1,6 @@
 CREATE KEYSPACE IF NOT EXISTS projects_systems WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 1 };
 
--- DROP TABLE projects_systems.employee;
+-- DROP TABLE projects_systems.repository;
 
 CREATE TABLE IF NOT EXISTS projects_systems.projects
 (
@@ -60,7 +60,7 @@ VALUES (uuid(), 'description 223', null, ['74b40c66-53d6-4bd1-a043-2d7454479cb6'
 
 INSERT INTO employee
 (id, name, start_date, position, data)
-VALUES (uuid(), 'name 32d', toDate(now()), {name: 'name', description: 'description324'}, 'f43r3 dfasdfsf dsarts');
+VALUES (uuid(), 'name r32d', toDate(now()), {name: 'naewme', description: 'descri23ption324'}, 'dsarts');
 
 
 SELECT * FROM projects_systems.projects;
