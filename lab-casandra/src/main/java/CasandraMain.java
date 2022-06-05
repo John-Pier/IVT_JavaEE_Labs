@@ -165,14 +165,6 @@ public class CasandraMain {
                         .build()
 
         );
-
-        var updatedResultSet = session.execute("select * from projects where id = ?", selectedUuid);
-        var updatedRow = updatedResultSet.one();
-        if (updatedRow != null) {
-            System.out.println("Updated: " + row.getFormattedContents());
-            System.out.println("New rules: " +  row.getMap("riles_map", String.class, String.class));
-        }
-
     }
 
     public static void printEntities() {
