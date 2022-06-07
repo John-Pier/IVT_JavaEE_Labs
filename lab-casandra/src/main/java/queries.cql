@@ -62,7 +62,6 @@ INSERT INTO employee
 (id, name, start_date, position, data)
 VALUES (uuid(), 'name r32d', toDate(now()), {name: 'naewme', description: 'descri23ption324'}, 'dsarts');
 
-
 SELECT * FROM projects_systems.projects;
 
 select position from employee where id = 'e96d13c5-e513-4b3d-94da-9c22dc2bcade'
