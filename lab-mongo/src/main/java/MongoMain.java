@@ -8,8 +8,8 @@ import java.util.*;
 
 
 /***
+ * run mongoDB:
  * docker run -p 27017:27017 --name mongo-inst -d mongo
- *
  **/
 public class MongoMain {
     static MongoDatabase database;
@@ -19,11 +19,11 @@ public class MongoMain {
         try (MongoClient mongoClient = MongoClients.create(uri)) {
             database = mongoClient.getDatabase("projects_systems");
 
-            System.out.println("Insert values");
+            System.out.println("Insert values...");
             insertValues();
-            System.out.println("Update values");
+            System.out.println("Update values...");
             updateEntities();
-            System.out.println("Print values");
+            System.out.println("Print values...");
             printEntities();
         }
     }
@@ -98,13 +98,13 @@ public class MongoMain {
     }
 
     /**
-     * projects_systems.employees id name start_date position{name, description} data{}
+     * projects_systems.employees id name startDate position{name, description} data{}
      */
     private static void insertEmployee(UUID employeeUuid) {
         var employeeDocument = new Document();
         employeeDocument.append("id", employeeUuid.toString());
         employeeDocument.append("name",DBHelper.generateName());
-        employeeDocument.append("start_date", DBHelper.generateDescription());
+        employeeDocument.append("startDate", new Date());
         employeeDocument.append("position", generatePosition());
         employeeDocument.append("data", new Document());
 
@@ -162,12 +162,6 @@ public class MongoMain {
     }
 
     public static void printEntities() {
-//        MongoCollection<Document> collection = database.getCollection(DBEntityName.Projects);
-//        //Filters.eq("title", "Back to the Future")
-//        Document doc = collection.find().first();
-//        System.out.println(database.listCollectionNames().first());
-//        System.out.println(doc.toJson());
-
         printProject();
         printRepository();
         printTeam();
@@ -186,64 +180,70 @@ public class MongoMain {
             System.out.println("_id: " + document.getObjectId("_id"));
             System.out.println("name: " + document.getString("name"));
             System.out.println("description: " + document.getString("description"));
-            System.out.println("rules: " + document.get("rules", Document.class).toJson());
+            System.out.println("rules: " + document.get("rules", ArrayList.class).toString());
         }
         System.out.println("-------------------------------------");
     }
 
     public static void printRepository() {
         System.out.println("Repository values");
-//        ResultSet resultSet = session.execute("select * from repository");
-//        for (var row : resultSet) {
-//            System.out.println("-------------------------------------");
-//            System.out.println("Repository: " + row.getUuid("id"));
-//            System.out.println("description: " + row.getString("description"));
-//            System.out.println("link: " + row.getString("link"));
-//            System.out.println("projects_ids: " + row.getList("projects_ids", UUID.class));
-//        }
+        MongoCollection<Document> collection = database.getCollection(DBEntityName.Repositories);
+        var documents = collection.find();
+        for (var document : documents) {
+            System.out.println("-------------------------------------");
+            System.out.println("Repository: " + document.getString("id"));
+            System.out.println("_id: " + document.getObjectId("_id"));
+            System.out.println("link: " + document.getString("link"));
+            System.out.println("description: " + document.getString("description"));
+            System.out.println("projectsIds: " + document.get("projectsIds", ArrayList.class).toString());
+        }
         System.out.println("-------------------------------------");
     }
 
     public static void printTeam() {
         System.out.println("Team values");
-//        ResultSet resultSet = session.execute("select * from team");
-//        for (var row : resultSet) {
-//            System.out.println("-------------------------------------");
-//            System.out.println("Team: " + row.getUuid("id"));
-//            System.out.println("name: " + row.getString("name"));
-//            System.out.println("description: " + row.getString("description"));
-//            System.out.println("projects_ids: " + row.getList("projects_ids", UUID.class));
-//        }
+        MongoCollection<Document> collection = database.getCollection(DBEntityName.Teams);
+        var documents = collection.find();
+        for (var document : documents) {
+            System.out.println("-------------------------------------");
+            System.out.println("Team: " + document.getString("id"));
+            System.out.println("_id: " + document.getObjectId("_id"));
+            System.out.println("name: " + document.getString("name"));
+            System.out.println("description: " + document.getString("description"));
+            System.out.println("projectsIds: " + document.get("projectsIds", ArrayList.class).toString());
+        }
         System.out.println("-------------------------------------");
     }
 
     public static void printUser() {
         System.out.println("User values");
-//        ResultSet resultSet = session.execute("select * from user");
-//        for (var row : resultSet) {
-//            System.out.println("-------------------------------------");
-//            System.out.println("Team: " + row.getUuid("id"));
-//            System.out.println("name: " + row.getString("name"));
-//            System.out.println("employee_id: " + row.getUuid("employee_id"));
-//            System.out.println("credentials: " + row.getString("credentials"));
-//            System.out.println("data: " + row.getString("data"));
-//        }
+        MongoCollection<Document> collection = database.getCollection(DBEntityName.Users);
+        var documents = collection.find();
+        for (var document : documents) {
+            System.out.println("-------------------------------------");
+            System.out.println("User: " + document.getString("id"));
+            System.out.println("_id: " + document.getObjectId("_id"));
+            System.out.println("name: " + document.getString("name"));
+            System.out.println("employee_id: " + document.getString("employee_id"));
+            System.out.println("credentials: " + document.get("credentials"));
+            System.out.println("data: " + document.get("data", Document.class).toJson());
+        }
         System.out.println("-------------------------------------");
     }
 
     public static void printEmployee() {
         System.out.println("Employee values");
-//        ResultSet resultSet = session.execute("select * from employee");
-//        for (var row : resultSet) {
-//            System.out.println("-------------------------------------");
-//            System.out.println("Team: " + row.getUuid("id"));
-//            System.out.println("name: " + row.getString("name"));
-//            System.out.println("start_date: " + row.getLocalDate("start_date"));
-//            System.out.println("data: " + row.getString("data"));
-//
-//            var position = session.execute("select position from employee where id = ?", row.getUuid("id"));
-//            System.out.println("position: " + position.one().getFormattedContents());
-//        }
+        MongoCollection<Document> collection = database.getCollection(DBEntityName.Employees);
+        var documents = collection.find();
+        for (var document : documents) {
+            System.out.println("-------------------------------------");
+            System.out.println("Employee: " + document.getString("id"));
+            System.out.println("_id: " + document.getObjectId("_id"));
+            System.out.println("name: " + document.getString("name"));
+            System.out.println("startDate: " + document.getDate("startDate"));
+            System.out.println("position: " + document.get("position", Document.class).toJson());
+            System.out.println("data: " + document.get("data", Document.class).toJson());
+        }
         System.out.println("-------------------------------------");
     }
 }
