@@ -1,7 +1,10 @@
+import com.mongodb.MongoException;
 import com.mongodb.client.*;
-import com.mongodb.client.result.InsertOneResult;
+import com.mongodb.client.model.*;
+import com.mongodb.client.result.*;
 import helpers.*;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 
 import java.sql.ResultSet;
 import java.util.*;
@@ -57,14 +60,20 @@ public class MongoMain {
         projectDocument.append("rules", rules);
 
         var collection = database.getCollection(DBEntityName.Projects);
-       collection.insertOne(projectDocument);
+        collection.insertOne(projectDocument);
     }
 
     private static List<Document> generateRules() {
         var result = new ArrayList<Document>(2);
-        result.add(new Document().append("name", DBHelper.generateName()).append("description", DBHelper.generateDescription()));
-        result.add(new Document().append("name", DBHelper.generateName()).append("description", DBHelper.generateDescription()));
+        result.add(generateRule());
+        result.add(generateRule());
         return result;
+    }
+
+    private static Document generateRule() {
+        return new Document()
+                .append("name", DBHelper.generateName())
+                .append("description", DBHelper.generateDescription());
     }
 
     /**
@@ -75,7 +84,7 @@ public class MongoMain {
         var repositoryDocument = new Document();
         repositoryDocument.append("id", repositoryUuid.toString());
         repositoryDocument.append("link", "http:/some-addr.ru/prj/" + DBHelper.generateId());
-        repositoryDocument.append("description",  DBHelper.generateDescription());
+        repositoryDocument.append("description", DBHelper.generateDescription());
         repositoryDocument.append("projectsIds", projectsIds);
 
         var collection = database.getCollection(DBEntityName.Repositories);
@@ -89,8 +98,8 @@ public class MongoMain {
         var teamUuid = UUID.randomUUID();
         var teamDocument = new Document();
         teamDocument.append("id", teamUuid.toString());
-        teamDocument.append("name",DBHelper.generateName());
-        teamDocument.append("description",  DBHelper.generateDescription());
+        teamDocument.append("name", DBHelper.generateName());
+        teamDocument.append("description", DBHelper.generateDescription());
         teamDocument.append("projectsIds", projectsIds);
 
         var collection = database.getCollection(DBEntityName.Teams);
@@ -103,7 +112,7 @@ public class MongoMain {
     private static void insertEmployee(UUID employeeUuid) {
         var employeeDocument = new Document();
         employeeDocument.append("id", employeeUuid.toString());
-        employeeDocument.append("name",DBHelper.generateName());
+        employeeDocument.append("name", DBHelper.generateName());
         employeeDocument.append("startDate", new Date());
         employeeDocument.append("position", generatePosition());
         employeeDocument.append("data", new Document());
@@ -126,8 +135,8 @@ public class MongoMain {
         var userUuid = UUID.randomUUID();
         var usersDocument = new Document();
         usersDocument.append("id", userUuid.toString());
-        usersDocument.append("name",DBHelper.generateName());
-        usersDocument.append("employee_id",employeeUuid.toString());
+        usersDocument.append("name", DBHelper.generateName());
+        usersDocument.append("employee_id", employeeUuid.toString());
         usersDocument.append("credentials", null);
         usersDocument.append("data", new Document());
 
@@ -136,29 +145,27 @@ public class MongoMain {
     }
 
     public static void updateEntities() {
-//        var resultSet = session.execute("select * from projects");
-//        var row = resultSet.one();
-//        if (row == null) {
-//            return;
-//        }
-//
-//        System.out.println("Selected: " + row.getFormattedContents());
-//
-//        UUID selectedUuid = row.getUuid("id");
-//        var rules = row.getMap("riles_map", String.class, String.class);
-//        var newRules = new HashMap<String, String>();
-//        newRules.put(DBHelper.generateName(), "New record descr " + DBHelper.generateId());
-//
-//        System.out.println("Old rules: " + rules);
-//
-//        session.execute(
-//                QueryBuilder.update(DBEntityName.Project)
-//                        .setColumn("description", QueryBuilder.literal("Updated descr " + DBHelper.generateId()))
-//                        .append("riles_map", QueryBuilder.literal(newRules))
-//                        .whereColumn("id").isEqualTo(QueryBuilder.literal(selectedUuid))
-//                        .build()
-//
-//        );
+        var collection = database.getCollection(DBEntityName.Projects);
+        var sortQuery = new Document().append("name", 1);
+        var firstProject = collection.find().sort(sortQuery).first();
+        if (firstProject == null) {
+            return;
+        }
+        var id = firstProject.getObjectId("_id");
+
+        System.out.println("Selected: " + firstProject.toJson());
+
+        Document query = new Document().append("_id", id);
+        Bson updates = Updates.combine(
+                Updates.set("name", "Updated Name: " + DBHelper.generateId()),
+                Updates.set("description", "Updated description: " + DBHelper.generateId()),
+                Updates.push("rules", generateRule()),
+                Updates.currentTimestamp("lastUpdated"));
+
+        var result = collection.updateOne(query, updates, new UpdateOptions().upsert(true));
+
+        System.out.println("Modified project count: " + result.getModifiedCount());
+        System.out.println("Updated id: " + result.getUpsertedId());
     }
 
     public static void printEntities() {
