@@ -1,0 +1,9 @@
+// db.projects.deleteOne({name: "test prj"})
+//db.projects.insertOne({id: 'test_id', name: 'test project', description: 'decr', rules: [{name: 'rule1', description: 'test'}]});
+//db.projects.find();
+
+projects_systems.projects id name description, rules obj( name, description),
+projects_systems.repository id link description projects_ids (LIST<UUID>)
+projects_systems.team id name description projects_ids(LIST<UUID>)
+projects_systems.user id name employee_id credentials data{}
+projects_systems.employee id name start_date position{name, description} data{}
